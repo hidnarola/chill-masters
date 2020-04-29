@@ -1,0 +1,14 @@
+.NoData {
+  background: #eee;
+  padding: 50px;
+  margin-bottom: 2rem;
+}
+
+.NoData p {
+  margin: 0;
+}
+.snippetBox {
+  border: 7px double #ddd;
+  padding: 10px;
+  border-radius: 4px;
+}

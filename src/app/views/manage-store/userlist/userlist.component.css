@@ -1,0 +1,49 @@
+.b {
+  border: 0px;
+  background-color: #f0f3f5;
+}
+
+/*
+ server-side-angular-way.component.css
+*/
+.no-data-available {
+  text-align: center;
+}
+
+/*
+   src/styles.css (i.e. your global style)
+*/
+.dataTables_empty {
+  display: none;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.mydialog {
+  width: 50vw;
+}
+
+@media screen and (max-width: 40em) {
+  .mydialog {
+    width: 75vw;
+  }
+}
+
+.ng-autocomplete {
+  width: 100%;
+  max-width: 600px;
+  display: table;
+  margin: 0 auto;
+}
+
+.NoData {
+  background: #eee;
+  padding: 50px;
+  margin-bottom: 2rem;
+}
+
+.NoData p {
+  margin: 0;
+}

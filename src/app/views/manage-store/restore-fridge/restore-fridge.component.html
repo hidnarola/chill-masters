@@ -1,0 +1,108 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header group-title-221">
+          <strong>Deleted Fridge List</strong>
+          <p class="pull-right"></p>
+        </div>
+
+        <div class="card-body">
+          <div class="NoData" *ngIf="this.data.length == 0">
+            <p class="text-center">No data Found..!</p>
+          </div>
+          <div class="col-md-12 ml-4" *ngIf="this.data.length > 0">
+            <div class="row">
+              <div class="mb-5" *ngFor="let item of data">
+                <div class="mr-3">
+                  <div
+                    class="card mb-3"
+                    [ngClass]="{
+                      'text-white bg-success':
+                        item.current_temperature >= item.storage_range_min &&
+                        item.current_temperature <= item.storage_range_max,
+                      'text-white bg-secondary': item.current_temperature === 0,
+                      'text-white bg-primary':
+                        item.current_temperature <= item.storage_range_min,
+                      'text-white bg-danger':
+                        item.current_temperature > item.storage_range_max
+                    }"
+                    style="max-width: 14rem; cursor: pointer;"
+                  >
+                    <div
+                      class="card-header"
+                      [ngStyle]="
+                        item.current_temperature === 0
+                          ? { 'background-color': '#808080' }
+                          : { 'background-color': '' }
+                      "
+                    >
+                      {{ item.fridge_name }}
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        Current Temperature : {{ item.current_temperature }}°C
+                      </h5>
+                      <p class="card-text">
+                        {{ item.fridge_content }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row mt-2">
+                    <button
+                      type="button"
+                      class="btn btn-md btn-primary ml-auto mr-auto"
+                      (click)="restoreFridge(item.id, item.store)"
+                    >
+                      <i class="fa fa-recycle"></i>
+                      Restore
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="container"> -->
+          <div class="row ml-4 mr-5" *ngIf="this.data.length > 0">
+            <div class="">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item" *ngIf="previous != null">
+                    <a
+                      class="page-link"
+                      style="color: blue; cursor: pointer;"
+                      (click)="previousPage(previous, id)"
+                      >Previous</a
+                    >
+                  </li>
+                  <!-- <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                      </li> -->
+                  <li class="page-item" *ngIf="next != null">
+                    <a
+                      class="page-link"
+                      style="color: blue; cursor: pointer;"
+                      (click)="nextPage(next, id)"
+                      >Next</a
+                    >
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <div class="row ml-4">
+            <div>
+              <button
+                type="button"
+                pButton
+                (click)="onclick()"
+                label="Back to Fridge List"
+              ></button>
+            </div>
+          </div>
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

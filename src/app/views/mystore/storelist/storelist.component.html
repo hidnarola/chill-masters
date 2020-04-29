@@ -1,0 +1,56 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header group-title-221">
+          <!-- <i class="fa fa-info-circle icon-size" style="cursor: pointer;"></i> -->
+          <strong>My Store</strong>
+          <p class="pull-right"></p>
+        </div>
+
+        <div class="card-body">
+          <table
+            datatable
+            [dtOptions]="dtOptions"
+            [dtTrigger]="dtTrigger"
+            class="row-border hover"
+          >
+            <thead>
+              <tr>
+                <th><a>Name</a></th>
+                <th><a>Permissions</a></th>
+                <th><a>Manage Users</a></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data">
+                <td>
+                  <a
+                    style="color: #34b7eb; cursor: pointer;"
+                    (click)="navigateToOverview(item.store.id)"
+                    >{{ item.store.store_name }}</a
+                  >
+                </td>
+                <td>{{ item.permission }}</td>
+                <td *ngIf="item.permission == 'Admin'">
+                  <a
+                    style="color: #34b7eb; cursor: pointer;"
+                    (click)="navigateToUsers(item.store.id)"
+                    >Manage</a
+                  >
+                </td>
+                <td *ngIf="item.permission == 'Viewer'">
+                  <a
+                    style="color: #34b7eb; cursor: pointer;"
+                    (click)="navigateToUsers(item.store.id)"
+                    >View</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

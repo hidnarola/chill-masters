@@ -1,0 +1,9 @@
+.NoData {
+  background: #eee;
+  padding: 50px;
+  margin-bottom: 2rem;
+}
+
+.NoData p {
+  margin: 0;
+}

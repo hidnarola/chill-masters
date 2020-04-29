@@ -1,0 +1,74 @@
+// If you want to override variables do it here
+@import "variables";
+
+// Import styles
+@import "~@coreui/coreui/scss/coreui";
+
+// If you want to add something do it here
+@import "custom";
+
+.app-header .navbar-toggler {
+  display: none !important;
+}
+
+@media (min-width: 992px) {
+  .app-header .navbar-toggler {
+    display: none !important;
+  }
+}
+
+.error {
+  color: red;
+  text-align: left;
+  position: relative;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-size: 12px;
+  line-height: 14px;
+}
+.headerBar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+button.navbar-toggler {
+  border-radius: 0;
+  padding: 5px 5px 7px;
+  border: 0;
+}
+span.navbar-toggler-icon {
+  height: 3px;
+  background: rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+span.navbar-toggler-icon:after,
+span.navbar-toggler-icon:before {
+  content: "";
+  height: 3px;
+  background: rgba(0, 0, 0, 0.1);
+  display: block;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: auto;
+  bottom: auto;
+}
+span.navbar-toggler-icon:after {
+  top: -6px;
+}
+span.navbar-toggler-icon:before {
+  bottom: -7px;
+}
+
+.SensorDIV span.ui-calendar,
+.SensorDIV .ui-dropdown,
+.SensorDIV input.ui-inputtext {
+  width: 100%;
+}
+
+.ui-state-disabled .ui-dropdown-label {
+  color: #000;
+  font-weight: 600;
+}

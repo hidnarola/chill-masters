@@ -1,0 +1,378 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header group-title-221">
+          <!-- <i class="fa fa-info-circle icon-size" style="cursor: pointer;"></i> -->
+          <strong>Add New Fridge</strong>
+          <!-- <p class=""> -->
+          <button
+            type="button"
+            class="btn btn-sm btn-primary pull-right"
+            (click)="onBack()"
+          >
+            <span class="fa fa-mail-reply"></span>
+            Back
+          </button>
+          <!-- </p> -->
+        </div>
+        <div class="card-body">
+          <form [formGroup]="form">
+            <div class="form-group">
+              <diV class="row">
+                <div class="col-md-2">
+                  <label for="store">Store:</label>
+                </div>
+                <div class="col-md-4">
+                  <p-dropdown
+                    [options]="storeList"
+                    placeholder="Select store"
+                    formControlName="store"
+                    id="store"
+                    [disabled]="true"
+                  ></p-dropdown>
+                  <div
+                    class="error"
+                    *ngIf="!form.controls['store'].valid && isFormSubmitted"
+                  >
+                    <span *ngIf="form.controls['store'].errors['required']"
+                      >This field is required.</span
+                    >
+                  </div>
+                </div>
+              </diV>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-2">
+                  <label for="fridge_name">Fridge Name:</label>
+                </div>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="fridge_name"
+                    formControlName="fridge_name"
+                  />
+                  <div
+                    class="error"
+                    *ngIf="
+                      !form.controls['fridge_name'].valid && isFormSubmitted
+                    "
+                  >
+                    <span
+                      *ngIf="
+                        form.controls['fridge_name'].errors['required'] ||
+                        form.get('fridge_name').errors['whitespace']
+                      "
+                      >This field is required.</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-2">
+                  <label for="fridge_content">Fridge Content:</label>
+                </div>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="fridge_content"
+                    formControlName="fridge_content"
+                  />
+                  <div
+                    class="error"
+                    *ngIf="
+                      !form.controls['fridge_content'].valid && isFormSubmitted
+                    "
+                  >
+                    <span
+                      *ngIf="
+                        form.controls['fridge_content'].errors['required'] ||
+                        form.get('fridge_content').errors['whitespace']
+                      "
+                      >This field is required.</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-2">
+                  <label for="fridge_description">Fridge Discription:</label>
+                </div>
+                <div class="col-md-6">
+                  <textarea
+                    class="form-control"
+                    name="fridge_description"
+                    cols="20"
+                    rows="5"
+                    formControlName="fridge_description"
+                  ></textarea>
+                  <div
+                    class="error"
+                    *ngIf="
+                      !form.controls['fridge_description'].valid &&
+                      isFormSubmitted
+                    "
+                  >
+                    <span
+                      *ngIf="
+                        form.controls['fridge_description'].errors[
+                          'required'
+                        ] || form.get('fridge_description').errors['whitespace']
+                      "
+                      >This field is required.</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-2">
+                  <label for="fridge_content">Storage Range:</label>
+                </div>
+                <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-1">
+                      <label for="storage_range_min">Min</label>
+                    </div>
+                    <div class="col-3">
+                      <input
+                        name="storage_range_min"
+                        type="number"
+                        class="form-control"
+                        formControlName="storage_range_min"
+                      />
+                      <div
+                        class="error"
+                        *ngIf="
+                          !form.controls['storage_range_min'].valid &&
+                          isFormSubmitted
+                        "
+                      >
+                        <span
+                          *ngIf="
+                            form.controls['storage_range_min'].errors[
+                              'required'
+                            ]
+                          "
+                          >This field is required.</span
+                        >
+                      </div>
+                    </div>
+                    <div class="col-1">
+                      <label for="storage_range_max">Max</label>
+                    </div>
+                    <div class="col-3">
+                      <input
+                        name="storage_range_max"
+                        type="number"
+                        class="form-control"
+                        formControlName="storage_range_max"
+                      />
+                      <div
+                        class="error"
+                        *ngIf="
+                          !form.controls['storage_range_max'].valid &&
+                          isFormSubmitted
+                        "
+                      >
+                        <span
+                          *ngIf="
+                            form.controls['storage_range_max'].errors[
+                              'required'
+                            ]
+                          "
+                          >This field is required.</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="form-group">
+              <div class="row">
+                <div class="col-md-2">
+                  <button pbutton type="submit" class="btn btn-primary">
+                    save
+                  </button>
+                </div>
+              </div>
+            </div>
+           (ngSubmit)="onSubmit(form.valid)"  -->
+          </form>
+
+          <h5 class="card-title">Sensor</h5>
+          <form [formGroup]="myForm">
+            <div
+              formArrayName="sensor_data"
+              *ngFor="
+                let a of myForm.get('sensor_data')['controls'];
+                let i = index
+              "
+            >
+              <div [formGroupName]="i" class="SensorDIV">
+                <div class="row mb-3">
+                  <div class="col-sm row">
+                    <label for="name" class="col-md-12">Serial Number:</label>
+                    <p-dropdown
+                      [options]="sensorsList"
+                      formControlName="temperature_sensor"
+                      placeholder="Select a Sensor"
+                      [showClear]="true"
+                      (onChange)="changeSensor($event, i)"
+                      class="col-md-12"
+                    ></p-dropdown>
+                    <!-- <input
+                          type="text"
+                          formControlName="temperature_sensor"
+                          (keyup)="checkSensor($event.target.value, i)"
+                          name="temperature_sensor"
+                        /> -->
+                    <div
+                      *ngIf="
+                        submitted && f[i].controls.temperature_sensor.errors
+                      "
+                      style="color: red;"
+                    >
+                      <div
+                        *ngIf="f[i].controls.temperature_sensor.errors.required"
+                      >
+                        Temperature_sensor is required
+                      </div>
+                    </div>
+
+                    <div
+                      *ngIf="f[i].controls.temperature_sensor.errors"
+                      style="color: red;"
+                    >
+                      <div
+                        *ngIf="
+                          f[i].controls.temperature_sensor.errors['isExist']
+                        "
+                      >
+                        This Sensor is already added in other fridge.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm row">
+                    <label for="installed_at" class="col-md-12"
+                      >Install At</label
+                    >
+                    <p-calendar
+                      [showTime]="true"
+                      class="col-md-12"
+                      formControlName="installed_at"
+                    ></p-calendar>
+                  </div>
+                  <div class="col-sm row">
+                    <label for="removed_at" class="col-md-12">Remove At</label>
+                    <p-calendar
+                      [showTime]="true"
+                      class="col-md-12"
+                      formControlName="removed_at"
+                    ></p-calendar>
+                  </div>
+                  <div class="col-sm row">
+                    <div class="ui-g-12 ui-md-6">
+                      <button
+                        pbutton
+                        type="button"
+                        class="btn btn-sm btn-danger mt-4"
+                        (click)="remove_sensor(i)"
+                      >
+                        X
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="float-left">
+              <button type="button" class="btn btn-success" (click)="addItem()">
+                Add New Sensor
+              </button>
+              <button type="button" class="btn btn-info" (click)="showDialog()">
+                Create New Sensor
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="deleteFridge()"
+                *ngIf="this.editMode"
+              >
+                Delete this fridge
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="onSubmit(form.valid, myForm.valid)"
+              >
+                Save
+                <i class="icon-paperplane ml-2"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  header="Create Sensor"
+  [(visible)]="display"
+  [style]="{ width: '25vw' }"
+  [baseZIndex]="10000"
+>
+  <form class="form-horizontal" [formGroup]="createSensorForm">
+    <div class="form-group row">
+      <div class="ui-g" style="margin-left: auto; margin-right: auto;">
+        <div class="ui-g-12">
+          <label for="device_id">Serial Number</label>
+          <input type="text" formControlName="device_id" name="device_id" />
+          <div
+            class="error"
+            *ngIf="
+              !createSensorForm.controls['device_id'].valid &&
+              isCreateSensorFormSubmitted
+            "
+          >
+            <span
+              *ngIf="
+                createSensorForm.controls['device_id'].errors['required'] ||
+                createSensorForm.get('device_id').errors['whitespace']
+              "
+              >This field is required.</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <p-footer>
+    <button
+      type="button"
+      pButton
+      icon="pi pi-check"
+      (click)="createSensor(createSensorForm.valid)"
+      label="Submit"
+    ></button>
+    <button
+      type="button"
+      pButton
+      icon="pi pi-times"
+      (click)="closeDialog()"
+      label="Cancel"
+      class="ui-button-secondary"
+    ></button>
+  </p-footer>
+</p-dialog>

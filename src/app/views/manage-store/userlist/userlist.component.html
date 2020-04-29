@@ -1,0 +1,405 @@
+<div class="animated fadeIn" *ngIf="displayPage === false">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header group-title-221">
+          <strong>Users</strong>
+          <p class="pull-right"></p>
+        </div>
+        <div class="card-body">
+          <div class="NoData">
+            <p class="text-center">No stores..!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="animated fadeIn" *ngIf="displayPage === true">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header group-title-221">
+          <div class="row">
+            <div *ngIf="permission == 'Admin'">
+              <button
+                type="button"
+                pButton
+                (click)="showDialog3()"
+                icon="pi pi-plus"
+                label="Add New User"
+              ></button>
+            </div>
+            <div class="ml-auto">
+              <form [formGroup]="form">
+                <p-dropdown
+                  [options]="store"
+                  placeholder="Select store"
+                  optionLabel="store_name"
+                  formControlName="store_name"
+                  [(ngModel)]="selectedStorenmae"
+                  (onChange)="getCode($event)"
+                  id="store_name"
+                ></p-dropdown>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="card-header group-title-221" *ngIf="users.length > 0">
+          <!-- <i class="fa fa-info-circle icon-size" style="cursor: pointer;"></i> -->
+          <strong>{{ storename }}</strong>
+          <p class="pull-right"></p>
+        </div>
+
+        <div class="card-body">
+          <table
+            datatable
+            [dtOptions]="dtOptions"
+            [dtTrigger]="dtTrigger"
+            class="row-border hover"
+          >
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Tel</th>
+                <th>Email</th>
+                <th>Permission</th>
+                <th>Alerts</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of users">
+                <td>{{ data.user.username }}</td>
+                <td>{{ data.user.phone_number }}</td>
+                <td>{{ data.user.email }}</td>
+                <td
+                  *ngIf="permission == 'Admin' && data.permission == 'Viewer'"
+                >
+                  <a style="cursor: pointer;" (click)="showDialog(data)"
+                    >{{ data.permission }} <i class="fa fa-pencil"></i
+                  ></a>
+                </td>
+                <td *ngIf="permission == 'Admin' && data.permission == 'Admin'">
+                  {{ data.permission }}
+                </td>
+                <td *ngIf="permission == 'Admin'">
+                  <!-- *ngIf="permission == 'Admin' && data.user.alert_email == true" -->
+                  <p style="cursor: pointer;" (click)="showDialog2(data)">
+                    <a
+                      *ngIf="
+                        data.user.alert_email == true &&
+                        data.user.alert_phonecall == true &&
+                        data.user.alert_sms == true
+                      "
+                      >Yes("email", "phone", "sms")</a
+                    >
+                    <a
+                      *ngIf="
+                        data.user.alert_email == false &&
+                        data.user.alert_phonecall == false &&
+                        data.user.alert_sms == false
+                      "
+                      >No("email", "phone", "sms")</a
+                    >
+                    <a
+                      *ngIf="
+                        data.user.alert_email == false &&
+                        data.user.alert_phonecall == true &&
+                        data.user.alert_sms == true
+                      "
+                      >Yes("phone", "sms") No("email")</a
+                    >
+                    <a
+                      *ngIf="
+                        data.user.alert_email == true &&
+                        data.user.alert_phonecall == false &&
+                        data.user.alert_sms == true
+                      "
+                      >Yes("email", "sms") No(phone")</a
+                    >
+                    <a
+                      *ngIf="
+                        data.user.alert_email == true &&
+                        data.user.alert_phonecall == true &&
+                        data.user.alert_sms == false
+                      "
+                      >Yes("email", "phone") No(sms")</a
+                    >
+                    <a
+                      *ngIf="
+                        data.user.alert_email == false &&
+                        data.user.alert_phonecall == false &&
+                        data.user.alert_sms == true
+                      "
+                      >Yes("sms") No("email", "phone")</a
+                    >
+                    <a
+                      *ngIf="
+                        data.user.alert_email == false &&
+                        data.user.alert_phonecall == true &&
+                        data.user.alert_sms == false
+                      "
+                      >Yes("phone") No("email", "sms")</a
+                    >
+                    <a
+                      *ngIf="
+                        data.user.alert_email == true &&
+                        data.user.alert_phonecall == false &&
+                        data.user.alert_sms == false
+                      "
+                      >Yes("email") No("phone", "sms")</a
+                    >
+                    <i class="fa fa-pencil"></i>
+                  </p>
+                </td>
+                <td *ngIf="permission == 'Viewer'">
+                  {{ data.permission }}
+                </td>
+                <td *ngIf="permission == 'Viewer'">
+                  <a
+                    *ngIf="
+                      data.user.alert_email == true &&
+                      data.user.alert_phonecall == true &&
+                      data.user.alert_sms == true
+                    "
+                    >Yes("email", "phone", "sms")</a
+                  >
+                  <a
+                    *ngIf="
+                      data.user.alert_email == false &&
+                      data.user.alert_phonecall == false &&
+                      data.user.alert_sms == false
+                    "
+                    >No("email", "phone", "sms")</a
+                  >
+                  <a
+                    *ngIf="
+                      data.user.alert_email == false &&
+                      data.user.alert_phonecall == true &&
+                      data.user.alert_sms == true
+                    "
+                    >Yes("phone", "sms") No("email")</a
+                  >
+                  <a
+                    *ngIf="
+                      data.user.alert_email == true &&
+                      data.user.alert_phonecall == false &&
+                      data.user.alert_sms == true
+                    "
+                    >Yes("email", "sms") No(phone")</a
+                  >
+                  <a
+                    *ngIf="
+                      data.user.alert_email == true &&
+                      data.user.alert_phonecall == true &&
+                      data.user.alert_sms == false
+                    "
+                    >Yes("email", "phone") No(sms")</a
+                  >
+                  <a
+                    *ngIf="
+                      data.user.alert_email == false &&
+                      data.user.alert_phonecall == false &&
+                      data.user.alert_sms == true
+                    "
+                    >Yes("sms") No("email", "phone")</a
+                  >
+                  <a
+                    *ngIf="
+                      data.user.alert_email == false &&
+                      data.user.alert_phonecall == true &&
+                      data.user.alert_sms == false
+                    "
+                    >Yes("phone") No("email", "sms")</a
+                  >
+                  <a
+                    *ngIf="
+                      data.user.alert_email == true &&
+                      data.user.alert_phonecall == false &&
+                      data.user.alert_sms == false
+                    "
+                    >Yes("email") No("phone", "sms")</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  header="Change Permission"
+  [(visible)]="display"
+  [style]="{ width: '25vw' }"
+  [baseZIndex]="10000"
+>
+  <form class="form-horizontal" [formGroup]="permissionForm">
+    <div class="form-group row">
+      <div class="ui-g" style="margin-left: auto; margin-right: auto;">
+        <div class="ui-g-12">
+          <p-radioButton
+            name="group1"
+            value="Admin"
+            label="Admin"
+            formControlName="permission"
+            [(ngModel)]="val1"
+            inputId="opt1"
+          ></p-radioButton>
+        </div>
+        <div class="ui-g-12">
+          <p-radioButton
+            name="group1"
+            value="Viewer"
+            label="Viewer"
+            formControlName="permission"
+            [(ngModel)]="val1"
+            inputId="opt2"
+          ></p-radioButton>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <p-footer>
+    <button
+      type="button"
+      pButton
+      icon="pi pi-check"
+      (click)="changePermission()"
+      label="Submit"
+    ></button>
+    <button
+      type="button"
+      pButton
+      icon="pi pi-times"
+      (click)="display = false"
+      label="Cancel"
+      class="ui-button-secondary"
+    ></button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog
+  header="Change Alerts"
+  [(visible)]="display2"
+  [style]="{ width: '25vw' }"
+  [baseZIndex]="10000"
+>
+  <form class="form-horizontal" [formGroup]="alertForm">
+    <div class="form-group row">
+      <div class="ui-g" style="margin-left: auto; margin-right: auto;">
+        <div class="row">
+          <div class="col-md">
+            <div class="ui-g" style="width: 250px; margin-bottom: 10px;">
+              <div class="ui-g-12">
+                <p-checkbox
+                  label="Receive alert emails"
+                  name="alert_email"
+                  formControlName="alert_email"
+                  [(ngModel)]="checked"
+                  binary="true"
+                ></p-checkbox>
+              </div>
+              <div class="ui-g-12">
+                <p-checkbox
+                  label="Receive alert SMSes"
+                  name="alert_sms"
+                  formControlName="alert_sms"
+                  [(ngModel)]="checked1"
+                  binary="true"
+                ></p-checkbox>
+              </div>
+              <div class="ui-g-12">
+                <p-checkbox
+                  label="Receive alert phone calls"
+                  name="alert_phonecall"
+                  formControlName="alert_phonecall"
+                  [(ngModel)]="checked2"
+                  binary="true"
+                ></p-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <p-footer>
+    <button
+      type="button"
+      pButton
+      icon="pi pi-check"
+      (click)="changeEmailAlert()"
+      label="Submit"
+    ></button>
+    <button
+      type="button"
+      pButton
+      icon="pi pi-times"
+      (click)="display2 = false"
+      label="Cancel"
+      class="ui-button-secondary"
+    ></button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog
+  header="Add User"
+  [(visible)]="display3"
+  [style]="{ width: '50vw' }"
+  [baseZIndex]="10000"
+  styleClass="mydialog"
+>
+  <div style="height: 300px;">
+    <form [formGroup]="userForm">
+      <label for="exampleFormControlInput1">Enter Username</label>
+      <ng-autocomplete
+        [data]="usersList"
+        [searchKeyword]="keyword"
+        formControlName="user"
+        placeHolder="Enter the User Name"
+        (selected)="selectEvent($event)"
+        (inputChanged)="onChangeSearch($event)"
+        (inputFocused)="onFocused($event)"
+        [itemTemplate]="itemTemplate"
+        [notFoundTemplate]="notFoundTemplate"
+      >
+      </ng-autocomplete>
+      <div
+        class="error"
+        *ngIf="!userForm.controls['user'].valid && isFormSubmitted"
+      >
+        <span *ngIf="userForm.controls['user'].errors['required']"
+          >This field is required.</span
+        >
+      </div>
+      <ng-template #itemTemplate let-item>
+        <a [innerHTML]="item.username"></a>
+      </ng-template>
+
+      <ng-template #notFoundTemplate let-notFound>
+        <div [innerHTML]="notFound"></div>
+      </ng-template>
+    </form>
+  </div>
+  <p-footer>
+    <button
+      type="button"
+      pButton
+      icon="pi pi-check"
+      (click)="addUser(userForm.valid)"
+      label="Add"
+    ></button>
+    <button
+      type="button"
+      pButton
+      icon="pi pi-times"
+      (click)="display3 = false"
+      label="Cancle"
+      class="ui-button-secondary"
+    ></button>
+  </p-footer>
+</p-dialog>

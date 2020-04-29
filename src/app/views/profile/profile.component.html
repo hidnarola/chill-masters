@@ -1,0 +1,357 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <div>
+        <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="onSubmit(form.valid)">
+            <div class="form-group">
+              <div
+                class="col-md-4 ml-auto mr-auto"
+                style="border: 1px solid #000;"
+              >
+                <div class="row mt-4">
+                  <div class="col-md">
+                    <label class="control-label">Name</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"
+                          ><i class="icon-user"></i
+                        ></span>
+                      </div>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Username"
+                        [(ngModel)]="formData.username"
+                        name="username"
+                        formControlName="username"
+                        id="username"
+                        required
+                      />
+                      <div
+                        class="error"
+                        *ngIf="
+                          !form.controls['username'].valid && isFormSubmitted
+                        "
+                      >
+                        <span
+                          *ngIf="form.controls['username'].errors['required']"
+                          >This field is required.</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md">
+                    <label class="control-label">Email Address</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"
+                          ><i class="icon-user"></i
+                        ></span>
+                      </div>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Eamil Address"
+                        [(ngModel)]="formData.email"
+                        name="email"
+                        formControlName="email"
+                        id="email"
+                        (blur)="checkMail()"
+                        required
+                      />
+                      <div
+                        class="error"
+                        *ngIf="!form.controls['email'].valid && isFormSubmitted"
+                      >
+                        <span *ngIf="form.controls['email'].errors['required']"
+                          >This field is required.</span
+                        >
+                      </div>
+                      <div class="error" *ngIf="!form.controls['email'].valid">
+                        <span *ngIf="form.controls['email'].errors['pattern']"
+                          >Email must be in valid format.</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md">
+                    <label class="control-label">Phone Number</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"
+                          ><i class="icon-user"></i
+                        ></span>
+                      </div>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Phone No."
+                        [(ngModel)]="formData.phone_number"
+                        name="phone_number"
+                        formControlName="phone_number"
+                        id="phone_number"
+                        required
+                      />
+                      <div
+                        class="error pull-left"
+                        *ngIf="
+                          !form.controls['phone_number'].valid &&
+                          isFormSubmitted
+                        "
+                      >
+                        <span
+                          *ngIf="
+                            form.controls['phone_number'].errors['required']
+                          "
+                          >This field is required.</span
+                        >
+                      </div>
+                      <div
+                        class="error pull-left"
+                        *ngIf="!form.controls['phone_number'].valid"
+                      >
+                        <span
+                          *ngIf="
+                            form.controls['phone_number'].errors['pattern']
+                          "
+                          >Enter valid mobile number.</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md">
+                    <div class="ui-g" style="width:250px;margin-bottom:10px">
+                      <div class="ui-g-12">
+                        <p-checkbox
+                          label="Receive alert emails"
+                          [(ngModel)]="formData.alert_email"
+                          name="alert_email"
+                          formControlName="alert_email"
+                          [(ngModel)]="checked"
+                          binary="true"
+                        ></p-checkbox>
+                      </div>
+                      <div class="ui-g-12">
+                        <p-checkbox
+                          label="Receive alert SMSes"
+                          [(ngModel)]="formData.alert_sms"
+                          name="alert_sms"
+                          formControlName="alert_sms"
+                          [(ngModel)]="checked1"
+                          binary="true"
+                        ></p-checkbox>
+                      </div>
+                      <div class="ui-g-12">
+                        <p-checkbox
+                          label="Receive alert phone calls"
+                          [(ngModel)]="formData.alert_phonecall"
+                          name="alert_phonecall"
+                          formControlName="alert_phonecall"
+                          [(ngModel)]="checked2"
+                          binary="true"
+                        ></p-checkbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3">
+                    <button type="submit" class="btn btn-primary px-4">
+                      Save
+                    </button>
+                  </div>
+                  <div class="col-8 mb-2">
+                    <button
+                      type="button"
+                      class="btn btn-primary px-4 float-right"
+                      (click)="showBasicDialog()"
+                    >
+                      Change Password
+                    </button>
+
+                    <p-dialog
+                      header="Change Password"
+                      [(visible)]="displayBasic"
+                      [style]="{ width: '50vw' }"
+                      [baseZIndex]="10000"
+                    >
+                      <form [formGroup]="chnagepassForm">
+                        <div class="mb-3 mt-3">
+                          <label for="basic-url">Your vanity URL</label>
+                          <div class="input-group">
+                            <!-- <label class="control-label">New Password</label> -->
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"
+                                ><i class="icon-lock"></i
+                              ></span>
+                            </div>
+                            <input
+                              type="password"
+                              class="form-control"
+                              placeholder="Old Password"
+                              [(ngModel)]="formData.old_password"
+                              name="old_password"
+                              formControlName="old_password"
+                              required
+                            />
+                            <div
+                              class="error"
+                              *ngIf="
+                                !chnagepassForm.controls['old_password']
+                                  .valid && isFormSubmit
+                              "
+                            >
+                              <span
+                                *ngIf="
+                                  chnagepassForm.controls['old_password']
+                                    .errors['whitespace'] ||
+                                  chnagepassForm.controls['old_password']
+                                    .errors['required']
+                                "
+                                >This field is required.</span
+                              >
+                              <span
+                                *ngIf="
+                                  chnagepassForm.controls['old_password']
+                                    .errors['minlength'] &&
+                                  !chnagepassForm.controls['old_password']
+                                    .errors['whitespace']
+                                "
+                                >Password should be 8 character long.</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mb-3 mt-3">
+                          <label class="control-label">New Password</label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"
+                                ><i class="icon-lock"></i
+                              ></span>
+                            </div>
+                            <input
+                              type="password"
+                              class="form-control"
+                              placeholder="New Password"
+                              [(ngModel)]="formData.new_password1"
+                              name="new_password1"
+                              formControlName="new_password1"
+                              required
+                            />
+                            <div
+                              class="error"
+                              *ngIf="
+                                !chnagepassForm.controls['new_password1']
+                                  .valid && isFormSubmit
+                              "
+                            >
+                              <span
+                                *ngIf="
+                                  chnagepassForm.controls['new_password1']
+                                    .errors['whitespace'] ||
+                                  chnagepassForm.controls['new_password1']
+                                    .errors['required']
+                                "
+                                >This field is required.</span
+                              >
+                              <span
+                                *ngIf="
+                                  chnagepassForm.controls['new_password1']
+                                    .errors['minlength'] &&
+                                  !chnagepassForm.controls['new_password1']
+                                    .errors['whitespace']
+                                "
+                                >Password should be 8 character long and must
+                                contain at least one lowercase and one
+                                number.</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mb-3 mt-3">
+                          <label class="control-label">
+                            Confirm New Password</label
+                          >
+                          <div class="input-group mb-4">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"
+                                ><i class="icon-lock"></i
+                              ></span>
+                            </div>
+                            <input
+                              type="password"
+                              class="form-control"
+                              placeholder="Repeat new password"
+                              [(ngModel)]="formData.new_password2"
+                              name="new_password2"
+                              formControlName="new_password2"
+                              required
+                            />
+                            <div
+                              class="error pull-left"
+                              *ngIf="
+                                !chnagepassForm.controls['new_password2']
+                                  .valid && isFormSubmit
+                              "
+                            >
+                              <span
+                                class="text-danger"
+                                *ngIf="
+                                  chnagepassForm.controls['new_password2']
+                                    .errors['required'] ||
+                                  chnagepassForm.controls['new_password2']
+                                    .errors['whitespace']
+                                "
+                                >This field is required.</span
+                              >
+                              <span
+                                class="text-danger"
+                                *ngIf="
+                                  chnagepassForm.controls['new_password2']
+                                    .errors['mismatch'] &&
+                                  !chnagepassForm.controls['new_password2']
+                                    .errors['whitespace']
+                                "
+                                >Password and confirm password should be
+                                same.</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                      <p-footer>
+                        <button
+                          type="button"
+                          pButton
+                          icon="pi pi-check"
+                          (click)="changePassword(chnagepassForm.valid)"
+                          label="Submit"
+                        ></button>
+                        <button
+                          type="button"
+                          pButton
+                          icon="pi pi-times"
+                          (click)="displayBasic = false"
+                          label="Cancel"
+                          class="ui-button-secondary"
+                        ></button>
+                      </p-footer>
+                    </p-dialog>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
