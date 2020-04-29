@@ -79,13 +79,12 @@
                   type="text"
                   class="form-control"
                   placeholder="Phone Number"
-                  [(ngModel)]="formData.phone_number"
                   name="phone_number"
                   formControlName="phone_number"
                   id="phone_number"
-                  required
+                  (input)="checkPhoneNumber($event)"
                 />
-                <div
+                <!-- <div
                   class="error pull-left"
                   *ngIf="
                     !regForm.controls['phone_number'].valid && isFormSubmitted
@@ -95,7 +94,7 @@
                     *ngIf="regForm.controls['phone_number'].errors['required']"
                     >This field is required.</span
                   >
-                </div>
+                </div> -->
                 <div
                   class="error pull-left"
                   *ngIf="!regForm.controls['phone_number'].valid"
