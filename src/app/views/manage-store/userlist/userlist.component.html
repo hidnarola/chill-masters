@@ -64,7 +64,7 @@
                 <th>Tel</th>
                 <th>Email</th>
                 <th>Permission</th>
-                <th>Alerts</th>
+                <th>Receive Alerts</th>
               </tr>
             </thead>
             <tbody>
@@ -76,11 +76,11 @@
                   *ngIf="permission == 'Admin' && data.permission == 'Viewer'"
                 >
                   <a style="cursor: pointer;" (click)="showDialog(data)"
-                    >{{ data.permission }} <i class="fa fa-pencil"></i
+                    ><b>{{ data.permission }}</b> <i class="fa fa-pencil"></i
                   ></a>
                 </td>
                 <td *ngIf="permission == 'Admin' && data.permission == 'Admin'">
-                  {{ data.permission }}
+                  <b>{{ data.permission }}</b>
                 </td>
                 <td *ngIf="permission == 'Admin'">
                   <!-- *ngIf="permission == 'Admin' && data.user.alert_email == true" -->
@@ -91,7 +91,7 @@
                         data.user.alert_phonecall == true &&
                         data.user.alert_sms == true
                       "
-                      >Yes("email", "phone", "sms")</a
+                      ><b>Yes</b>(email, phone, sms)</a
                     >
                     <a
                       *ngIf="
@@ -99,7 +99,7 @@
                         data.user.alert_phonecall == false &&
                         data.user.alert_sms == false
                       "
-                      >No("email", "phone", "sms")</a
+                      ><b>No</b>(email, phone, sms)</a
                     >
                     <a
                       *ngIf="
@@ -107,7 +107,7 @@
                         data.user.alert_phonecall == true &&
                         data.user.alert_sms == true
                       "
-                      >Yes("phone", "sms") No("email")</a
+                      ><b>Yes</b>(phone, sms) <b>No</b>(email)</a
                     >
                     <a
                       *ngIf="
@@ -115,7 +115,7 @@
                         data.user.alert_phonecall == false &&
                         data.user.alert_sms == true
                       "
-                      >Yes("email", "sms") No(phone")</a
+                      ><b>Yes</b>(email, sms) <b>No</b>(phone)</a
                     >
                     <a
                       *ngIf="
@@ -123,7 +123,7 @@
                         data.user.alert_phonecall == true &&
                         data.user.alert_sms == false
                       "
-                      >Yes("email", "phone") No(sms")</a
+                      ><b>Yes</b>(email, phone) <b>No</b>(sms)</a
                     >
                     <a
                       *ngIf="
@@ -131,7 +131,7 @@
                         data.user.alert_phonecall == false &&
                         data.user.alert_sms == true
                       "
-                      >Yes("sms") No("email", "phone")</a
+                      ><b>Yes</b>(sms) <b>No</b>(email, phone)</a
                     >
                     <a
                       *ngIf="
@@ -139,7 +139,7 @@
                         data.user.alert_phonecall == true &&
                         data.user.alert_sms == false
                       "
-                      >Yes("phone") No("email", "sms")</a
+                      ><b>Yes</b>(phone) <b>No</b>(email, sms)</a
                     >
                     <a
                       *ngIf="
@@ -147,13 +147,13 @@
                         data.user.alert_phonecall == false &&
                         data.user.alert_sms == false
                       "
-                      >Yes("email") No("phone", "sms")</a
+                      ><b>Yes</b>(email) <b>No</b>(phone, sms)</a
                     >
                     <i class="fa fa-pencil"></i>
                   </p>
                 </td>
                 <td *ngIf="permission == 'Viewer'">
-                  {{ data.permission }}
+                  <b>{{ data.permission }}</b>
                 </td>
                 <td *ngIf="permission == 'Viewer'">
                   <a
@@ -162,7 +162,7 @@
                       data.user.alert_phonecall == true &&
                       data.user.alert_sms == true
                     "
-                    >Yes("email", "phone", "sms")</a
+                    ><b>Yes</b>(email, phone, sms)</a
                   >
                   <a
                     *ngIf="
@@ -170,7 +170,7 @@
                       data.user.alert_phonecall == false &&
                       data.user.alert_sms == false
                     "
-                    >No("email", "phone", "sms")</a
+                    ><b>No</b>(email, phone, sms)</a
                   >
                   <a
                     *ngIf="
@@ -178,7 +178,7 @@
                       data.user.alert_phonecall == true &&
                       data.user.alert_sms == true
                     "
-                    >Yes("phone", "sms") No("email")</a
+                    ><b>Yes</b>(phone, sms) <b>No</b>(email)</a
                   >
                   <a
                     *ngIf="
@@ -186,7 +186,7 @@
                       data.user.alert_phonecall == false &&
                       data.user.alert_sms == true
                     "
-                    >Yes("email", "sms") No(phone")</a
+                    ><b>Yes</b>(email, sms) <b>No</b>(phone)</a
                   >
                   <a
                     *ngIf="
@@ -194,7 +194,7 @@
                       data.user.alert_phonecall == true &&
                       data.user.alert_sms == false
                     "
-                    >Yes("email", "phone") No(sms")</a
+                    ><b>Yes</b>(email, phone) <b>No</b>(sms)</a
                   >
                   <a
                     *ngIf="
@@ -202,7 +202,7 @@
                       data.user.alert_phonecall == false &&
                       data.user.alert_sms == true
                     "
-                    >Yes("sms") No("email", "phone")</a
+                    ><b>Yes</b>(sms) <b>No</b>(email, phone)</a
                   >
                   <a
                     *ngIf="
@@ -210,7 +210,7 @@
                       data.user.alert_phonecall == true &&
                       data.user.alert_sms == false
                     "
-                    >Yes("phone") No("email", "sms")</a
+                    ><b>Yes</b>(phone) <b>No</b>(email, sms)</a
                   >
                   <a
                     *ngIf="
@@ -218,7 +218,7 @@
                       data.user.alert_phonecall == false &&
                       data.user.alert_sms == false
                     "
-                    >Yes("email") No("phone", "sms")</a
+                    ><b>Yes</b>(email) <b>No</b>(phone, sms)</a
                   >
                 </td>
               </tr>
@@ -237,7 +237,7 @@
   [baseZIndex]="10000"
 >
   <form class="form-horizontal" [formGroup]="permissionForm">
-    <div class="form-group row">
+    <div class="form-group">
       <div class="ui-g" style="margin-left: auto; margin-right: auto;">
         <div class="ui-g-12">
           <p-radioButton
@@ -265,6 +265,7 @@
 
   <p-footer>
     <button
+      class="pull-left"
       type="button"
       pButton
       icon="pi pi-check"
@@ -289,7 +290,7 @@
   [baseZIndex]="10000"
 >
   <form class="form-horizontal" [formGroup]="alertForm">
-    <div class="form-group row">
+    <div class="form-group">
       <div class="ui-g" style="margin-left: auto; margin-right: auto;">
         <div class="row">
           <div class="col-md">
@@ -329,6 +330,7 @@
   </form>
   <p-footer>
     <button
+      class="pull-left"
       type="button"
       pButton
       icon="pi pi-check"
@@ -355,12 +357,12 @@
 >
   <div style="height: 300px;">
     <form [formGroup]="userForm">
-      <label for="exampleFormControlInput1">Enter Username</label>
+      <label for="exampleFormControlInput1">Enter Users Email</label>
       <ng-autocomplete
         [data]="usersList"
         [searchKeyword]="keyword"
         formControlName="user"
-        placeHolder="Enter the User Name"
+        placeHolder="Enter the User Email"
         (selected)="selectEvent($event)"
         (inputChanged)="onChangeSearch($event)"
         (inputFocused)="onFocused($event)"
@@ -377,7 +379,7 @@
         >
       </div>
       <ng-template #itemTemplate let-item>
-        <a [innerHTML]="item.username"></a>
+        <a [innerHTML]="item.email"></a>
       </ng-template>
 
       <ng-template #notFoundTemplate let-notFound>
@@ -397,7 +399,7 @@
       type="button"
       pButton
       icon="pi pi-times"
-      (click)="display3 = false"
+      (click)="closeAddUserForm()"
       label="Cancle"
       class="ui-button-secondary"
     ></button>

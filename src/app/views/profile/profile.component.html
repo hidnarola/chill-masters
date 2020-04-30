@@ -95,22 +95,8 @@
                         name="phone_number"
                         formControlName="phone_number"
                         id="phone_number"
-                        required
+                        (input)="checkPhoneNumber($event)"
                       />
-                      <div
-                        class="error pull-left"
-                        *ngIf="
-                          !form.controls['phone_number'].valid &&
-                          isFormSubmitted
-                        "
-                      >
-                        <span
-                          *ngIf="
-                            form.controls['phone_number'].errors['required']
-                          "
-                          >This field is required.</span
-                        >
-                      </div>
                       <div
                         class="error pull-left"
                         *ngIf="!form.controls['phone_number'].valid"
@@ -127,7 +113,10 @@
                 </div>
                 <div class="row">
                   <div class="col-md">
-                    <div class="ui-g" style="width:250px;margin-bottom:10px">
+                    <div
+                      class="ui-g"
+                      style="width: 250px; margin-bottom: 10px;"
+                    >
                       <div class="ui-g-12">
                         <p-checkbox
                           label="Receive alert emails"

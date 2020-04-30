@@ -43,7 +43,7 @@ export class UserlistComponent implements OnInit, OnDestroy {
   display2: boolean = false;
   display3: boolean = false;
   usersList: any = [];
-  keyword = "username";
+  keyword = "email";
   displayPage: boolean = true;
   checked: boolean = false;
   checked1: boolean = false;
@@ -324,6 +324,7 @@ export class UserlistComponent implements OnInit, OnDestroy {
             timeOut: 3000,
           });
           this.displaydata();
+          this.isFormSubmitted = false;
           this.userForm.reset();
           this.display3 = false;
           this.spinner.hide();
@@ -373,5 +374,11 @@ export class UserlistComponent implements OnInit, OnDestroy {
 
   onFocused(e) {
     // do something
+  }
+
+  closeAddUserForm() {
+    this.isFormSubmitted = false;
+    this.userForm.reset();
+    this.display3 = false;
   }
 }

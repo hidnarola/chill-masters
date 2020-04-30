@@ -3,7 +3,7 @@ import {
   FormControl,
   Validators,
   FormBuilder,
-  FormGroup
+  FormGroup,
 } from "@angular/forms";
 import { CommonService } from "../../services/common.service";
 import { Router } from "@angular/router";
@@ -13,7 +13,7 @@ import { ToastrService } from "ngx-toastr";
 @Component({
   selector: "app-profile",
   templateUrl: "./profile.component.html",
-  styleUrls: ["./profile.component.css"]
+  styleUrls: ["./profile.component.css"],
 })
 export class ProfileComponent implements OnInit {
   form: FormGroup;
@@ -40,18 +40,12 @@ export class ProfileComponent implements OnInit {
         Validators.required,
         Validators.pattern(
           /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        )
+        ),
       ]),
-      phone_number: new FormControl(
-        "",
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[0-9]\d{9,10}$|^[0-9]\d{9,10}$/)
-        ])
-      ),
+      phone_number: new FormControl(""),
       alert_email: new FormControl(false),
       alert_sms: new FormControl(false),
-      alert_phonecall: new FormControl(false)
+      alert_phonecall: new FormControl(false),
     });
 
     this.chnagepassForm = this.fb.group(
@@ -61,7 +55,7 @@ export class ProfileComponent implements OnInit {
           Validators.compose([
             Validators.required,
             this.noWhitespaceValidator,
-            Validators.minLength(8)
+            Validators.minLength(8),
           ])
         ),
         new_password1: new FormControl(
@@ -69,7 +63,7 @@ export class ProfileComponent implements OnInit {
           Validators.compose([
             Validators.required,
             this.noWhitespaceValidator,
-            Validators.minLength(8)
+            Validators.minLength(8),
           ])
         ),
         new_password2: new FormControl(
@@ -77,9 +71,9 @@ export class ProfileComponent implements OnInit {
           Validators.compose([
             Validators.required,
             this.noWhitespaceValidator,
-            Validators.minLength(8)
+            Validators.minLength(8),
           ])
-        )
+        ),
       },
       { validator: this.checkPasswords }
     );
@@ -87,7 +81,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinner.show();
-    this.service.profile().subscribe(res => {
+    this.service.profile().subscribe((res) => {
       this.form.controls[`username`].setValue(res[`username`]);
       this.form.controls[`email`].setValue(res[`email`]);
       this.form.controls[`phone_number`].setValue(res[`phone_number`]);
@@ -107,12 +101,22 @@ export class ProfileComponent implements OnInit {
       this.form.controls["email"].setValidators([
         Validators.pattern(
           /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        )
+        ),
       ]);
     } else {
       this.form.controls["email"].setValidators([Validators.required]);
     }
     this.form.controls["email"].updateValueAndValidity();
+  }
+
+  checkPhoneNumber(e) {
+    if (e.target.value !== undefined && e.target.value.length > 0) {
+      // tslint:disable-next-line: max-line-length
+      this.form.controls["phone_number"].setValidators([
+        Validators.pattern(/^[0-9]\d{9,10}$|^[0-9]\d{9,10}$/),
+      ]);
+    }
+    this.form.controls["phone_number"].updateValueAndValidity();
   }
 
   checkPasswords(g: FormGroup) {
@@ -152,14 +156,14 @@ export class ProfileComponent implements OnInit {
     if (valid) {
       this.spinner.show();
       this.service.updateProfile(this.form.value).subscribe(
-        res => {
+        (res) => {
           this.spinner.hide();
           this.isFormSubmitted = false;
           this.toastr.success("Profile Updated Successfully", "Success!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
         },
-        err => {
+        (err) => {
           this.spinner.hide();
           console.log(" : err.error ==> ", err.error);
           if (err.error[`email`]) {
@@ -167,20 +171,20 @@ export class ProfileComponent implements OnInit {
               "This email address is already exist.",
               "Error!",
               {
-                timeOut: 3000
+                timeOut: 3000,
               }
             );
           } else if (err.error[`phone_number`]) {
             this.toastr.error("This phone number is already exist.", "Error!", {
-              timeOut: 3000
+              timeOut: 3000,
             });
           } else if (err.error[`username`]) {
             this.toastr.error("This username is already exist.", "Error!", {
-              timeOut: 3000
+              timeOut: 3000,
             });
           } else {
             this.toastr.error(err.error, "Error!", {
-              timeOut: 3000
+              timeOut: 3000,
             });
           }
         }
@@ -192,22 +196,22 @@ export class ProfileComponent implements OnInit {
     this.isFormSubmit = true;
     if (valid) {
       this.service.updatePassword(this.chnagepassForm.value).subscribe(
-        res => {
+        (res) => {
           this.chnagepassForm.reset();
           this.toastr.success(res[`detail`], "Success!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
           this.isFormSubmit = false;
           this.displayBasic = false;
         },
-        err => {
+        (err) => {
           if (err.error.old_password) {
             this.toastr.error("Old password does not match.", "Error!", {
-              timeOut: 3000
+              timeOut: 3000,
             });
           } else {
             this.toastr.error("Something went wrong.", "Error!", {
-              timeOut: 3000
+              timeOut: 3000,
             });
           }
         }
