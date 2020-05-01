@@ -11,71 +11,71 @@ const routes: Routes = [
     path: "",
     children: [
       {
-        path: "",
-        redirectTo: "lion_square/users"
+        path: "/",
+        redirectTo: "users",
       },
       {
-        path: "lion_square/users",
+        path: "users",
         component: UserlistComponent,
         data: {
-          title: "Users"
-        }
+          title: "Users",
+        },
       },
       {
-        path: "lion_square/users/:id",
+        path: "users/:id",
         component: UserlistComponent,
         data: {
-          title: "Users"
-        }
+          title: "Users",
+        },
       },
       {
-        path: "lion_square/overview",
+        path: "overview",
         component: StoreOverviewComponent,
         data: {
-          title: "Overview"
-        }
+          title: "Overview",
+        },
       },
       {
-        path: "lion_square/overview/:id",
+        path: "overview/:id",
         component: StoreOverviewComponent,
         data: {
-          title: "Overview"
-        }
+          title: "Overview",
+        },
       },
       {
-        path: "lion_square/retore_fridge/:id",
+        path: "retore_fridge/:id",
         component: RestoreFridgeComponent,
         data: {
-          title: "Restore Fridge"
-        }
+          title: "Restore Fridge",
+        },
       },
       {
-        path: "lion_square/add_fridge",
+        path: "add_fridge",
         component: AddFridgeComponent,
         data: {
-          title: "Add Fridge"
-        }
+          title: "Add Fridge",
+        },
       },
       {
-        path: "lion_square/edit_fridge",
+        path: "edit_fridge",
         component: AddFridgeComponent,
         data: {
-          title: "Edit Fridge"
-        }
+          title: "Edit Fridge",
+        },
       },
       {
-        path: "lion_square/fridge_detail",
+        path: "fridge_detail",
         component: FridgeDetailComponent,
         data: {
-          title: "Fridge Detail"
-        }
-      }
-    ]
-  }
+          title: "Fridge Detail",
+        },
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class ManageStoreRoutingModule {}

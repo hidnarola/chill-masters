@@ -9,7 +9,7 @@ import { ToastrService } from "ngx-toastr";
 @Component({
   selector: "app-storelist",
   templateUrl: "./storelist.component.html",
-  styleUrls: ["./storelist.component.css"]
+  styleUrls: ["./storelist.component.css"],
 })
 export class StorelistComponent implements OnInit, OnDestroy {
   dtOptions: DataTables.Settings = {};
@@ -25,23 +25,23 @@ export class StorelistComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.spinner.show();
     this.dtOptions = {
-      pagingType: "full_numbers"
+      pagingType: "full_numbers",
     };
 
     this.service.mystore_list().subscribe(
-      res => {
+      (res) => {
         this.data = res;
         this.dtTrigger.next();
         this.spinner.hide();
       },
-      err => {
+      (err) => {
         if (err.error[`detail`]) {
           this.toastr.error(err.error[`detail`], "Error!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
         } else if (err.error[`error`]) {
           this.toastr.error(err.error[`error`], "Error!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
         }
       }
@@ -49,11 +49,11 @@ export class StorelistComponent implements OnInit, OnDestroy {
   }
 
   navigateToUsers(id) {
-    this.router.navigate([`/store/lion_square/users/` + id]);
+    this.router.navigate([`/store/users/` + id]);
   }
 
   navigateToOverview(id) {
-    this.router.navigate([`/store/lion_square/overview/` + id]);
+    this.router.navigate([`/store/overview/` + id]);
   }
 
   ngOnDestroy(): void {

@@ -8,7 +8,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 @Component({
   selector: "app-restore-fridge",
   templateUrl: "./restore-fridge.component.html",
-  styleUrls: ["./restore-fridge.component.css"]
+  styleUrls: ["./restore-fridge.component.css"],
 })
 export class RestoreFridgeComponent implements OnInit {
   id: any;
@@ -39,25 +39,25 @@ export class RestoreFridgeComponent implements OnInit {
       this.spinner.show();
       const obj = {
         store_id: this.id,
-        delete_status: true
+        delete_status: true,
       };
       this.service.deletedFridgeList(obj, page).subscribe(
-        res => {
+        (res) => {
           console.log(" : res ==> ", res);
           this.data = res[`fridge_data`];
           this.previous = res[`pagination`][`previous`];
           this.next = res[`pagination`][`next`];
           this.spinner.hide();
         },
-        err => {
+        (err) => {
           console.log(err);
           if (err.error[`detail`]) {
             this.toastr.error(err.error[`detail`], "Error!", {
-              timeOut: 3000
+              timeOut: 3000,
             });
           } else if (err.error[`error`]) {
             this.toastr.error(err.error[`error`], "Error!", {
-              timeOut: 3000
+              timeOut: 3000,
             });
           }
         }
@@ -70,24 +70,24 @@ export class RestoreFridgeComponent implements OnInit {
     console.log(this.page);
     const obj = {
       store_id: parseInt(id),
-      delete_status: true
+      delete_status: true,
     };
     this.service.deletedFridgeListByPage(url, obj).subscribe(
-      res => {
+      (res) => {
         console.log(" res:  ==> ", res);
         this.data = res[`fridge_data`];
         this.previous = res[`pagination`][`previous`];
         this.next = res[`pagination`][`next`];
       },
-      err => {
+      (err) => {
         console.log(" : err ==> ", err);
         if (err.error[`detail`]) {
           this.toastr.error(err.error[`detail`], "Error!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
         } else if (err.error[`error`]) {
           this.toastr.error(err.error[`error`], "Error!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
         }
       }
@@ -100,25 +100,25 @@ export class RestoreFridgeComponent implements OnInit {
 
     const obj = {
       store_id: parseInt(id),
-      delete_status: true
+      delete_status: true,
     };
     this.service.deletedFridgeListByPage(url, obj).subscribe(
-      res => {
+      (res) => {
         console.log(" res:  ==> ", res);
         this.data = res[`fridge_data`];
         this.previous = res[`pagination`][`previous`];
         this.next = res[`pagination`][`next`];
         // this.selectedStorenmae = this.store.find(x => x.id == this.id);
       },
-      err => {
+      (err) => {
         console.log(" : err ==> ", err);
         if (err.error[`detail`]) {
           this.toastr.error(err.error[`detail`], "Error!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
         } else if (err.error[`error`]) {
           this.toastr.error(err.error[`error`], "Error!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
         }
       }
@@ -129,10 +129,10 @@ export class RestoreFridgeComponent implements OnInit {
     const restoreObj = {
       fridge_id: fridge_id,
       store_id: store_id,
-      delete_status: false
+      delete_status: false,
     };
     this.service.deleteFridge(restoreObj).subscribe(
-      res => {
+      (res) => {
         console.log(" : res ==> ", res);
         if (this.data.length <= 1 && this.previous != null) {
           this.page = this.page - 1;
@@ -140,15 +140,15 @@ export class RestoreFridgeComponent implements OnInit {
 
         this.displaydata(this.page);
       },
-      err => {
+      (err) => {
         console.log(" : err ==> ", err);
         if (err.error[`detail`]) {
           this.toastr.error(err.error[`detail`], "Error!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
         } else if (err.error[`error`]) {
           this.toastr.error(err.error[`error`], "Error!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
         }
       }
@@ -156,6 +156,6 @@ export class RestoreFridgeComponent implements OnInit {
   }
 
   onclick() {
-    this.router.navigate([`store/lion_square/overview/` + this.id]);
+    this.router.navigate([`store/overview/` + this.id]);
   }
 }

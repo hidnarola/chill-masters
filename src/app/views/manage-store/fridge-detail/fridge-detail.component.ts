@@ -198,6 +198,6 @@ export class FridgeDetailComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate(["/store/lion_square/overview/" + this.store_id]);
+    this.router.navigate(["/store/overview/" + this.store_id]);
   }
 }

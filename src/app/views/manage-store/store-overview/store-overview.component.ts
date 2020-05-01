@@ -9,7 +9,7 @@ import _ from "lodash";
 @Component({
   selector: "app-store-overview",
   templateUrl: "./store-overview.component.html",
-  styleUrls: ["./store-overview.component.css"]
+  styleUrls: ["./store-overview.component.css"],
 })
 export class StoreOverviewComponent implements OnInit {
   form: FormGroup;
@@ -34,7 +34,7 @@ export class StoreOverviewComponent implements OnInit {
     private spinner: NgxSpinnerService
   ) {
     this.form = this.fb.group({
-      store_name: new FormControl("")
+      store_name: new FormControl(""),
     });
   }
 
@@ -53,9 +53,7 @@ export class StoreOverviewComponent implements OnInit {
         setTimeout(() => {
           console.log(" : this.store ==> ", this.store);
           if (this.store.length > 0) {
-            this.router.navigate([
-              `/store/lion_square/overview/` + this.store[0][`id`]
-            ]);
+            this.router.navigate([`/store/overview/` + this.store[0][`id`]]);
             this.displayPage = true;
           } else {
             this.displayPage = false;
@@ -68,7 +66,7 @@ export class StoreOverviewComponent implements OnInit {
 
   storelist() {
     this.service.mystore_list().subscribe(
-      res => {
+      (res) => {
         const store = res;
         const storeList = [];
         if (store.length > 0) {
@@ -80,14 +78,14 @@ export class StoreOverviewComponent implements OnInit {
           this.spinner.hide();
         }
       },
-      err => {
+      (err) => {
         if (err.error[`detail`]) {
           this.toastr.error(err.error[`detail`], "Error!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
         } else if (err.error[`error`]) {
           this.toastr.error(err.error[`error`], "Error!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
         }
       }
@@ -99,17 +97,17 @@ export class StoreOverviewComponent implements OnInit {
       this.spinner.show();
       const obj = {
         store_id: this.id,
-        delete_status: false
+        delete_status: false,
       };
       this.service.overviewList(obj, page).subscribe(
-        res => {
+        (res) => {
           console.log(" : res ==> ", res);
           this.data = res[`fridge_data`];
           this.permission = res[`permission`];
           this.previous = res[`pagination`][`previous`];
           this.next = res[`pagination`][`next`];
           setTimeout(() => {
-            this.selectedStorenmae = this.store.find(x => x.id == this.id);
+            this.selectedStorenmae = this.store.find((x) => x.id == this.id);
             this.selectedStore = this.selectedStorenmae[`store_name`];
           }, 500);
           // console.log(
@@ -118,15 +116,15 @@ export class StoreOverviewComponent implements OnInit {
           // );
           this.spinner.hide();
         },
-        err => {
+        (err) => {
           console.log(err);
           if (err.error[`detail`]) {
             this.toastr.error(err.error[`detail`], "Error!", {
-              timeOut: 3000
+              timeOut: 3000,
             });
           } else if (err.error[`error`]) {
             this.toastr.error(err.error[`error`], "Error!", {
-              timeOut: 3000
+              timeOut: 3000,
             });
           }
         }
@@ -135,14 +133,14 @@ export class StoreOverviewComponent implements OnInit {
   }
 
   onclick() {
-    this.router.navigate(["/store/lion_square/add_fridge"], {
-      queryParams: { store_id: this.id }
+    this.router.navigate(["/store/add_fridge"], {
+      queryParams: { store_id: this.id },
     });
   }
 
   getCode(e) {
     // this.spinner.show();
-    this.router.navigate([`/store/lion_square/overview/` + e.value.id]);
+    this.router.navigate([`/store/overview/` + e.value.id]);
     setTimeout(() => {
       this.displaydata(this.page);
     }, 1000);
@@ -151,25 +149,25 @@ export class StoreOverviewComponent implements OnInit {
   nextPage(url, id) {
     const obj = {
       store_id: parseInt(id),
-      delete_status: false
+      delete_status: false,
     };
     this.service.overviewListByPage(url, obj).subscribe(
-      res => {
+      (res) => {
         console.log(" res:  ==> ", res);
         this.data = res[`fridge_data`];
         this.previous = res[`pagination`][`previous`];
         this.next = res[`pagination`][`next`];
         // this.selectedStorenmae = this.store.find(x => x.id == this.id);
       },
-      err => {
+      (err) => {
         console.log(" : err ==> ", err);
         if (err.error[`detail`]) {
           this.toastr.error(err.error[`detail`], "Error!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
         } else if (err.error[`error`]) {
           this.toastr.error(err.error[`error`], "Error!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
         }
       }
@@ -179,25 +177,25 @@ export class StoreOverviewComponent implements OnInit {
   previousPage(url, id) {
     const obj = {
       store_id: parseInt(id),
-      delete_status: false
+      delete_status: false,
     };
     this.service.overviewListByPage(url, obj).subscribe(
-      res => {
+      (res) => {
         console.log(" res:  ==> ", res);
         this.data = res[`fridge_data`];
         this.previous = res[`pagination`][`previous`];
         this.next = res[`pagination`][`next`];
         // this.selectedStorenmae = this.store.find(x => x.id == this.id);
       },
-      err => {
+      (err) => {
         console.log(" : err ==> ", err);
         if (err.error[`detail`]) {
           this.toastr.error(err.error[`detail`], "Error!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
         } else if (err.error[`error`]) {
           this.toastr.error(err.error[`error`], "Error!", {
-            timeOut: 3000
+            timeOut: 3000,
           });
         }
       }
@@ -205,6 +203,6 @@ export class StoreOverviewComponent implements OnInit {
   }
 
   restore() {
-    this.router.navigate([`store/lion_square/retore_fridge/` + this.id]);
+    this.router.navigate([`store/retore_fridge/` + this.id]);
   }
 }
