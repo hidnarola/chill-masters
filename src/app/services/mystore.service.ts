@@ -5,7 +5,7 @@ import * as env from "../../environments/environment";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class MyStoreService {
   private url = env.environment.API_URL;
@@ -15,27 +15,27 @@ export class MyStoreService {
   mystore_list(): Observable<any[]> {
     return this.http.get<any[]>(`${this.url}` + "api/user/store/", {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
   store_users(id): Observable<any[]> {
     const obj = {
-      store_id: id
+      store_id: id,
     };
     return this.http.post<any[]>(`${this.url}` + "api/user/store/", obj, {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
   changePemission(data): Observable<any[]> {
     return this.http.put<any[]>(`${this.url}` + "api/user/store/", data, {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
@@ -45,8 +45,8 @@ export class MyStoreService {
       data,
       {
         headers: new HttpHeaders({
-          Authorization: "Token " + localStorage.getItem("token")
-        })
+          Authorization: "Token " + localStorage.getItem("token"),
+        }),
       }
     );
   }
@@ -56,8 +56,8 @@ export class MyStoreService {
       `${this.url}` + "useraccount/profile/?search=" + username,
       {
         headers: new HttpHeaders({
-          Authorization: "Token " + localStorage.getItem("token")
-        })
+          Authorization: "Token " + localStorage.getItem("token"),
+        }),
       }
     );
   }
@@ -65,16 +65,16 @@ export class MyStoreService {
   addUser(data): Observable<any[]> {
     return this.http.post<any[]>(`${this.url}` + "api/adduser/", data, {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
   addFridge(data): Observable<any[]> {
     return this.http.post<any[]>(`${this.url}` + "api/fridge/", data, {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
@@ -84,8 +84,8 @@ export class MyStoreService {
       data,
       {
         headers: new HttpHeaders({
-          Authorization: "Token " + localStorage.getItem("token")
-        })
+          Authorization: "Token " + localStorage.getItem("token"),
+        }),
       }
     );
   }
@@ -93,8 +93,8 @@ export class MyStoreService {
   overviewListByPage(url, data): Observable<any[]> {
     return this.http.post<any[]>(`${url}`, data, {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
@@ -104,8 +104,8 @@ export class MyStoreService {
       data,
       {
         headers: new HttpHeaders({
-          Authorization: "Token " + localStorage.getItem("token")
-        })
+          Authorization: "Token " + localStorage.getItem("token"),
+        }),
       }
     );
   }
@@ -113,16 +113,16 @@ export class MyStoreService {
   deletedFridgeListByPage(url, data): Observable<any[]> {
     return this.http.post<any[]>(`${url}`, data, {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
   fridgeDetail(data): Observable<any[]> {
     return this.http.post<any[]>(`${this.url}` + "api/fridge/graph/", data, {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
@@ -132,8 +132,8 @@ export class MyStoreService {
       data,
       {
         headers: new HttpHeaders({
-          Authorization: "Token " + localStorage.getItem("token")
-        })
+          Authorization: "Token " + localStorage.getItem("token"),
+        }),
       }
     );
   }
@@ -141,8 +141,8 @@ export class MyStoreService {
   updatefridge(data): Observable<any[]> {
     return this.http.put<any[]>(`${this.url}` + "api/fridge/", data, {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
@@ -151,8 +151,8 @@ export class MyStoreService {
       `${this.url}` + "api/device/sensor/" + id + "/",
       {
         headers: new HttpHeaders({
-          Authorization: "Token " + localStorage.getItem("token")
-        })
+          Authorization: "Token " + localStorage.getItem("token"),
+        }),
       }
     );
   }
@@ -160,19 +160,19 @@ export class MyStoreService {
   addSensor(data): Observable<any[]> {
     return this.http.post<any[]>(`${this.url}` + "api/sensor/", data, {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
-  ckeckSensor(id, name): Observable<any[]> {
+  ckeckSensor(name): Observable<any[]> {
     // /api/sensor/?id=&&sensor_id=F13-30000013
     return this.http.get<any[]>(
-      `${this.url}` + "api/sensor/?id=" + id + "&&sensor_id=" + name,
+      `${this.url}` + "api/sensor/?sensor_id=" + name,
       {
         headers: new HttpHeaders({
-          Authorization: "Token " + localStorage.getItem("token")
-        })
+          Authorization: "Token " + localStorage.getItem("token"),
+        }),
       }
     );
   }
@@ -180,40 +180,40 @@ export class MyStoreService {
   getSensor(data): Observable<any[]> {
     return this.http.post<any[]>(`${this.url}` + "api/get/sensor/", data, {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
   updateSensor(data): Observable<any[]> {
     return this.http.put<any[]>(`${this.url}` + "api/sensor/", data, {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
   deleteFridge(data): Observable<any[]> {
     return this.http.patch<any[]>(`${this.url}` + "api/fridge/", data, {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
   CreateSensor(data): Observable<any[]> {
     return this.http.post<any[]>(`${this.url}` + "api/device/sensor/", data, {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
   deleteSensor(data): Observable<any[]> {
     return this.http.patch<any[]>(`${this.url}` + "api/sensor/", data, {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 }

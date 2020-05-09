@@ -197,129 +197,208 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="form-group">
-              <div class="row">
-                <div class="col-md-2">
-                  <button pbutton type="submit" class="btn btn-primary">
-                    save
-                  </button>
-                </div>
-              </div>
-            </div>
-           (ngSubmit)="onSubmit(form.valid)"  -->
           </form>
 
-          <h5 class="card-title">Sensor</h5>
-          <form [formGroup]="myForm">
-            <div
-              formArrayName="sensor_data"
-              *ngFor="
-                let a of myForm.get('sensor_data')['controls'];
-                let i = index
-              "
-            >
-              <div [formGroupName]="i" class="SensorDIV">
-                <div class="row mb-3">
-                  <div class="col-sm row">
-                    <label for="name" class="col-md-12">Serial Number:</label>
-                    <p-dropdown
-                      [options]="sensorsList"
-                      formControlName="temperature_sensor"
-                      placeholder="Select a Sensor"
-                      [showClear]="true"
-                      (onChange)="changeSensor($event, i)"
-                      class="col-md-12"
-                    ></p-dropdown>
-                    <!-- <input
-                          type="text"
-                          formControlName="temperature_sensor"
-                          (keyup)="checkSensor($event.target.value, i)"
-                          name="temperature_sensor"
-                        /> -->
-                    <div
-                      *ngIf="
-                        submitted && f[i].controls.temperature_sensor.errors
-                      "
-                      style="color: red;"
-                    >
-                      <div
-                        *ngIf="f[i].controls.temperature_sensor.errors.required"
-                      >
-                        Temperature_sensor is required
-                      </div>
-                    </div>
-
-                    <div
-                      *ngIf="f[i].controls.temperature_sensor.errors"
-                      style="color: red;"
-                    >
+          <h5 class="card-title" style="font-size: 30px;">Sensor</h5>
+          <form [formGroup]="myForm" class="b-0">
+            <div formArrayName="sensor_data">
+              <table
+                class="table"
+                style="
+                  border-top: none;
+                  border-bottom: none;
+                  border-top-color: white;
+                "
+              >
+                <thead>
+                  <tr>
+                    <td style="font-size: 15px; font-weight: bold;">
+                      Serial Number
+                    </td>
+                    <td style="font-size: 15px; font-weight: bold;">
+                      Install At
+                    </td>
+                    <td style="font-size: 15px; font-weight: bold;">
+                      Remove At
+                    </td>
+                    <td style="font-size: 15px; font-weight: bold;"></td>
+                  </tr>
+                </thead>
+                <tbody
+                  *ngFor="
+                    let a of myForm.get('sensor_data')['controls'];
+                    let i = index
+                  "
+                >
+                  <tr [formGroupName]="i" class="SensorDIV">
+                    <td>
+                      <input
+                        type="text"
+                        pInputText
+                        formControlName="temperature_sensor"
+                        name="temperature_sensor"
+                        (blur)="checkSensor($event.target.value, i)"
+                      />
                       <div
                         *ngIf="
-                          f[i].controls.temperature_sensor.errors['isExist']
+                          submitted && f[i].controls.temperature_sensor.errors
                         "
+                        style="color: red;"
                       >
-                        This Sensor is already added in other fridge.
+                        <div
+                          *ngIf="
+                            f[i].controls.temperature_sensor.errors.required
+                          "
+                        >
+                          This Field is required.
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="col-sm row">
-                    <label for="installed_at" class="col-md-12"
-                      >Install At</label
-                    >
-                    <p-calendar
-                      [showTime]="true"
-                      class="col-md-12"
-                      formControlName="installed_at"
-                    ></p-calendar>
-                  </div>
-                  <div class="col-sm row">
-                    <label for="removed_at" class="col-md-12">Remove At</label>
-                    <p-calendar
-                      [showTime]="true"
-                      class="col-md-12"
-                      formControlName="removed_at"
-                    ></p-calendar>
-                  </div>
-                  <div class="col-sm row">
-                    <div class="ui-g-12 ui-md-6">
+                      <div
+                        class="error pull-left"
+                        *ngIf="!f[i].controls.temperature_sensor.valid"
+                      >
+                        <span
+                          *ngIf="
+                            f[i].controls.temperature_sensor.errors['pattern']
+                          "
+                          >Only Hex Char is allowed (i.e 0-9 and A-F).</span
+                        >
+                      </div>
+                      <div
+                        class="error pull-left"
+                        *ngIf="!f[i].controls.temperature_sensor.valid"
+                      >
+                        <span
+                          *ngIf="
+                            f[i].controls.temperature_sensor.errors[
+                              'maxlength'
+                            ] ||
+                            f[i].controls.temperature_sensor.errors['minlength']
+                          "
+                          >It should be 16 character long.</span
+                        >
+                      </div>
+                    </td>
+                    <td>
+                      <p-calendar
+                        formControlName="installed_at"
+                        [showTime]="true"
+                        (onSelect)="onSelectDate($event, i)"
+                      ></p-calendar>
+                      <!-- [minDate]="minimumDate" -->
+                      <div class="row">
+                        <div
+                          *ngIf="submitted && f[i].controls.installed_at.errors"
+                          style="color: red; margin-left: 12px;"
+                        >
+                          <div
+                            *ngIf="f[i].controls.installed_at.errors.required"
+                          >
+                            This Field is required.
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="
+                            !f[i].controls.installed_at.errors &&
+                            f[i].hasError('invalidDate')
+                          "
+                          style="color: red; position: absolute;"
+                        >
+                          <div *ngIf="f[i].errors['invalidDate']">
+                            Select valid date and time. install_at date and time
+                            is not greater or equal to removed_at date.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div
+                          *ngIf="f[i].controls.installed_at.errors"
+                          style="color: red; position: absolute;"
+                        >
+                          <div
+                            *ngIf="f[i].controls.installed_at.errors['isExist']"
+                          >
+                            Please Select valid date and time range for
+                            install_at and remove_at, it should not be
+                            pre-selected range.
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <p-calendar
+                        formControlName="removed_at"
+                        [showTime]="true"
+                        (onSelect)="onSelectDate($event, i)"
+                      ></p-calendar>
+                      <!-- [minDate]="minimumDate" -->
+                      <!-- <div
+                        *ngIf="f[i].hasError('invalidDate')"
+                        style="color: red;"
+                      >
+                        <div *ngIf="f[i].errors['invalidDate']">
+                          Select valid date and time. selected date and time is
+                          not less or equal to install_at date.
+                        </div>
+                      </div> -->
+                      <!-- <div
+                        *ngIf="f[i].controls.removed_at.errors"
+                        style="color: red;"
+                      >
+                        <div *ngIf="f[i].controls.removed_at.errors['isExist']">
+                          Please Select valid date and time.
+                        </div>
+                      </div> -->
+                    </td>
+                    <td>
                       <button
                         pbutton
                         type="button"
-                        class="btn btn-sm btn-danger mt-4"
+                        class="btn btn-sm btn-danger"
                         (click)="remove_sensor(i)"
                       >
-                        X
+                        X Remove Sensor
                       </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div class="float-left">
-              <button type="button" class="btn btn-success" (click)="addItem()">
-                Add New Sensor
-              </button>
-              <button type="button" class="btn btn-info" (click)="showDialog()">
-                Create New Sensor
-              </button>
-              <button
-                type="button"
-                class="btn btn-danger"
-                (click)="deleteFridge()"
-                *ngIf="this.editMode"
-              >
-                Delete this fridge
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                (click)="onSubmit(form.valid, myForm.valid)"
-              >
-                Save
-                <i class="icon-paperplane ml-2"></i>
-              </button>
-            </div>
+            <!-- <div class="float-left"> -->
+            <button
+              type="button"
+              class="btn btn-success mb-4"
+              (click)="addItem()"
+            >
+              + Add New Sensor
+            </button>
+            <!-- </div> -->
           </form>
+          <div class="row ml-1">
+            <button
+              type="button"
+              class="btn btn-primary mr-5"
+              (click)="onBack()"
+            >
+              Cancle
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger mr-5"
+              (click)="deleteFridge()"
+              *ngIf="this.editMode"
+            >
+              Delete this fridge
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="onSubmit(form.valid, myForm.valid)"
+            >
+              Save
+              <i class="icon-paperplane ml-2"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -327,52 +406,37 @@
 </div>
 
 <p-dialog
-  header="Create Sensor"
+  header="Errors..!"
   [(visible)]="display"
-  [style]="{ width: '25vw' }"
+  [style]="{ width: '50vw' }"
   [baseZIndex]="10000"
+  styleClass="dangerDialog"
 >
-  <form class="form-horizontal" [formGroup]="createSensorForm">
-    <div class="form-group row">
-      <div class="ui-g" style="margin-left: auto; margin-right: auto;">
-        <div class="ui-g-12">
-          <label for="device_id">Serial Number</label>
-          <input type="text" formControlName="device_id" name="device_id" />
-          <div
-            class="error"
-            *ngIf="
-              !createSensorForm.controls['device_id'].valid &&
-              isCreateSensorFormSubmitted
-            "
-          >
-            <span
-              *ngIf="
-                createSensorForm.controls['device_id'].errors['required'] ||
-                createSensorForm.get('device_id').errors['whitespace']
-              "
-              >This field is required.</span
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
-
+  <div
+    class="row alert alert-danger"
+    style="margin-right: 10px; margin-left: 10px;"
+  >
+    <ul>
+      <li *ngFor="let item of errorList">{{ item }}</li>
+    </ul>
+  </div>
+  <!-- <div class="alert alert-danger">
+    <ul>
+      <li>THIS IS ERROR.</li>
+      <li>THIS IS ERROR.</li>
+      <li>THIS IS ERROR.</li>
+    </ul>
+  </div> -->
   <p-footer>
-    <button
-      type="button"
-      pButton
-      icon="pi pi-check"
-      (click)="createSensor(createSensorForm.valid)"
-      label="Submit"
-    ></button>
-    <button
-      type="button"
-      pButton
-      icon="pi pi-times"
-      (click)="closeDialog()"
-      label="Cancel"
-      class="ui-button-secondary"
-    ></button>
+    <div class="text-center">
+      <button
+        type="button"
+        pButton
+        (click)="closeDialog()"
+        label="Accept"
+        class="ui-button-primary"
+        style="width: 100%;"
+      ></button>
+    </div>
   </p-footer>
 </p-dialog>

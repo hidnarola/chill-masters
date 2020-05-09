@@ -2,11 +2,13 @@ import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MyStoreService } from "../../../services/mystore.service";
 import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
-import { BaseChartDirective, Color, Label } from "ng2-charts";
-import { ChartOptions, ChartDataSets } from "chart.js";
-import * as pluginAnnotations from "chartjs-plugin-annotation";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
+import * as Highcharts from "highcharts";
+import StockModule from "highcharts/modules/stock";
+StockModule(Highcharts);
+import * as moment from "moment";
+import { tz } from "moment-timezone";
 
 @Component({
   selector: "app-fridge-detail",
@@ -21,100 +23,104 @@ export class FridgeDetailComponent implements OnInit {
   store_name = "";
   fridge_name = "";
   permission: any;
-  minValue: any;
-  maxValue: any;
+  minRate: any;
+  maxRate: any;
   average: any;
+  title = "highchart";
+  convertedData: any = [];
+  elevationData = [];
+  toolTipData: any = [];
+  chartCallback;
+  Highcharts = Highcharts;
+  updateFlag = false;
 
-  public lineChartData: ChartDataSets[] = [
-    { data: [], label: "Temperature" },
-    // { data: [15, 15, 15, 15], label: "Min" },
-    // { data: [29, 29, 29, 29], label: "Max" },
-    // { data: [30, 30, 30, 30], label: "Max" },
-  ];
-  public lineChartLabels: Label[] = [];
+  annotationLineChart = {
+    useHighStocks: true,
+    chart: {
+      type: "area",
+      zoomType: "x",
+      panning: true,
+      panKey: "shift",
+      scrollablePlotArea: {
+        minWidth: 600,
+      },
+    },
 
-  public lineChartOptions: ChartOptions & { annotation: any } = {
-    responsive: true,
-    scales: {
-      // We use this empty structure as a placeholder for dynamic theming.
-      xAxes: [{}],
-      yAxes: [
+    caption: {
+      text: "",
+    },
+
+    title: {
+      text: "Temperature",
+    },
+    exporting: {
+      enabled: true,
+    },
+    credits: {
+      enabled: false,
+    },
+    xAxis: {
+      type: "datetime",
+    },
+    yAxis: {
+      title: "Temperature",
+      plotLines: [
         {
-          id: "y-axis-0",
-          position: "left",
+          value: null,
+          color: "green",
+          dashStyle: "shortdash",
+          width: 2,
+          label: {
+            text: "Last minimum temperature",
+          },
         },
         {
-          id: "y-axis-1",
-          position: "right",
-          gridLines: {
-            color: "rgba(255,0,0,0.3)",
-          },
-          ticks: {
-            fontColor: "red",
+          value: null,
+          color: "red",
+          dashStyle: "shortdash",
+          width: 2,
+          label: {
+            text: "Last minimum temperature",
           },
         },
       ],
     },
-    annotation: {
-      annotations: [
-        // {
-        //   type: "line",
-        //   mode: "vertical",
-        //   scaleID: "x-axis-0",
-        //   value: "March",
-        //   borderColor: "orange",
-        //   borderWidth: 2,
-        //   label: {
-        //     enabled: true,
-        //     fontColor: "orange",
-        //     content: "LineAnno"
-        //   }
-        // }
-      ],
+    tooltip: {
+      formatter: function () {
+        return (
+          "<b>" +
+          " date: </b>" +
+          moment(new Date(this.x)).format("DD-MM-YYYY HH:mm") +
+          "<br> <b>Temperature : </b>" +
+          this.y +
+          "°C"
+        );
+      },
     },
+
+    legend: {
+      enabled: false,
+    },
+
+    series: [
+      {
+        accessibility: {
+          keyboardNavigation: {
+            enabled: false,
+          },
+        },
+        data: [],
+        lineColor: Highcharts.getOptions().colors[1],
+        color: Highcharts.getOptions().colors[2],
+        fillOpacity: 0.5,
+        name: "Temperature",
+        marker: {
+          enabled: false,
+        },
+        threshold: null,
+      },
+    ],
   };
-  public lineChartColors: Color[] = [
-    {
-      // grey
-      backgroundColor: "rgba(0,255,0,0.2)",
-      borderColor: "rgba(0,255,0,1)",
-      pointBackgroundColor: "rgba(148,159,177,1)",
-      pointBorderColor: "#fff",
-      pointHoverBackgroundColor: "#fff",
-      pointHoverBorderColor: "rgba(148,159,177,0.8)",
-    },
-    // {
-    //   backgroundColor: "rgba(0,0,255,0.2)",
-    //   borderColor: "rgba(0,0,255,1)",
-    //   pointBackgroundColor: "",
-    //   pointBorderColor: "",
-    //   pointHoverBackgroundColor: "",
-    //   pointHoverBorderColor: "",
-    //   pointStyle: "",
-    // },
-    // {
-    //   backgroundColor: "rgba(255,255,255,0)",
-    //   borderColor: "rgba(255,0,0,1)",
-    //   pointBackgroundColor: "",
-    //   pointBorderColor: "",
-    //   pointHoverBackgroundColor: "",
-    //   pointHoverBorderColor: "",
-    // },
-    // {
-    //   backgroundColor: "rgba(255,0,0,0.2)",
-    //   borderColor: "rgba(255,0,0,1)",
-    //   pointBackgroundColor: "",
-    //   pointBorderColor: "",
-    //   pointHoverBackgroundColor: "",
-    //   pointHoverBorderColor: "",
-    // }
-  ];
-  public lineChartLegend = true;
-  public lineChartType = "line";
-  public lineChartPlugins = [pluginAnnotations];
-
-  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
-
   constructor(
     private Activatedroute: ActivatedRoute,
     private router: Router,
@@ -159,20 +165,32 @@ export class FridgeDetailComponent implements OnInit {
         }
 
         this.permission = res[`permission`];
-        this.data[`graph`].map((x) =>
-          this.lineChartLabels.push(x[`measured_at`])
-        );
-        console.log(" : data ==> ", this.lineChartLabels);
-        const tempdata = [];
-        const newdata1 = this.data[`graph`].map((x) => {
-          tempdata.push(x[`celsius`]);
-          this.lineChartData[0][`data`].push(x[`celsius`]);
+        this.data[`graph`].map((x) => {
+          const obj = [x[`measured_at`], parseFloat(x[`celsius`])];
+          const obj1 = x[`measured_at`];
+          this.elevationData.push(obj);
         });
-        console.log(" : data ==> ", this.lineChartData[0][`data`]);
 
+        for (let index = 0; index < this.elevationData.length; index++) {
+          const dateStr = JSON.stringify(this.elevationData[index][0]);
+          const splitStr = dateStr.split(",");
+          const date = splitStr[0];
+          const splitDate = splitStr[0].split('"');
+          console.log(" : ==> ", Date.parse(splitDate[1]));
+          const obj = [Date.parse(splitDate[1]), this.elevationData[index][1]];
+          this.convertedData.push(obj);
+        }
+        setTimeout(() => {
+          this.lineChartCalling();
+        }, 1000);
+        // console.log(" : data ==> ", this.lineChartLabels);
+        const tempdata = [];
+        const newdata1yax = this.data[`graph`].map((x) => {
+          tempdata.push(x[`celsius`]);
+        });
         console.log(tempdata);
-        this.minValue = Math.min(...tempdata);
-        this.maxValue = Math.max(...tempdata);
+        this.minRate = Math.min(...tempdata);
+        this.maxRate = Math.max(...tempdata);
 
         let total = 0;
         for (let i = 0; i < tempdata.length; i++) {
@@ -195,6 +213,14 @@ export class FridgeDetailComponent implements OnInit {
         }
       }
     );
+  }
+
+  lineChartCalling() {
+    console.log("converte", this.convertedData);
+    const data = (this.annotationLineChart.series[0].data = this.convertedData);
+    this.annotationLineChart.yAxis.plotLines[0].value = this.minRate;
+    this.annotationLineChart.yAxis.plotLines[1].value = this.maxRate;
+    this.updateFlag = true;
   }
 
   back() {

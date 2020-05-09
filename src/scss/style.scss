@@ -72,3 +72,16 @@ span.navbar-toggler-icon:before {
   color: #000;
   font-weight: 600;
 }
+
+// dialog styles
+
+.dangerDialog .ui-dialog-titlebar {
+  background-color: #ff0000 !important;
+  color: #ffffff !important;
+  display: flex;
+  justify-content: center;
+  font-size: larger;
+}
+.dangerDialog .pi-times:before {
+  content: "" !important;
+}

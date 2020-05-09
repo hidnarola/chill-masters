@@ -17,6 +17,8 @@ import { ChartsModule } from "ng2-charts";
 import { CalendarModule } from "primeng/calendar";
 import { RestoreFridgeComponent } from "./restore-fridge/restore-fridge.component";
 import { CheckboxModule } from "primeng/checkbox";
+import { InputTextModule } from "primeng/inputtext";
+import { HighchartsChartModule } from "highcharts-angular";
 
 @NgModule({
   declarations: [
@@ -37,9 +39,11 @@ import { CheckboxModule } from "primeng/checkbox";
     ButtonModule,
     RadioButtonModule,
     AutocompleteLibModule,
+    HighchartsChartModule,
     ChartsModule,
     CalendarModule,
     CheckboxModule,
+    InputTextModule,
   ],
 })
 export class ManageStoreModule {}

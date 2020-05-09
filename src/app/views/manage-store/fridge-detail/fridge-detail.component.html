@@ -13,33 +13,34 @@
 
         <div class="card-body">
           <div class="row">
-            <div class="flex GraphWrapBox mb-5">
+            <!-- <div class="flex GraphWrapBox mb-5"> -->
+            <div class="col-md-11 m-auto">
               <div class="flex-item">
                 <div style="display: block;">
-                  <canvas
-                    baseChart
-                    width="1000"
-                    height="350"
-                    [datasets]="lineChartData"
-                    [labels]="lineChartLabels"
-                    [options]="lineChartOptions"
-                    [colors]="lineChartColors"
-                    [legend]="lineChartLegend"
-                    [chartType]="lineChartType"
-                    [plugins]="lineChartPlugins"
-                  ></canvas>
+                  <div id="container">
+                    <!-- [constructorType]="stockChart" -->
+                    <highcharts-chart
+                      [Highcharts]="Highcharts"
+                      [options]="annotationLineChart"
+                      [callbackFunction]="chartCallback"
+                      [(update)]="updateFlag"
+                      [oneToOne]="true"
+                      style="width: 100%; height: 100%; display: block;"
+                    >
+                    </highcharts-chart>
+                  </div>
                 </div>
               </div>
               <div
                 class="d-flex mt-3 justify-content-center"
                 *ngIf="
-                  minValue != 'Infinity' &&
-                  maxValue != 'Infinity' &&
+                  minRate != 'Infinity' &&
+                  maxRate != 'Infinity' &&
                   average != 'NaN'
                 "
               >
-                <p class="ml-2 mr-2">Min : {{ minValue }}</p>
-                <p class="ml-2 mr-2">Max : {{ maxValue }}</p>
+                <p class="ml-2 mr-2">Min : {{ minRate }}</p>
+                <p class="ml-2 mr-2">Max : {{ maxRate }}</p>
                 <p class="ml-2 mr-2">Average : {{ average }}</p>
               </div>
             </div>

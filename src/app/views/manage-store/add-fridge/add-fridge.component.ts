@@ -1,17 +1,21 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MyStoreService } from "../../../services/mystore.service";
+import * as moment from "moment";
+
 import {
   FormBuilder,
   FormGroup,
   FormControl,
   Validators,
   FormArray,
+  ValidatorFn,
+  AbstractControl,
 } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import _ from "lodash";
-import { NgIf } from "@angular/common";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-add-fridge",
@@ -35,11 +39,16 @@ export class AddFridgeComponent implements OnInit {
   currentSensor: number = null;
   updatedSensor: any = [];
   getSensorsById: any = [];
+  finalSensorData: any = [];
   editMode = false;
   PageTitle = "Add New Fridge";
   display: boolean = false;
+  currentIndex = null;
+  tempSensorData: any = [];
+  errorList: any = [];
 
   selectedStorenmae: any;
+  // minimumDate = new Date();
 
   constructor(
     private route: ActivatedRoute,
@@ -57,7 +66,7 @@ export class AddFridgeComponent implements OnInit {
 
   ngOnInit(): void {
     this.storelist();
-    this.sensorList();
+    // this.sensorList();
     this.form = this.fb.group({
       store: new FormControl("", [
         Validators.required,
@@ -81,7 +90,7 @@ export class AddFridgeComponent implements OnInit {
     });
 
     this.myForm = this.fb.group({
-      sensor_data: this.fb.array([this.createItem()]),
+      sensor_data: this.fb.array([]),
     });
 
     this.createSensorForm = this.fb.group({
@@ -166,12 +175,13 @@ export class AddFridgeComponent implements OnInit {
         }
         this.getSensorsById.forEach((element, index) => {
           console.log(" : element ==> ", element);
+          console.log(" : element ==> ", element);
           this.myForm.controls[`sensor_data`]["controls"][index].controls[
             `id`
           ].setValue(element.id);
           this.myForm.controls[`sensor_data`]["controls"][index].controls[
             `temperature_sensor`
-          ].setValue(element.temperature_sensor.device_id);
+          ].setValue(element.temperature_sensor);
           if (element.installed_at != null) {
             this.myForm.controls[`sensor_data`]["controls"][index].controls[
               `installed_at`
@@ -202,16 +212,188 @@ export class AddFridgeComponent implements OnInit {
   }
 
   createItem() {
-    return this.fb.group({
-      id: [null],
-      temperature_sensor: ["", Validators.required],
-      installed_at: [null],
-      removed_at: [null],
-    });
+    return this.fb.group(
+      {
+        id: [null],
+        temperature_sensor: [
+          "",
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(16),
+            Validators.minLength(16),
+            Validators.pattern(/^[0-9A-F]+$/),
+          ]),
+        ],
+        installed_at: [null, Validators.compose([Validators.required])],
+        removed_at: [null, []],
+      },
+      {
+        validators: this.checkDateValidator,
+      }
+    );
+  }
+
+  onSelectDate(e, i) {
+    console.log(" : i ==> ", i);
+    const installAtDate = this.myForm.controls["sensor_data"].value[i][
+      `installed_at`
+    ];
+    const removeAtDate = this.myForm.controls["sensor_data"].value[i][
+      `removed_at`
+    ];
+    const momentA = moment(installAtDate, "DD/MM/YYYY").set({ second: 0 });
+    const momentB = moment(removeAtDate, "DD/MM/YYYY").set({ second: 0 });
+
+    if (this.myForm.value.sensor_data.length > 1) {
+      console.log(" : 1 ==> ", 1);
+      for (
+        let index = 0;
+        index < this.myForm.value.sensor_data.length;
+        index++
+      ) {
+        const data = this.myForm.value.sensor_data[index];
+        if (index !== i) {
+          const PreviousInstallAt = moment(
+            data.installed_at,
+            "DD/MM/YYYY"
+          ).set({ second: 0 });
+          const PreviousRemoveAt = moment(data.removed_at, "DD/MM/YYYY").set({
+            second: 0,
+          });
+
+          if (
+            moment(momentA).isBetween(
+              PreviousInstallAt,
+              PreviousRemoveAt,
+              null,
+              "[]"
+            ) === true
+          ) {
+            console.log(" : 1 ==> ", 1);
+            this.myForm.controls.sensor_data["controls"][
+              i
+            ].controls.installed_at.setErrors({ isExist: true });
+            break;
+          } else if (
+            moment(momentB).isBetween(
+              PreviousInstallAt,
+              PreviousRemoveAt,
+              null,
+              "[]"
+            ) === true
+          ) {
+            console.log(" : 2 ==> ", 2);
+            this.myForm.controls.sensor_data["controls"][
+              i
+            ].controls.installed_at.setErrors({ isExist: true });
+            break;
+          } else if (
+            moment(PreviousInstallAt).isBetween(
+              momentA,
+              momentB,
+              null,
+              "[]"
+            ) === true ||
+            moment(PreviousRemoveAt).isBetween(momentA, momentB, null, "[]") ===
+              true
+          ) {
+            this.myForm.controls.sensor_data["controls"][
+              i
+            ].controls.installed_at.setErrors({ isExist: true });
+            break;
+          } else if (
+            data.installed_at !== null &&
+            data.removed_at === null &&
+            moment(momentA).isSameOrAfter(PreviousInstallAt) === true
+          ) {
+            this.myForm.controls.sensor_data["controls"][
+              i
+            ].controls.installed_at.setErrors({ isExist: true });
+            break;
+          } else {
+            this.myForm.controls.sensor_data["controls"][
+              i
+            ].controls.installed_at.updateValueAndValidity();
+          }
+        }
+      }
+      // this.myForm.value.sensor_data.map((data, index) => {
+      //   if (index !== i) {
+      //     const PreviousInstallAt = moment(
+      //       data.installed_at,
+      //       "DD/MM/YYYY"
+      //     ).set({ second: 0 });
+      //     const PreviousRemoveAt = moment(data.removed_at, "DD/MM/YYYY").set({
+      //       second: 0,
+      //     });
+
+      //     if (
+      //       moment(momentA).isBetween(
+      //         PreviousInstallAt,
+      //         PreviousRemoveAt,
+      //         null,
+      //         "[]"
+      //       ) === true
+      //     ) {
+      //       console.log(" : 1 ==> ", 1);
+      //       this.myForm.controls.sensor_data["controls"][
+      //         i
+      //       ].controls.installed_at.setErrors({ isExist: true });
+      //       break;
+      //     } else if (
+      //       moment(momentB).isBetween(
+      //         PreviousInstallAt,
+      //         PreviousRemoveAt,
+      //         null,
+      //         "[]"
+      //       ) === true
+      //     ) {
+      //       console.log(" : 2 ==> ", 2);
+      //       this.myForm.controls.sensor_data["controls"][
+      //         i
+      //       ].controls.installed_at.setErrors({ isExist: true });
+      //     } else if (
+      //       moment(PreviousInstallAt).isBetween(
+      //         momentA,
+      //         momentB,
+      //         null,
+      //         "[]"
+      //       ) === true ||
+      //       moment(PreviousRemoveAt).isBetween(momentA, momentB, null, "[]") ===
+      //         true
+      //     ) {
+      //       this.myForm.controls.sensor_data["controls"][
+      //         i
+      //       ].controls.installed_at.setErrors({ isExist: true });
+      //     } else {
+      //       this.myForm.controls.sensor_data["controls"][
+      //         i
+      //       ].controls.installed_at.updateValueAndValidity();
+      //     }
+      //   }
+      // });
+
+      console.log(" : this.myForm ==> ", this.myForm);
+    }
+  }
+
+  checkDateValidator(g: FormGroup) {
+    const i = g.get("installed_at").value;
+    const r = g.get("removed_at").value;
+    const momentA = moment(i, "DD/MM/YYYY").set({ second: 0 });
+    const momentB = moment(r, "DD/MM/YYYY").set({ second: 0 });
+
+    let e;
+    if (momentA.isSameOrAfter(momentB)) {
+      e = { invalidDate: true };
+    } else {
+      e = null;
+    }
+    console.log({ e });
+    return e;
   }
 
   addItem() {
-    // this.submitted = false;
     this.sensor_data = this.myForm.get("sensor_data") as FormArray;
     this.sensor_data.push(this.createItem());
   }
@@ -313,110 +495,40 @@ export class AddFridgeComponent implements OnInit {
     );
   }
 
-  changeSensor(e, i) {
-    let inserted_id = "";
-    if (this.editMode === true) {
-      const temp_data = this.getSensorsById.find(
-        (el) => el.temperature_sensor[`device_id`] == e.value
-      );
-
-      if (temp_data != undefined) {
-        inserted_id = temp_data[`id`];
-      } else {
-        inserted_id = "";
-      }
-    }
-    this.service.ckeckSensor(inserted_id, e.value).subscribe(
-      (res) => {
-        console.log(
-          " : res, res[`exist`] === true ==> ",
-          res,
-          res[`exist`] === true
-        );
-        if (res[`exist`] === true) {
-          this.myForm.controls.sensor_data["controls"][
-            i
-          ].controls.temperature_sensor.setErrors({ isExist: true });
-          this.myForm.updateValueAndValidity();
-        }
-      },
-      (err) => {
-        console.log(" : err ==> ", err);
-        this.spinner.hide();
-        if (err.error[`detail`]) {
-          this.toastr.error(err.error[`detail`], "Error!", {
-            timeOut: 3000,
-          });
-        } else if (err.error[`error`]) {
-          this.toastr.error(err.error[`error`], "Error!", {
-            timeOut: 3000,
-          });
-        }
-      }
-    );
-  }
-
-  // checkSensor(e, i) {
-  //   console.log(" : e.value, i ==> ", e, i);
-  //   this.service.ckeckSensor(e).subscribe(
-  //     res => {
-  //       if (res[`exist`] === true) {
-  //         this.myForm.controls.sensor_data["controls"][
-  //           i
-  //         ].controls.temperature_sensor.setErrors({ isExist: true });
-  //         this.myForm.updateValueAndValidity();
-  //       }
-  //     },
-  //     err => {
-  //       console.log(" : err ==> ", err);
-  //       this.spinner.hide();
-  //       if (err.error[`detail`]) {
-  //         this.toastr.error(err.error[`detail`], "Error!", {
-  //           timeOut: 3000
-  //         });
-  //       } else if (err.error[`error`]) {
-  //         this.toastr.error(err.error[`error`], "Error!", {
-  //           timeOut: 3000
-  //         });
-  //       }
-  //     }
-  //   );
-  // }
-
-  sensorList() {
-    const req_data = {
-      fridge_id: parseInt(this.fridge_id, 10),
-      store_id: parseInt(this.store_id, 10),
-    };
-    this.service.sensorList(this.store_id).subscribe(
-      (res) => {
-        const sensor = res;
-        this.sensorsList = [];
-        if (sensor.length > 0) {
-          for (const item of sensor) {
-            this.sensorsList.push({
-              label: item.device_id,
-              value: item.device_id,
-              selected: false,
+  checkSensor(e, i) {
+    console.log(" : e.value, i ==> ", e);
+    if (e) {
+      this.service.ckeckSensor(e).subscribe(
+        (res) => {
+          console.log(" : res ==> ", res);
+          if (res[`warning`]) {
+            Swal.fire({
+              title: "Please Confirm?",
+              text: res[`warning`],
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "OK",
+              cancelButtonText: "CANCEL",
             });
           }
-          this.originalSensorsList = [...this.sensorsList];
-          console.log(" : this.sensorList ==> ", this.sensorsList);
+        },
+        (err) => {
+          console.log(" : err ==> ", err);
+          this.spinner.hide();
+          if (err.error[`detail`]) {
+            this.toastr.error(err.error[`detail`], "Error!", {
+              timeOut: 3000,
+            });
+          } else if (err.error[`error`]) {
+            this.toastr.error(err.error[`error`], "Error!", {
+              timeOut: 3000,
+            });
+          }
         }
-      },
-      (err) => {
-        console.log(" : err ==> ", err);
-        if (err.error[`detail`]) {
-          this.toastr.error(err.error[`detail`], "Error!", {
-            timeOut: 3000,
-          });
-        } else if (err.error[`error`]) {
-          this.toastr.error(err.error[`error`], "Error!", {
-            timeOut: 3000,
-          });
-        }
-      }
-    );
+      );
+    } else {
+      // this.submitted = true;
+    }
   }
 
   // Remove white spaces
@@ -469,7 +581,7 @@ export class AddFridgeComponent implements OnInit {
             this.createSensorForm.reset();
             this.isCreateSensorFormSubmitted = false;
             this.display = false;
-            this.sensorList();
+            // this.sensorList();
             this.spinner.hide();
           }
         },
@@ -491,70 +603,157 @@ export class AddFridgeComponent implements OnInit {
   }
 
   onSubmit(formValid, myFormvalid) {
+    this.finalSensorData = [];
     this.isFormSubmitted = true;
     this.submitted = true;
     if (formValid && myFormvalid) {
-      if (this.validateSensorsList()) {
-        this.toastr.show("Duplicate Sensor", "Alert");
-        return;
-      }
+      // if (this.validateSensorsList()) {
+      //   this.toastr.show("Duplicate Sensor", "Alert");
+      //   return;
+      // }
       this.spinner.show();
       if (this.store_id != null && this.fridge_id != null) {
+        for (
+          let index = 0;
+          index < this.myForm.value.sensor_data.length;
+          index++
+        ) {
+          const element = this.myForm.value.sensor_data[index];
+          let obj;
+          if (element.removed_at !== null) {
+            obj = {
+              id: element.id,
+              temperature_sensor: element.temperature_sensor,
+              installed_at: moment(element.installed_at)
+                .utc()
+                .set({ second: 0 })
+                .format(),
+              removed_at: moment(element.removed_at)
+                .utc()
+                .set({ second: 0 })
+                .format(),
+            };
+          } else {
+            obj = {
+              id: element.id,
+              temperature_sensor: element.temperature_sensor,
+              installed_at: moment(element.installed_at)
+                .utc()
+                .set({ second: 0 })
+                .format(),
+              removed_at: null,
+            };
+          }
+
+          this.finalSensorData.push(obj);
+        }
+
         const updatedData = {
           ...this.form.value,
           id: parseInt(this.fridge_id, 10),
           store: parseInt(this.store_id, 10),
         };
         const UpdateSensors = {
-          ...this.myForm.value,
-          fridge: this.fridge_id,
+          sensor_data: this.finalSensorData,
+          fridge_data: updatedData,
           store: parseInt(this.store_id, 10),
         };
 
-        this.service.updatefridge(updatedData).subscribe(
-          (res) => {
-            if (res[`success`]) {
-              this.service.updateSensor(UpdateSensors).subscribe(
-                (result) => {
-                  console.log(" : res ==> ");
-                  if (result[`detail`]) {
-                    this.toastr.success(
-                      "Fridge Updated Sucessfully",
-                      "Success!",
-                      {
-                        timeOut: 3000,
-                      }
-                    );
-                    this.form.reset();
-                    this.myForm.reset();
-                    this.router.navigate(["store/fridge_detail"], {
-                      queryParams: {
-                        store_id: this.store_id,
-                        fridge_id: this.fridge_id,
-                      },
-                    });
-                    this.spinner.hide();
-                  }
+        this.service.updateSensor(UpdateSensors).subscribe(
+          (result) => {
+            console.log(" : res ==> ");
+            if (result[`detail`]) {
+              this.toastr.success("Fridge Updated Sucessfully", "Success!", {
+                timeOut: 3000,
+              });
+              this.form.reset();
+              this.myForm.reset();
+              this.router.navigate(["store/fridge_detail"], {
+                queryParams: {
+                  store_id: this.store_id,
+                  fridge_id: this.fridge_id,
                 },
-                (err) => {
-                  this.spinner.hide();
-                  if (err.error[`detail`]) {
-                    this.toastr.error(err.error[`detail`], "Error!", {
-                      timeOut: 3000,
-                    });
-                  } else if (err.error[`error`]) {
-                    this.toastr.error(err.error[`error`], "Error!", {
-                      timeOut: 3000,
-                    });
-                  }
-                }
-              );
+              });
+              this.spinner.hide();
             }
           },
           (err) => {
-            console.log(" : err ==> ", err);
             this.spinner.hide();
-            if (err.error[`detail`]) {
+            this.errorList = [];
+            if (err.error.already_available_list) {
+              for (
+                let index = 0;
+                index < err.error.already_available_list.length;
+                index++
+              ) {
+                const element = err.error.already_available_list[index];
+                console.log(" : element ==> ", element);
+                const current_temperature_sensor =
+                  element.current_temperature_sensor;
+                let current_installed_at = null;
+                let current_removed_at = null;
+                let old_installed_at = null;
+                let old_removed_at = null;
+                if (element.current_installed_at != null) {
+                  current_installed_at = moment(
+                    new Date(element.current_installed_at)
+                  ).format("MM-DD-YYYY HH:mm");
+                } else {
+                  current_installed_at = null;
+                }
+
+                if (element.current_removed_at != null) {
+                  current_removed_at = moment(
+                    new Date(element.current_removed_at)
+                  ).format("MM-DD-YYYY HH:mm");
+                } else {
+                  current_removed_at = null;
+                }
+
+                if (element.old_installed_at != null) {
+                  old_installed_at = moment(
+                    new Date(element.old_installed_at)
+                  ).format("MM-DD-YYYY HH:mm");
+                } else {
+                  old_installed_at = null;
+                }
+
+                if (element.old_removed_at != null) {
+                  old_removed_at = moment(
+                    new Date(element.old_removed_at)
+                  ).format("MM-DD-YYYY HH:mm");
+                } else {
+                  old_removed_at = null;
+                }
+
+                const old_sensor_fridge_name = element.old_sensor_fridge_name;
+                const old_sensor_temperature_sensor =
+                  element.old_sensor_temperature_sensor;
+                const errorString =
+                  current_temperature_sensor +
+                  " --> " +
+                  current_installed_at +
+                  " to " +
+                  current_removed_at +
+                  " is already time slot registered by " +
+                  old_sensor_fridge_name +
+                  " and " +
+                  old_sensor_temperature_sensor +
+                  " with time " +
+                  old_installed_at +
+                  " to " +
+                  old_removed_at;
+
+                this.errorList.push(errorString);
+              }
+              // this.errorList =  ;
+              this.display = true;
+              console.log(" : err ==> ", this.errorList);
+            } else if (err.error[`detail`]) {
+              this.toastr.error(err.error[`detail`], "Error!", {
+                timeOut: 3000,
+              });
+            } else if (err.error[`detail`]) {
               this.toastr.error(err.error[`detail`], "Error!", {
                 timeOut: 3000,
               });
@@ -566,53 +765,134 @@ export class AddFridgeComponent implements OnInit {
           }
         );
       } else {
-        this.service.addFridge(this.form.value).subscribe(
-          (res) => {
-            console.log(" : res ==> ", res);
-            if (res[`fridge_id`]) {
-              const id = res[`fridge_id`];
-              const sensor_obj = {
-                ...this.myForm.value,
-                fridge: id,
-                store: parseInt(this.store_id, 10),
-              };
-              this.service.addSensor(sensor_obj).subscribe(
-                (result) => {
-                  console.log(" : res ==> ", result);
-                  if (result[`detail`]) {
-                    this.toastr.success(
-                      "Fridge Added Sucessfully.",
-                      "Success!",
-                      {
-                        timeOut: 3000,
-                      }
-                    );
-                    this.form.reset();
-                    this.myForm.reset();
-                    this.router.navigate(["store/overview/" + this.store_id]);
-                    this.spinner.hide();
-                  }
-                },
-                (err) => {
-                  console.log(" : err ==> ", err);
-                  this.spinner.hide();
-                  if (err.error[`detail`]) {
-                    this.toastr.error(err.error[`detail`], "Error!", {
-                      timeOut: 3000,
-                    });
-                  } else if (err.error[`error`]) {
-                    this.toastr.error(err.error[`error`], "Error!", {
-                      timeOut: 3000,
-                    });
-                  }
-                }
-              );
+        console.log(" : this.myForm ==> ", this.myForm);
+        // return false;
+        for (
+          let index = 0;
+          index < this.myForm.value.sensor_data.length;
+          index++
+        ) {
+          const element = this.myForm.value.sensor_data[index];
+          let obj;
+          if (element.removed_at !== null) {
+            obj = {
+              id: element.id,
+              temperature_sensor: element.temperature_sensor,
+              installed_at: moment(element.installed_at)
+                .utc()
+                .set({ second: 0 })
+                .format(),
+              removed_at: moment(element.removed_at)
+                .utc()
+                .set({ second: 0 })
+                .format(),
+            };
+          } else {
+            obj = {
+              id: element.id,
+              temperature_sensor: element.temperature_sensor,
+              installed_at: moment(element.installed_at)
+                .utc()
+                .set({ second: 0 })
+                .format(),
+              removed_at: null,
+            };
+          }
+
+          this.finalSensorData.push(obj);
+        }
+
+        const sensor_obj = {
+          sensor_data: this.finalSensorData,
+          fridge_data: this.form.value,
+          store: parseInt(this.store_id, 10),
+        };
+        this.service.addSensor(sensor_obj).subscribe(
+          (result) => {
+            console.log(" : res ==> ", result);
+            if (result[`detail`]) {
+              this.toastr.success("Fridge Added Sucessfully.", "Success!", {
+                timeOut: 3000,
+              });
+              this.form.reset();
+              this.myForm.reset();
+              this.router.navigate(["store/overview/" + this.store_id]);
+              this.spinner.hide();
             }
           },
           (err) => {
-            console.log(" : err ==> ", err.error);
             this.spinner.hide();
-            if (err.error[`detail`]) {
+            this.errorList = [];
+            if (err.error.already_available_list) {
+              for (
+                let index = 0;
+                index < err.error.already_available_list.length;
+                index++
+              ) {
+                const element = err.error.already_available_list[index];
+                console.log(" : element ==> ", element);
+                const current_temperature_sensor =
+                  element.current_temperature_sensor;
+                let current_installed_at = null;
+                let current_removed_at = null;
+                let old_installed_at = null;
+                let old_removed_at = null;
+                if (element.current_installed_at != null) {
+                  current_installed_at = moment(
+                    new Date(element.current_installed_at)
+                  ).format("MM-DD-YYYY HH:mm");
+                } else {
+                  current_installed_at = null;
+                }
+
+                if (element.current_removed_at != null) {
+                  current_removed_at = moment(
+                    new Date(element.current_removed_at)
+                  ).format("MM-DD-YYYY HH:mm");
+                } else {
+                  current_removed_at = null;
+                }
+
+                if (element.old_installed_at != null) {
+                  old_installed_at = moment(
+                    new Date(element.old_installed_at)
+                  ).format("MM-DD-YYYY HH:mm");
+                } else {
+                  old_installed_at = null;
+                }
+
+                if (element.old_removed_at != null) {
+                  old_removed_at = moment(
+                    new Date(element.old_removed_at)
+                  ).format("MM-DD-YYYY HH:mm");
+                } else {
+                  old_removed_at = null;
+                }
+
+                const old_sensor_fridge_name = element.old_sensor_fridge_name;
+                const old_sensor_temperature_sensor =
+                  element.old_sensor_temperature_sensor;
+                const errorString =
+                  current_temperature_sensor +
+                  " --> " +
+                  current_installed_at +
+                  " to " +
+                  current_removed_at +
+                  " is already time slot registered by " +
+                  old_sensor_fridge_name +
+                  " and " +
+                  old_sensor_temperature_sensor +
+                  " with time " +
+                  old_installed_at +
+                  " to " +
+                  old_removed_at;
+
+                this.errorList.push(errorString);
+              }
+              // this.errorList =  ;
+              this.display = true;
+              console.log(" : err ==> ", this.errorList);
+            } else if (err.error[`detail`]) {
               this.toastr.error(err.error[`detail`], "Error!", {
                 timeOut: 3000,
               });

@@ -98,7 +98,7 @@ export class UserlistComponent implements OnInit, OnDestroy {
         this.displaydata();
       } else {
         setTimeout(() => {
-          console.log(" : this.store[0][`id`] ==> ", this.store[0][`id`]);
+          // console.log(" : this.store[0][`id`] ==> ", this.store[0][`id`]);
           if (this.store.length > 0) {
             this.router.navigate([`store/users/` + this.store[0][`id`]]);
             this.displayPage = true;
