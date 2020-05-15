@@ -16,27 +16,22 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Username"
-                  [(ngModel)]="formData.username"
-                  name="username"
-                  formControlName="username"
-                  id="username"
+                  placeholder="Name"
+                  [(ngModel)]="formData.first_name"
+                  name="first_name"
+                  formControlName="first_name"
+                  id="first_name"
                   required
                 />
                 <div
                   class="error"
-                  *ngIf="!regForm.controls['username'].valid && isFormSubmitted"
+                  *ngIf="
+                    !regForm.controls['first_name'].valid && isFormSubmitted
+                  "
                 >
-                  <span *ngIf="regForm.controls['username'].errors['required']"
+                  <span
+                    *ngIf="regForm.controls['first_name'].errors['required']"
                     >This field is required.</span
-                  >
-                </div>
-                <div
-                  class="error pull-left"
-                  *ngIf="!regForm.controls['username'].valid"
-                >
-                  <span *ngIf="regForm.controls['username'].errors['pattern']"
-                    >Can not allow content space.</span
                   >
                 </div>
               </div>

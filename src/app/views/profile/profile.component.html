@@ -21,21 +21,21 @@
                       <input
                         type="text"
                         class="form-control"
-                        placeholder="Username"
-                        [(ngModel)]="formData.username"
-                        name="username"
-                        formControlName="username"
-                        id="username"
+                        placeholder="Name"
+                        [(ngModel)]="formData.first_name"
+                        name="first_name"
+                        formControlName="first_name"
+                        id="first_name"
                         required
                       />
                       <div
                         class="error"
                         *ngIf="
-                          !form.controls['username'].valid && isFormSubmitted
+                          !form.controls['first_name'].valid && isFormSubmitted
                         "
                       >
                         <span
-                          *ngIf="form.controls['username'].errors['required']"
+                          *ngIf="form.controls['first_name'].errors['required']"
                           >This field is required.</span
                         >
                       </div>
@@ -111,7 +111,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                   <div class="col-md">
                     <div
                       class="ui-g"
@@ -149,7 +149,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div class="row">
                   <div class="col-3">
                     <button type="submit" class="btn btn-primary px-4">
@@ -173,7 +173,7 @@
                     >
                       <form [formGroup]="chnagepassForm">
                         <div class="mb-3 mt-3">
-                          <label for="basic-url">Your vanity URL</label>
+                          <label for="basic-url">Old Password</label>
                           <div class="input-group">
                             <!-- <label class="control-label">New Password</label> -->
                             <div class="input-group-prepend">

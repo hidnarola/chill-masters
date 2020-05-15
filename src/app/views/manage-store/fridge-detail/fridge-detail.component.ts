@@ -26,6 +26,7 @@ export class FridgeDetailComponent implements OnInit {
   minRate: any;
   maxRate: any;
   average: any;
+  graphDataLength: any;
   title = "highchart";
   convertedData: any = [];
   elevationData = [];
@@ -152,6 +153,7 @@ export class FridgeDetailComponent implements OnInit {
       (res) => {
         console.log(" : res ==> ", res);
         this.data = res;
+        this.graphDataLength = this.data[`graph`].length;
         this.store_name = res[`store_name`];
         this.fridge_name = res[`fridge_name`];
         this.form.controls[`content`].setValue(res[`fridge_content`]);

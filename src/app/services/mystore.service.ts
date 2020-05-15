@@ -40,8 +40,16 @@ export class MyStoreService {
   }
 
   changeAlert(data): Observable<any[]> {
+    return this.http.patch<any[]>(`${this.url}` + "api/user/store/", data, {
+      headers: new HttpHeaders({
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
+    });
+  }
+
+  changeMyalert(data): Observable<any[]> {
     return this.http.put<any[]>(
-      `${this.url}` + "useraccount/update/alert/",
+      `${this.url}` + "api/user/store/myalert/",
       data,
       {
         headers: new HttpHeaders({

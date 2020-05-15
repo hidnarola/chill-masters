@@ -20,6 +20,8 @@
                 <th><a>Name</a></th>
                 <th><a>Permissions</a></th>
                 <th><a>Manage Users</a></th>
+                <th><a>Manage Alerts Setting</a></th>
+                <th><a>Alerts</a></th>
               </tr>
             </thead>
             <tbody>
@@ -46,6 +48,19 @@
                     >View</a
                   >
                 </td>
+                <td>
+                  <a
+                    style="color: #34b7eb; cursor: pointer;"
+                    (click)="showDialog2(item)"
+                    >Manage</a
+                  >
+                </td>
+                <td *ngIf="item.alerts === true">
+                  {{ "Activated" }}
+                </td>
+                <td *ngIf="item.alerts === false">
+                  {{ "Deactivated" }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -54,3 +69,68 @@
     </div>
   </div>
 </div>
+
+<p-dialog
+  header="Change Alerts"
+  [(visible)]="display2"
+  [style]="{ width: '25vw' }"
+  [baseZIndex]="10000"
+>
+  <form class="form-horizontal" [formGroup]="alertForm">
+    <div class="form-group">
+      <div class="ui-g" style="margin-left: auto; margin-right: auto;">
+        <div class="row">
+          <div class="col-md">
+            <div class="ui-g" style="width: 250px; margin-bottom: 10px;">
+              <div class="ui-g-12">
+                <p-checkbox
+                  label="Receive alert emails"
+                  name="alert_email"
+                  formControlName="alert_email"
+                  [(ngModel)]="checked"
+                  binary="true"
+                ></p-checkbox>
+              </div>
+              <div class="ui-g-12">
+                <p-checkbox
+                  label="Receive alert SMSes"
+                  name="alert_sms"
+                  formControlName="alert_sms"
+                  [(ngModel)]="checked1"
+                  binary="true"
+                ></p-checkbox>
+              </div>
+              <div class="ui-g-12">
+                <p-checkbox
+                  label="Receive alert phone calls"
+                  name="alert_phonecall"
+                  formControlName="alert_phonecall"
+                  [(ngModel)]="checked2"
+                  binary="true"
+                ></p-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <p-footer>
+    <button
+      class="pull-left"
+      type="button"
+      pButton
+      icon="pi pi-check"
+      (click)="changeEmailAlert()"
+      label="Submit"
+    ></button>
+    <button
+      type="button"
+      pButton
+      icon="pi pi-times"
+      (click)="display2 = false"
+      label="Cancel"
+      class="ui-button-secondary"
+    ></button>
+  </p-footer>
+</p-dialog>

@@ -21,7 +21,6 @@ import { ToastrService } from "ngx-toastr";
 export class UserlistComponent implements OnInit, OnDestroy {
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
-
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   form: FormGroup;
@@ -83,9 +82,7 @@ export class UserlistComponent implements OnInit, OnDestroy {
     });
     this.formData = {};
     this.alertForm = this.fb.group({
-      alert_email: new FormControl(false),
-      alert_sms: new FormControl(false),
-      alert_phonecall: new FormControl(false),
+      alerts: new FormControl(""),
     });
 
     this.userForm = this.fb.group({
@@ -194,22 +191,10 @@ export class UserlistComponent implements OnInit, OnDestroy {
   showDialog2(data) {
     this.display2 = true;
     this.alertData = data;
-    if (this.alertData["user"][`alert_email`] == false) {
-      this.checked = false;
-    } else if (this.alertData["user"][`alert_email`] == true) {
-      this.checked = true;
-    }
-
-    if (this.alertData["user"][`alert_sms`] == false) {
-      this.checked1 = false;
-    } else if (this.alertData["user"][`alert_sms`] == true) {
-      this.checked1 = true;
-    }
-
-    if (this.alertData["user"][`alert_phonecall`] == false) {
-      this.checked2 = false;
-    } else if (this.alertData["user"][`alert_phonecall`] == true) {
-      this.checked2 = true;
+    if (this.alertData[`alerts`] === false) {
+      this.val2 = "false";
+    } else {
+      this.val2 = "true";
     }
   }
 
@@ -265,20 +250,27 @@ export class UserlistComponent implements OnInit, OnDestroy {
     );
   }
 
-  changeEmailAlert() {
+  changeAlerts() {
     this.spinner.show();
     this.valueChange = true;
     let obj = {};
-    if (this.alertForm.value) {
+    if (this.alertForm.value && this.alertForm.value[`alerts`] === "true") {
       obj = {
         store_id: this.alertData[`store`][`id`],
-        user_id: this.alertData[`user`]["id"],
-        ...this.alertForm.value,
+        user_store_id: this.alertData["id"],
+        alerts: true,
+      };
+    } else if (
+      this.alertForm.value &&
+      this.alertForm.value[`alerts`] === "false"
+    ) {
+      obj = {
+        store_id: this.alertData[`store`][`id`],
+        user_store_id: this.alertData["id"],
+        alerts: false,
       };
     }
-    // console.log(obj);
 
-    // return false;
     this.service.changeAlert(obj).subscribe(
       (res) => {
         console.log(" : res ==> ", res);

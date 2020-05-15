@@ -69,7 +69,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let data of users">
-                <td>{{ data.user.username }}</td>
+                <td>{{ data.user.first_name }}</td>
                 <td>{{ data.user.phone_number }}</td>
                 <td>{{ data.user.email }}</td>
                 <td
@@ -85,237 +85,162 @@
                 <td *ngIf="permission == 'Admin'">
                   <!-- *ngIf="permission == 'Admin' && data.user.alert_email == true" -->
                   <p style="cursor: pointer;" (click)="showDialog2(data)">
-                    <a
-                      *ngIf="
-                        data.user.alert_email == true &&
-                        data.user.alert_phonecall == true &&
-                        data.user.alert_sms == true
-                      "
-                      ><b>Yes</b>
-                      <span style="color: darkgray; font-size: 14px;"
-                        >(email, phone, sms)</span
-                      ></a
-                    >
-                    <a
-                      *ngIf="
-                        data.user.alert_email == false &&
-                        data.user.alert_phonecall == false &&
-                        data.user.alert_sms == false
-                      "
-                      ><b>No</b
-                      ><span style="color: darkgray; font-size: 14px;"
-                        >(email, phone, sms)</span
-                      ></a
-                    >
-                    <a
-                      *ngIf="
-                        data.user.alert_email == false &&
-                        data.user.alert_phonecall == true &&
-                        data.user.alert_sms == true
-                      "
-                      ><b>Yes</b
-                      ><span style="color: darkgray; font-size: 14px;"
-                        >(phone, sms)</span
+                    <a *ngIf="data.alerts == true"
+                      ><b>Yes </b> <i class="fa fa-pencil"></i>
+                      <span
+                        *ngIf="
+                          data.alert_email === true &&
+                          data.alert_phonecall === true &&
+                          data.alert_sms === true
+                        "
+                        style="color: darkgray; font-size: 14px;"
                       >
-                      <b> No</b
-                      ><span style="color: darkgray; font-size: 14px;"
-                        >(email)</span
-                      ></a
-                    >
-                    <a
-                      *ngIf="
-                        data.user.alert_email == true &&
-                        data.user.alert_phonecall == false &&
-                        data.user.alert_sms == true
-                      "
-                      ><b>Yes</b
-                      ><span style="color: darkgray; font-size: 14px;"
-                        >(email, sms)</span
+                        (email, phone, sms)
+                      </span>
+                      <span
+                        *ngIf="
+                          data.alert_email === false &&
+                          data.alert_phonecall === true &&
+                          data.alert_sms === true
+                        "
+                        style="color: darkgray; font-size: 14px;"
                       >
-                      <b> No</b
-                      ><span style="color: darkgray; font-size: 14px;"
-                        >(phone)</span
-                      ></a
-                    >
-                    <a
-                      *ngIf="
-                        data.user.alert_email == true &&
-                        data.user.alert_phonecall == true &&
-                        data.user.alert_sms == false
-                      "
-                      ><b>Yes</b
-                      ><span style="color: darkgray; font-size: 14px;"
-                        >(email, phone)</span
+                        (phone, sms)
+                      </span>
+                      <span
+                        *ngIf="
+                          data.alert_email === true &&
+                          data.alert_phonecall === false &&
+                          data.alert_sms === false
+                        "
+                        style="color: darkgray; font-size: 14px;"
                       >
-                      <b> No</b
-                      ><span style="color: darkgray; font-size: 14px;"
-                        >(sms)</span
-                      ></a
-                    >
-                    <a
-                      *ngIf="
-                        data.user.alert_email == false &&
-                        data.user.alert_phonecall == false &&
-                        data.user.alert_sms == true
-                      "
-                      ><b>Yes</b
-                      ><span style="color: darkgray; font-size: 14px;"
-                        >(sms)</span
+                        (email)
+                      </span>
+                      <span
+                        *ngIf="
+                          data.alert_email === false &&
+                          data.alert_phonecall === true &&
+                          data.alert_sms === false
+                        "
+                        style="color: darkgray; font-size: 14px;"
                       >
-                      <b> No</b
-                      ><span style="color: darkgray; font-size: 14px;"
-                        >(email, phone)</span
-                      ></a
-                    >
-                    <a
-                      *ngIf="
-                        data.user.alert_email == false &&
-                        data.user.alert_phonecall == true &&
-                        data.user.alert_sms == false
-                      "
-                      ><b>Yes</b
-                      ><span style="color: darkgray; font-size: 14px;"
-                        >(phone)</span
+                        (phone)
+                      </span>
+                      <span
+                        *ngIf="
+                          data.alert_email === false &&
+                          data.alert_phonecall === false &&
+                          data.alert_sms === true
+                        "
+                        style="color: darkgray; font-size: 14px;"
                       >
-                      <b> No</b
-                      ><span style="color: darkgray; font-size: 14px;"
-                        >(email, sms)</span
-                      ></a
-                    >
-                    <a
-                      *ngIf="
-                        data.user.alert_email == true &&
-                        data.user.alert_phonecall == false &&
-                        data.user.alert_sms == false
-                      "
-                      ><b>Yes</b
-                      ><span style="color: darkgray; font-size: 14px;"
-                        >(email)</span
+                        (sms)
+                      </span>
+                      <span
+                        *ngIf="
+                          data.alert_email === true &&
+                          data.alert_phonecall === true &&
+                          data.alert_sms === false
+                        "
+                        style="color: darkgray; font-size: 14px;"
                       >
-                      <b> No</b
-                      ><span style="color: darkgray; font-size: 14px;"
-                        >(phone, sms)</span
-                      ></a
-                    >
-                    <i class="fa fa-pencil"></i>
+                        (email, phone)
+                      </span>
+                      <span
+                        *ngIf="
+                          data.alert_email === true &&
+                          data.alert_phonecall === false &&
+                          data.alert_sms === true
+                        "
+                        style="color: darkgray; font-size: 14px;"
+                      >
+                        (email, sms)
+                      </span>
+                    </a>
+                    <a *ngIf="data.alerts == false"
+                      ><b>No </b><i class="fa fa-pencil"></i
+                    ></a>
                   </p>
                 </td>
                 <td *ngIf="permission == 'Viewer'">
                   <b>{{ data.permission }}</b>
                 </td>
                 <td *ngIf="permission == 'Viewer'">
-                  <a
-                    *ngIf="
-                      data.user.alert_email == true &&
-                      data.user.alert_phonecall == true &&
-                      data.user.alert_sms == true
-                    "
-                    ><b>Yes</b
-                    ><span style="color: darkgray; font-size: 14px;"
-                      >(email, phone, sms)</span
-                    ></a
-                  >
-                  <a
-                    *ngIf="
-                      data.user.alert_email == false &&
-                      data.user.alert_phonecall == false &&
-                      data.user.alert_sms == false
-                    "
-                    ><b>No</b
-                    ><span style="color: darkgray; font-size: 14px;"
-                      >(email, phone, sms)</span
-                    ></a
-                  >
-                  <a
-                    *ngIf="
-                      data.user.alert_email == false &&
-                      data.user.alert_phonecall == true &&
-                      data.user.alert_sms == true
-                    "
-                    ><b>Yes</b
-                    ><span style="color: darkgray; font-size: 14px;"
-                      >(phone, sms)</span
+                  <a *ngIf="data.alerts == true"
+                    ><b>Yes </b>
+                    <span
+                      *ngIf="
+                        data.alert_email === true &&
+                        data.alert_phonecall === true &&
+                        data.alert_sms === true
+                      "
+                      style="color: darkgray; font-size: 14px;"
                     >
-                    <b> No</b
-                    ><span style="color: darkgray; font-size: 14px;"
-                      >(email)</span
-                    ></a
-                  >
-                  <a
-                    *ngIf="
-                      data.user.alert_email == true &&
-                      data.user.alert_phonecall == false &&
-                      data.user.alert_sms == true
-                    "
-                    ><b>Yes</b
-                    ><span style="color: darkgray; font-size: 14px;"
-                      >(email, sms)</span
+                      (email, phone, sms)
+                    </span>
+                    <span
+                      *ngIf="
+                        data.alert_email === false &&
+                        data.alert_phonecall === true &&
+                        data.alert_sms === true
+                      "
+                      style="color: darkgray; font-size: 14px;"
                     >
-                    <b> No</b
-                    ><span style="color: darkgray; font-size: 14px;"
-                      >(phone)</span
-                    ></a
-                  >
-                  <a
-                    *ngIf="
-                      data.user.alert_email == true &&
-                      data.user.alert_phonecall == true &&
-                      data.user.alert_sms == false
-                    "
-                    ><b>Yes</b
-                    ><span style="color: darkgray; font-size: 14px;"
-                      >(email, phone)</span
+                      (phone, sms)
+                    </span>
+                    <span
+                      *ngIf="
+                        data.alert_email === true &&
+                        data.alert_phonecall === false &&
+                        data.alert_sms === false
+                      "
+                      style="color: darkgray; font-size: 14px;"
                     >
-                    <b> No</b
-                    ><span style="color: darkgray; font-size: 14px;"
-                      >(sms)</span
-                    ></a
-                  >
-                  <a
-                    *ngIf="
-                      data.user.alert_email == false &&
-                      data.user.alert_phonecall == false &&
-                      data.user.alert_sms == true
-                    "
-                    ><b>Yes</b
-                    ><span style="color: darkgray; font-size: 14px;"
-                      >(sms)</span
+                      (email)
+                    </span>
+                    <span
+                      *ngIf="
+                        data.alert_email === false &&
+                        data.alert_phonecall === true &&
+                        data.alert_sms === false
+                      "
+                      style="color: darkgray; font-size: 14px;"
                     >
-                    <b> No</b
-                    ><span style="color: darkgray; font-size: 14px;"
-                      >(email, phone)</span
-                    ></a
-                  >
-                  <a
-                    *ngIf="
-                      data.user.alert_email == false &&
-                      data.user.alert_phonecall == true &&
-                      data.user.alert_sms == false
-                    "
-                    ><b>Yes</b
-                    ><span style="color: darkgray; font-size: 14px;"
-                      >(phone)</span
+                      (phone)
+                    </span>
+                    <span
+                      *ngIf="
+                        data.alert_email === false &&
+                        data.alert_phonecall === false &&
+                        data.alert_sms === true
+                      "
+                      style="color: darkgray; font-size: 14px;"
                     >
-                    <b> No</b
-                    ><span style="color: darkgray; font-size: 14px;"
-                      >(email, sms)</span
-                    ></a
-                  >
-                  <a
-                    *ngIf="
-                      data.user.alert_email == true &&
-                      data.user.alert_phonecall == false &&
-                      data.user.alert_sms == false
-                    "
-                    ><b>Yes</b
-                    ><span style="color: darkgray; font-size: 14px;"
-                      >(email)</span
+                      (sms)
+                    </span>
+                    <span
+                      *ngIf="
+                        data.alert_email === true &&
+                        data.alert_phonecall === true &&
+                        data.alert_sms === false
+                      "
+                      style="color: darkgray; font-size: 14px;"
                     >
-                    <b> No</b
-                    ><span style="color: darkgray; font-size: 14px;"
-                      >(phone, sms)</span
-                    ></a
-                  >
+                      (email, phone)
+                    </span>
+                    <span
+                      *ngIf="
+                        data.alert_email === true &&
+                        data.alert_phonecall === false &&
+                        data.alert_sms === true
+                      "
+                      style="color: darkgray; font-size: 14px;"
+                    >
+                      (email, sms)
+                    </span>
+                  </a>
+                  <a *ngIf="data.alerts == false"><b>No </b></a>
                 </td>
               </tr>
             </tbody>
@@ -385,7 +310,7 @@
   [style]="{ width: '25vw' }"
   [baseZIndex]="10000"
 >
-  <form class="form-horizontal" [formGroup]="alertForm">
+  <!-- <form class="form-horizontal" [formGroup]="alertForm">
     <div class="form-group">
       <div class="ui-g" style="margin-left: auto; margin-right: auto;">
         <div class="row">
@@ -423,6 +348,32 @@
         </div>
       </div>
     </div>
+  </form> -->
+  <form class="form-horizontal" [formGroup]="alertForm">
+    <div class="form-group row">
+      <div class="ui-g" style="margin-left: auto; margin-right: auto;">
+        <div class="ui-g-12">
+          <p-radioButton
+            name="group2"
+            value="true"
+            label="Yes"
+            formControlName="alerts"
+            [(ngModel)]="val2"
+            inputId="opt3"
+          ></p-radioButton>
+        </div>
+        <div class="ui-g-12">
+          <p-radioButton
+            name="group2"
+            value="false"
+            label="No"
+            formControlName="alerts"
+            [(ngModel)]="val2"
+            inputId="opt4"
+          ></p-radioButton>
+        </div>
+      </div>
+    </div>
   </form>
   <p-footer>
     <button
@@ -430,7 +381,7 @@
       type="button"
       pButton
       icon="pi pi-check"
-      (click)="changeEmailAlert()"
+      (click)="changeAlerts()"
       label="Submit"
     ></button>
     <button

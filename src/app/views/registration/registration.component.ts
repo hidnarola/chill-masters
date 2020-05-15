@@ -33,10 +33,7 @@ export class RegistrationComponent implements OnInit {
     this.formData = {};
     this.regForm = this.fb.group(
       {
-        username: new FormControl("", [
-          Validators.required,
-          Validators.pattern(/^\S*$/),
-        ]),
+        first_name: new FormControl("", [Validators.required]),
         email: new FormControl("", [
           Validators.required,
           Validators.pattern(
@@ -152,8 +149,8 @@ export class RegistrationComponent implements OnInit {
             this.toastr.error(err.error.email, "Error!", {
               timeOut: 3000,
             });
-          } else if (err.error.username) {
-            this.toastr.error(err.error.username, "Error!", {
+          } else if (err.error.first_name) {
+            this.toastr.error(err.error.first_name, "Error!", {
               timeOut: 3000,
             });
           } else if (err.error.phone_number) {
