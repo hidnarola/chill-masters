@@ -19,6 +19,7 @@ import { RestoreFridgeComponent } from "./restore-fridge/restore-fridge.componen
 import { CheckboxModule } from "primeng/checkbox";
 import { InputTextModule } from "primeng/inputtext";
 import { HighchartsChartModule } from "highcharts-angular";
+import { UppercaseInputDirective } from "../../directives/uppercase-input.directive";
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { HighchartsChartModule } from "highcharts-angular";
     AddFridgeComponent,
     FridgeDetailComponent,
     RestoreFridgeComponent,
+    UppercaseInputDirective,
   ],
   imports: [
     CommonModule,

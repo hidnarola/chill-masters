@@ -54,6 +54,7 @@ import { AuthGuardService } from "./services/auth/auth-guard.service";
 import { ResetpasswordComponent } from "./views/reset/resetpassword/resetpassword.component";
 import { DialogModule } from "primeng/dialog";
 import { ButtonModule } from "primeng/button";
+import { EmailverificationComponent } from './emailverification/emailverification.component';
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
     // domain: 'localhost'
@@ -106,7 +107,8 @@ const cookieConfig: NgcCookieConsentConfig = {
     RegistrationComponent,
     ListComponent,
     ProfileComponent,
-    ResetpasswordComponent
+    ResetpasswordComponent,
+    EmailverificationComponent
   ],
   providers: [
     AuthService,

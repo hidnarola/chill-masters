@@ -235,6 +235,7 @@
                       <input
                         type="text"
                         pInputText
+                        uppercase
                         formControlName="temperature_sensor"
                         name="temperature_sensor"
                         (blur)="checkSensor($event.target.value, i)"
@@ -277,6 +278,14 @@
                           "
                           >It should be 16 character long.</span
                         >
+                      </div>
+                      <div
+                        *ngIf="f[i].controls.temperature_sensor.valid"
+                        style="color: red;"
+                      >
+                        <div *ngIf="warning[i] !== null">
+                          Note : {{ warning[i] }}
+                        </div>
                       </div>
                     </td>
                     <td>

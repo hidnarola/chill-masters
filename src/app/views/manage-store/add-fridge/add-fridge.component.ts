@@ -46,6 +46,7 @@ export class AddFridgeComponent implements OnInit {
   currentIndex = null;
   tempSensorData: any = [];
   errorList: any = [];
+  warning: any = [];
 
   selectedStorenmae: any;
   // minimumDate = new Date();
@@ -132,7 +133,6 @@ export class AddFridgeComponent implements OnInit {
           this.getSensor();
         },
         (err) => {
-          console.log(" : err ==> ", err);
           this.spinner.hide();
           if (err.error[`detail`]) {
             this.toastr.error(err.error[`detail`], "Error!", {
@@ -162,7 +162,6 @@ export class AddFridgeComponent implements OnInit {
 
     this.service.getSensor(sensorObj).subscribe(
       (res) => {
-        console.log(" : res ==> ", res);
         this.getSensorsById = res[`sensor_fridge_data`];
         for (
           let index = 0;
@@ -172,10 +171,9 @@ export class AddFridgeComponent implements OnInit {
         ) {
           this.sensor_data = this.myForm.get("sensor_data") as FormArray;
           this.sensor_data.push(this.createItem());
+          this.warning.push(null);
         }
         this.getSensorsById.forEach((element, index) => {
-          console.log(" : element ==> ", element);
-          console.log(" : element ==> ", element);
           this.myForm.controls[`sensor_data`]["controls"][index].controls[
             `id`
           ].setValue(element.id);
@@ -196,7 +194,6 @@ export class AddFridgeComponent implements OnInit {
         this.spinner.hide();
       },
       (err) => {
-        console.log(" : err ==> ", err);
         this.spinner.hide();
         if (err.error[`detail`]) {
           this.toastr.error(err.error[`detail`], "Error!", {
@@ -234,7 +231,6 @@ export class AddFridgeComponent implements OnInit {
   }
 
   onSelectDate(e, i) {
-    console.log(" : i ==> ", i);
     const installAtDate = this.myForm.controls["sensor_data"].value[i][
       `installed_at`
     ];
@@ -245,7 +241,6 @@ export class AddFridgeComponent implements OnInit {
     const momentB = moment(removeAtDate, "DD/MM/YYYY").set({ second: 0 });
 
     if (this.myForm.value.sensor_data.length > 1) {
-      console.log(" : 1 ==> ", 1);
       for (
         let index = 0;
         index < this.myForm.value.sensor_data.length;
@@ -269,7 +264,6 @@ export class AddFridgeComponent implements OnInit {
               "[]"
             ) === true
           ) {
-            console.log(" : 1 ==> ", 1);
             this.myForm.controls.sensor_data["controls"][
               i
             ].controls.installed_at.setErrors({ isExist: true });
@@ -282,7 +276,6 @@ export class AddFridgeComponent implements OnInit {
               "[]"
             ) === true
           ) {
-            console.log(" : 2 ==> ", 2);
             this.myForm.controls.sensor_data["controls"][
               i
             ].controls.installed_at.setErrors({ isExist: true });
@@ -317,63 +310,6 @@ export class AddFridgeComponent implements OnInit {
           }
         }
       }
-      // this.myForm.value.sensor_data.map((data, index) => {
-      //   if (index !== i) {
-      //     const PreviousInstallAt = moment(
-      //       data.installed_at,
-      //       "DD/MM/YYYY"
-      //     ).set({ second: 0 });
-      //     const PreviousRemoveAt = moment(data.removed_at, "DD/MM/YYYY").set({
-      //       second: 0,
-      //     });
-
-      //     if (
-      //       moment(momentA).isBetween(
-      //         PreviousInstallAt,
-      //         PreviousRemoveAt,
-      //         null,
-      //         "[]"
-      //       ) === true
-      //     ) {
-      //       console.log(" : 1 ==> ", 1);
-      //       this.myForm.controls.sensor_data["controls"][
-      //         i
-      //       ].controls.installed_at.setErrors({ isExist: true });
-      //       break;
-      //     } else if (
-      //       moment(momentB).isBetween(
-      //         PreviousInstallAt,
-      //         PreviousRemoveAt,
-      //         null,
-      //         "[]"
-      //       ) === true
-      //     ) {
-      //       console.log(" : 2 ==> ", 2);
-      //       this.myForm.controls.sensor_data["controls"][
-      //         i
-      //       ].controls.installed_at.setErrors({ isExist: true });
-      //     } else if (
-      //       moment(PreviousInstallAt).isBetween(
-      //         momentA,
-      //         momentB,
-      //         null,
-      //         "[]"
-      //       ) === true ||
-      //       moment(PreviousRemoveAt).isBetween(momentA, momentB, null, "[]") ===
-      //         true
-      //     ) {
-      //       this.myForm.controls.sensor_data["controls"][
-      //         i
-      //       ].controls.installed_at.setErrors({ isExist: true });
-      //     } else {
-      //       this.myForm.controls.sensor_data["controls"][
-      //         i
-      //       ].controls.installed_at.updateValueAndValidity();
-      //     }
-      //   }
-      // });
-
-      console.log(" : this.myForm ==> ", this.myForm);
     }
   }
 
@@ -389,46 +325,37 @@ export class AddFridgeComponent implements OnInit {
     } else {
       e = null;
     }
-    console.log({ e });
     return e;
   }
 
   addItem() {
     this.sensor_data = this.myForm.get("sensor_data") as FormArray;
     this.sensor_data.push(this.createItem());
+    this.warning.push(null);
   }
 
   remove_sensor(index: number) {
-    console.log(" : index ==> ", index);
     this.spinner.show();
     this.sensor_data = this.myForm.get("sensor_data") as FormArray;
-    console.log(" :  this.sensor_data.value ==> ", this.sensor_data.value);
-    console.log(
-      " : this.sensor_data.value[index][`id`] != null ==> ",
-      this.sensor_data.value[index][`id`] != null
-    );
     if (this.sensor_data.value[index][`id`] != null) {
       const deleteObj = {
         sensor_fridge_id: this.sensor_data.value[index][`id`],
         store: parseInt(this.store_id, 10),
       };
-
-      console.log(" : deleteObj ==> ", deleteObj);
       this.service.deleteSensor(deleteObj).subscribe(
         (res) => {
-          console.log(" : res ==> ", res);
-          console.log(this.sensor_data);
-
           this.sensor_data.removeAt(index);
+          this.warning.splice(index, 1);
           this.spinner.hide();
         },
         (err) => {
-          console.log(" : err ==> ", err);
           this.spinner.hide();
         }
       );
     } else {
       this.sensor_data.removeAt(index);
+      this.warning.splice(index, 1);
+      console.log(this.warning);
       this.spinner.hide();
     }
     return false;
@@ -500,17 +427,24 @@ export class AddFridgeComponent implements OnInit {
     if (e) {
       this.service.ckeckSensor(e).subscribe(
         (res) => {
-          console.log(" : res ==> ", res);
+          console.log(res);
+
           if (res[`warning`]) {
-            Swal.fire({
-              title: "Please Confirm?",
-              text: res[`warning`],
-              icon: "warning",
-              showCancelButton: true,
-              confirmButtonText: "OK",
-              cancelButtonText: "CANCEL",
-            });
+            this.warning[i] = res[`warning`];
+            console.log(this.warning);
+          } else {
+            this.warning[i] = null;
           }
+          // if (res[`warning`]) {
+          //   Swal.fire({
+          //     title: "Please Confirm?",
+          //     text: res[`warning`],
+          //     icon: "warning",
+          //     showCancelButton: true,
+          //     confirmButtonText: "OK",
+          //     cancelButtonText: "CANCEL",
+          //   });
+          // }
         },
         (err) => {
           console.log(" : err ==> ", err);
@@ -527,6 +461,9 @@ export class AddFridgeComponent implements OnInit {
         }
       );
     } else {
+      this.warning[i] = null;
+      console.log(this.warning);
+
       // this.submitted = true;
     }
   }

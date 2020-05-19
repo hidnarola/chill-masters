@@ -81,7 +81,7 @@ export class FridgeDetailComponent implements OnInit {
           dashStyle: "shortdash",
           width: 2,
           label: {
-            text: "Last minimum temperature",
+            text: "Last maximum temperature",
           },
         },
       ],

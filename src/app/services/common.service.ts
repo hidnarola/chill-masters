@@ -5,7 +5,7 @@ import * as env from "../../environments/environment";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class CommonService {
   private url = env.environment.API_URL;
@@ -26,11 +26,21 @@ export class CommonService {
   private httpOptions = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
     withCredentials: true,
-    observe: "response" as "response"
+    observe: "response" as "response",
   };
 
   public get currentUserValue(): any {
     return this.currentUserSubject.value;
+  }
+
+  verify_email(token): Observable<any> {
+    return this.http.get<any[]>(
+      `${this.url}` +
+        "rest-auth/registration/account-confirm-email/" +
+        token +
+        "/",
+      this.httpOptions
+    );
   }
 
   login(data): Observable<any> {
@@ -67,8 +77,8 @@ export class CommonService {
   profile(): Observable<any[]> {
     return this.http.get<any[]>(`${this.url}` + "rest-auth/user/", {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
@@ -85,8 +95,8 @@ export class CommonService {
       data,
       {
         headers: new HttpHeaders({
-          Authorization: "Token " + localStorage.getItem("token")
-        })
+          Authorization: "Token " + localStorage.getItem("token"),
+        }),
       }
     );
   }
@@ -94,8 +104,8 @@ export class CommonService {
   updateProfile(data): Observable<any[]> {
     return this.http.put<any[]>(`${this.url}` + "rest-auth/user/", data, {
       headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token")
-      })
+        Authorization: "Token " + localStorage.getItem("token"),
+      }),
     });
   }
 
