@@ -482,10 +482,23 @@ export class AddFridgeComponent implements OnInit {
 
   validateSensorsList() {
     const sList = this.myForm.controls["sensor_data"].value;
-    const sensorIndexes = sList.map((v) => v.temperature_sensor);
-    const isD = sensorIndexes.some((v, i) => sensorIndexes.indexOf(v) !== i);
-    console.log({ sList, sensorIndexes, isD });
-    return isD;
+    console.log(sList);
+    const multipleNull = [];
+    sList.forEach((element) => {
+      if (element.removed_at === null) {
+        multipleNull.push(element.removed_at);
+      }
+    });
+
+    if (multipleNull.length > 1) {
+      return true;
+    } else {
+      return false;
+    }
+    // const sensorIndexes = sList.map((v) => v.temperature_sensor);
+    // const isD = sensorIndexes.some((v, i) => sensorIndexes.indexOf(v) !== i);
+    // console.log({ sList, sensorIndexes, isD });
+    // return isD;
   }
 
   showDialog() {
@@ -544,10 +557,13 @@ export class AddFridgeComponent implements OnInit {
     this.isFormSubmitted = true;
     this.submitted = true;
     if (formValid && myFormvalid) {
-      // if (this.validateSensorsList()) {
-      //   this.toastr.show("Duplicate Sensor", "Alert");
-      //   return;
-      // }
+      if (this.validateSensorsList()) {
+        this.toastr.show(
+          "Please check and adjust removed at time it can't be blank more than one sensor.",
+          "Alert"
+        );
+        return;
+      }
       this.spinner.show();
       if (this.store_id != null && this.fridge_id != null) {
         for (

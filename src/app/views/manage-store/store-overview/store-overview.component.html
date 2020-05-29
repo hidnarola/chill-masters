@@ -55,6 +55,11 @@
                 *ngFor="let item of data"
                 class="card mb-3 mr-3"
                 [ngClass]="{
+                  'text-white bg-warning':
+                    (item.low_battery_percentage != null &&
+                      item.current_battery != null &&
+                      item.current_battery <= item.low_battery_percentage) ||
+                    item.offline_status === true,
                   'text-white bg-success':
                     item.current_temperature >= item.storage_range_min &&
                     item.current_temperature <= item.storage_range_max,
@@ -62,6 +67,10 @@
                   'text-white bg-primary':
                     item.current_temperature <= item.storage_range_min,
                   'text-white bg-danger':
+                    ((item.low_battery_percentage != null &&
+                      item.current_battery != null &&
+                      item.current_battery <= item.low_battery_percentage) ||
+                      item.offline_status === true) === false &&
                     item.current_temperature > item.storage_range_max
                 }"
                 style="max-width: 14rem; cursor: pointer;"

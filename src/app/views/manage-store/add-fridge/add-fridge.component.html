@@ -6,14 +6,14 @@
           <!-- <i class="fa fa-info-circle icon-size" style="cursor: pointer;"></i> -->
           <strong>{{ PageTitle }}</strong>
           <!-- <p class=""> -->
-          <button
+          <!-- <button
             type="button"
             class="btn btn-sm btn-primary pull-right"
             (click)="onBack()"
           >
             <span class="fa fa-mail-reply"></span>
             Back
-          </button>
+          </button> -->
           <!-- </p> -->
         </div>
         <div class="card-body">
@@ -231,7 +231,7 @@
                   "
                 >
                   <tr [formGroupName]="i" class="SensorDIV">
-                    <td>
+                    <td style="width: 350px;" class="pb-4">
                       <input
                         type="text"
                         pInputText
@@ -262,6 +262,7 @@
                           *ngIf="
                             f[i].controls.temperature_sensor.errors['pattern']
                           "
+                          class="f-16 mt-1"
                           >Only Hex Char is allowed (i.e 0-9 and A-F).</span
                         >
                       </div>
@@ -274,8 +275,14 @@
                             f[i].controls.temperature_sensor.errors[
                               'maxlength'
                             ] ||
-                            f[i].controls.temperature_sensor.errors['minlength']
+                            (f[i].controls.temperature_sensor.errors[
+                              'minlength'
+                            ] &&
+                              !f[i].controls.temperature_sensor.errors[
+                                'pattern'
+                              ])
                           "
+                          class="f-16 mt-1"
                           >It should be 16 character long.</span
                         >
                       </div>
@@ -288,7 +295,7 @@
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="pb-4">
                       <p-calendar
                         formControlName="installed_at"
                         [showTime]="true"
@@ -334,7 +341,7 @@
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="pb-4">
                       <p-calendar
                         formControlName="removed_at"
                         [showTime]="true"
@@ -359,7 +366,7 @@
                         </div>
                       </div> -->
                     </td>
-                    <td>
+                    <td class="pb-4">
                       <button
                         pbutton
                         type="button"
@@ -389,7 +396,7 @@
               class="btn btn-primary mr-5"
               (click)="onBack()"
             >
-              Cancle
+              Cancel
             </button>
             <button
               type="button"

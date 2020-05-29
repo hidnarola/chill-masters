@@ -21,9 +21,9 @@ export class ProfileComponent implements OnInit {
   public formData: any;
   public isFormSubmitted;
   public isFormSubmit;
-  // checked: boolean = false;
-  // checked1: boolean = false;
-  // checked2: boolean = false;
+  checked: boolean = false;
+  checked1: boolean = false;
+  checked2: boolean = false;
   displayBasic: boolean;
 
   constructor(
@@ -43,10 +43,10 @@ export class ProfileComponent implements OnInit {
         ),
       ]),
       phone_number: new FormControl(""),
+      alert_email: new FormControl(false),
+      alert_sms: new FormControl(false),
+      alert_phonecall: new FormControl(false),
     });
-    // alert_email: new FormControl(false),
-    // alert_sms: new FormControl(false),
-    // alert_phonecall: new FormControl(false),
 
     this.chnagepassForm = this.fb.group(
       {
@@ -85,9 +85,9 @@ export class ProfileComponent implements OnInit {
       this.form.controls[`first_name`].setValue(res[`first_name`]);
       this.form.controls[`email`].setValue(res[`email`]);
       this.form.controls[`phone_number`].setValue(res[`phone_number`]);
-      // this.form.controls[`alert_email`].setValue(res[`alert_email`]);
-      // this.form.controls[`alert_sms`].setValue(res[`alert_sms`]);
-      // this.form.controls[`alert_phonecall`].setValue(res[`alert_phonecall`]);
+      this.form.controls[`alert_email`].setValue(res[`alert_email`]);
+      this.form.controls[`alert_sms`].setValue(res[`alert_sms`]);
+      this.form.controls[`alert_phonecall`].setValue(res[`alert_phonecall`]);
       this.spinner.hide();
     });
   }
