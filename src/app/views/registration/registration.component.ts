@@ -120,8 +120,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit(valid) {
-    console.log(this.regForm);
-
     this.isFormSubmitted = true;
     if (valid) {
       this.spinner.show();

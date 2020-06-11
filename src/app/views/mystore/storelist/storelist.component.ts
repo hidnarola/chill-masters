@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import * as jQuery from "jquery";
 import { MyStoreService } from "../../../services/mystore.service";
 import { Subject } from "rxjs";
 import { Router } from "@angular/router";

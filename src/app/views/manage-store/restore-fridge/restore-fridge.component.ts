@@ -43,7 +43,6 @@ export class RestoreFridgeComponent implements OnInit {
       };
       this.service.deletedFridgeList(obj, page).subscribe(
         (res) => {
-          console.log(" : res ==> ", res);
           this.data = res[`fridge_data`];
           this.previous = res[`pagination`][`previous`];
           this.next = res[`pagination`][`next`];
@@ -67,14 +66,13 @@ export class RestoreFridgeComponent implements OnInit {
 
   nextPage(url, id) {
     this.page = this.page + 1;
-    console.log(this.page);
+
     const obj = {
       store_id: parseInt(id),
       delete_status: true,
     };
     this.service.deletedFridgeListByPage(url, obj).subscribe(
       (res) => {
-        console.log(" res:  ==> ", res);
         this.data = res[`fridge_data`];
         this.previous = res[`pagination`][`previous`];
         this.next = res[`pagination`][`next`];
@@ -96,7 +94,6 @@ export class RestoreFridgeComponent implements OnInit {
 
   previousPage(url, id) {
     this.page = this.page - 1;
-    console.log(this.page);
 
     const obj = {
       store_id: parseInt(id),
@@ -104,7 +101,6 @@ export class RestoreFridgeComponent implements OnInit {
     };
     this.service.deletedFridgeListByPage(url, obj).subscribe(
       (res) => {
-        console.log(" res:  ==> ", res);
         this.data = res[`fridge_data`];
         this.previous = res[`pagination`][`previous`];
         this.next = res[`pagination`][`next`];
@@ -133,7 +129,6 @@ export class RestoreFridgeComponent implements OnInit {
     };
     this.service.deleteFridge(restoreObj).subscribe(
       (res) => {
-        console.log(" : res ==> ", res);
         if (this.data.length <= 1 && this.previous != null) {
           this.page = this.page - 1;
         }

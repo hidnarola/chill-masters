@@ -9,6 +9,35 @@
   margin: 0 auto;
 }
 
+.dateToFrom h5 {
+  color: #666;
+  font-size: 14px;
+  margin: 0 10px 0 0;
+  line-height: 35px;
+}
+
+.dateToFrom .btn-sm {
+  padding: 0.38rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+}
+.dateToFrom {
+  background: #eee;
+  padding: 20px;
+  justify-content: center;
+}
+.dateToFrom .d-flex {
+  flex-wrap: wrap;
+  position: relative;
+}
+.dateToFrom .error {
+  bottom: -15px;
+  top: auto;
+  left: 59px;
+  position: absolute;
+}
+
 @media (max-width: 1024px) {
   .GraphWrapBox {
     padding: 10px;

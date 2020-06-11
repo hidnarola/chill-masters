@@ -85,3 +85,17 @@ span.navbar-toggler-icon:before {
 .dangerDialog .pi-times:before {
   content: "" !important;
 }
+
+.treetableDate .ui-calendar .ui-datepicker {
+  margin-top: 50%;
+}
+
+body
+  .dateToFrom
+  .ui-calendar.ui-calendar-w-btn
+  .ui-datepicker-trigger.ui-button {
+  width: 3em;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border: 2px solid #007ad9;
+}

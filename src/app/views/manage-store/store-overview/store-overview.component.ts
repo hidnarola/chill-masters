@@ -51,7 +51,6 @@ export class StoreOverviewComponent implements OnInit {
         this.displaydata(this.page);
       } else {
         setTimeout(() => {
-          console.log(" : this.store ==> ", this.store);
           if (this.store.length > 0) {
             this.router.navigate([`/store/overview/` + this.store[0][`id`]]);
             this.displayPage = true;
@@ -101,7 +100,6 @@ export class StoreOverviewComponent implements OnInit {
       };
       this.service.overviewList(obj, page).subscribe(
         (res) => {
-          console.log(" : res ==> ", res);
           this.data = res[`fridge_data`];
           this.permission = res[`permission`];
           this.previous = res[`pagination`][`previous`];
@@ -110,10 +108,7 @@ export class StoreOverviewComponent implements OnInit {
             this.selectedStorenmae = this.store.find((x) => x.id == this.id);
             this.selectedStore = this.selectedStorenmae[`store_name`];
           }, 500);
-          // console.log(
-          //   " : this.selectedStorename ==> ",
-          //   this.selectedStorenmae[`store_name`]
-          // );
+
           this.spinner.hide();
         },
         (err) => {
@@ -153,7 +148,6 @@ export class StoreOverviewComponent implements OnInit {
     };
     this.service.overviewListByPage(url, obj).subscribe(
       (res) => {
-        console.log(" res:  ==> ", res);
         this.data = res[`fridge_data`];
         this.previous = res[`pagination`][`previous`];
         this.next = res[`pagination`][`next`];
@@ -181,7 +175,6 @@ export class StoreOverviewComponent implements OnInit {
     };
     this.service.overviewListByPage(url, obj).subscribe(
       (res) => {
-        console.log(" res:  ==> ", res);
         this.data = res[`fridge_data`];
         this.previous = res[`pagination`][`previous`];
         this.next = res[`pagination`][`next`];

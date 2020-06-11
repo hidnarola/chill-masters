@@ -95,7 +95,6 @@ export class UserlistComponent implements OnInit, OnDestroy {
         this.displaydata();
       } else {
         setTimeout(() => {
-          // console.log(" : this.store[0][`id`] ==> ", this.store[0][`id`]);
           if (this.store.length > 0) {
             this.router.navigate([`store/users/` + this.store[0][`id`]]);
             this.displayPage = true;
@@ -225,7 +224,6 @@ export class UserlistComponent implements OnInit, OnDestroy {
     };
     this.service.changePemission(obj).subscribe(
       (res) => {
-        console.log(" : res ==> ", res);
         this.toastr.success(res[`detail`], "Success!", {
           timeOut: 3000,
         });
@@ -273,7 +271,6 @@ export class UserlistComponent implements OnInit, OnDestroy {
 
     this.service.changeAlert(obj).subscribe(
       (res) => {
-        console.log(" : res ==> ", res);
         this.toastr.success(res[`detail`], "Success!", {
           timeOut: 3000,
         });
@@ -299,7 +296,6 @@ export class UserlistComponent implements OnInit, OnDestroy {
   }
 
   addUser(valid) {
-    console.log(" : valid ==> ", valid);
     this.isFormSubmitted = true;
     if (valid) {
       this.valueChange = true;

@@ -355,7 +355,6 @@ export class AddFridgeComponent implements OnInit {
     } else {
       this.sensor_data.removeAt(index);
       this.warning.splice(index, 1);
-      console.log(this.warning);
       this.spinner.hide();
     }
     return false;
@@ -371,7 +370,6 @@ export class AddFridgeComponent implements OnInit {
 
     this.service.deleteFridge(deleteObj).subscribe(
       (res) => {
-        console.log(" : res ==> ", res);
         this.toastr.success("Fridge Deleted Sucessfully", "Success!", {
           timeOut: 3000,
         });
@@ -423,15 +421,11 @@ export class AddFridgeComponent implements OnInit {
   }
 
   checkSensor(e, i) {
-    console.log(" : e.value, i ==> ", e);
     if (e) {
       this.service.ckeckSensor(e).subscribe(
         (res) => {
-          console.log(res);
-
           if (res[`warning`]) {
             this.warning[i] = res[`warning`];
-            console.log(this.warning);
           } else {
             this.warning[i] = null;
           }
@@ -462,9 +456,6 @@ export class AddFridgeComponent implements OnInit {
       );
     } else {
       this.warning[i] = null;
-      console.log(this.warning);
-
-      // this.submitted = true;
     }
   }
 
@@ -482,7 +473,6 @@ export class AddFridgeComponent implements OnInit {
 
   validateSensorsList() {
     const sList = this.myForm.controls["sensor_data"].value;
-    console.log(sList);
     const multipleNull = [];
     sList.forEach((element) => {
       if (element.removed_at === null) {
@@ -495,10 +485,6 @@ export class AddFridgeComponent implements OnInit {
     } else {
       return false;
     }
-    // const sensorIndexes = sList.map((v) => v.temperature_sensor);
-    // const isD = sensorIndexes.some((v, i) => sensorIndexes.indexOf(v) !== i);
-    // console.log({ sList, sensorIndexes, isD });
-    // return isD;
   }
 
   showDialog() {
@@ -511,7 +497,6 @@ export class AddFridgeComponent implements OnInit {
   }
 
   createSensor(valid) {
-    console.log(' : "hi" ==> ', "hi");
     this.isCreateSensorFormSubmitted = true;
     if (valid) {
       const createSensorObj = {
@@ -519,11 +504,9 @@ export class AddFridgeComponent implements OnInit {
         store: this.store_id,
         deleted_at: null,
       };
-      console.log(" : this.createSensorForm ==> ", createSensorObj);
 
       this.service.CreateSensor(createSensorObj).subscribe(
         (res) => {
-          console.log(" : res ==> ", res);
           if (res[`detail`]) {
             this.toastr.success("Sensor Created Sucessfully.", "Success!", {
               timeOut: 3000,
@@ -614,7 +597,6 @@ export class AddFridgeComponent implements OnInit {
 
         this.service.updateSensor(UpdateSensors).subscribe(
           (result) => {
-            console.log(" : res ==> ");
             if (result[`detail`]) {
               this.toastr.success("Fridge Updated Sucessfully", "Success!", {
                 timeOut: 3000,
@@ -640,7 +622,7 @@ export class AddFridgeComponent implements OnInit {
                 index++
               ) {
                 const element = err.error.already_available_list[index];
-                console.log(" : element ==> ", element);
+
                 const current_temperature_sensor =
                   element.current_temperature_sensor;
                 let current_installed_at = null;
@@ -701,7 +683,6 @@ export class AddFridgeComponent implements OnInit {
               }
               // this.errorList =  ;
               this.display = true;
-              console.log(" : err ==> ", this.errorList);
             } else if (err.error[`detail`]) {
               this.toastr.error(err.error[`detail`], "Error!", {
                 timeOut: 3000,
@@ -718,7 +699,6 @@ export class AddFridgeComponent implements OnInit {
           }
         );
       } else {
-        console.log(" : this.myForm ==> ", this.myForm);
         // return false;
         for (
           let index = 0;
@@ -762,7 +742,6 @@ export class AddFridgeComponent implements OnInit {
         };
         this.service.addSensor(sensor_obj).subscribe(
           (result) => {
-            console.log(" : res ==> ", result);
             if (result[`detail`]) {
               this.toastr.success("Fridge Added Sucessfully.", "Success!", {
                 timeOut: 3000,
@@ -783,7 +762,7 @@ export class AddFridgeComponent implements OnInit {
                 index++
               ) {
                 const element = err.error.already_available_list[index];
-                console.log(" : element ==> ", element);
+
                 const current_temperature_sensor =
                   element.current_temperature_sensor;
                 let current_installed_at = null;
@@ -844,7 +823,6 @@ export class AddFridgeComponent implements OnInit {
               }
               // this.errorList =  ;
               this.display = true;
-              console.log(" : err ==> ", this.errorList);
             } else if (err.error[`detail`]) {
               this.toastr.error(err.error[`detail`], "Error!", {
                 timeOut: 3000,
@@ -861,7 +839,6 @@ export class AddFridgeComponent implements OnInit {
   }
 
   onBack() {
-    console.log(" : this.editMode ==> ", this.editMode);
     if (this.editMode === false) {
       this.router.navigate(["store/overview/" + this.store_id]);
     } else {
