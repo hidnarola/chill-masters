@@ -1,9 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, AfterViewInit, OnDestroy } from "@angular/core";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
 import { MyStoreService } from "../../../services/mystore.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
+import { interval, Subscription } from "rxjs";
 import _ from "lodash";
 
 @Component({
@@ -11,7 +12,8 @@ import _ from "lodash";
   templateUrl: "./store-overview.component.html",
   styleUrls: ["./store-overview.component.css"],
 })
-export class StoreOverviewComponent implements OnInit {
+export class StoreOverviewComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   form: FormGroup;
   store: any = [];
   permission: any;
@@ -24,7 +26,9 @@ export class StoreOverviewComponent implements OnInit {
   selectedStore = "";
   data: any = [];
   displayPage: boolean = true;
-
+  subscription: Subscription;
+  intervalId: number;
+  initialAPICall = false;
   constructor(
     private route: ActivatedRoute,
     private service: MyStoreService,
@@ -41,15 +45,13 @@ export class StoreOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.spinner.show();
     this.page = 1;
-    // setTimeout(() => {
     this.storelist();
-    // }, 0);
-
     this.route.paramMap.subscribe((params: Params) => {
       this.id = params.get("id");
       if (this.id != null) {
         this.displaydata(this.page);
       } else {
+        console.log("in else");
         setTimeout(() => {
           if (this.store.length > 0) {
             this.router.navigate([`/store/overview/` + this.store[0][`id`]]);
@@ -92,8 +94,12 @@ export class StoreOverviewComponent implements OnInit {
   }
 
   displaydata(page) {
+    console.log(" : page ==> ", page);
     if (this.id) {
-      this.spinner.show();
+      console.log(" : this.id ==> ", this.id);
+      if (!this.initialAPICall) {
+        this.spinner.show();
+      }
       const obj = {
         store_id: this.id,
         delete_status: false,
@@ -108,11 +114,14 @@ export class StoreOverviewComponent implements OnInit {
             this.selectedStorenmae = this.store.find((x) => x.id == this.id);
             this.selectedStore = this.selectedStorenmae[`store_name`];
           }, 500);
-
-          this.spinner.hide();
+          if (!this.initialAPICall) {
+            this.spinner.hide();
+          }
+          this.initialAPICall = true;
         },
         (err) => {
           console.log(err);
+          this.spinner.hide();
           if (err.error[`detail`]) {
             this.toastr.error(err.error[`detail`], "Error!", {
               timeOut: 3000,
@@ -197,5 +206,15 @@ export class StoreOverviewComponent implements OnInit {
 
   restore() {
     this.router.navigate([`store/retore_fridge/` + this.id]);
+  }
+
+  ngAfterViewInit() {
+    const source = interval(10000);
+    this.subscription = source.subscribe(() => this.displaydata(this.page));
+  }
+
+  ngOnDestroy() {
+    // console.log(" : hii ==> ");
+    this.subscription && this.subscription.unsubscribe();
   }
 }

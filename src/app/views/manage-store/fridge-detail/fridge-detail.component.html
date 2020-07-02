@@ -5,6 +5,14 @@
         <div class="card-header group-title-300">
           <!-- <i class="fa fa-info-circle icon-size" style="cursor: pointer;"></i> -->
           <strong>{{ store_name }}</strong>
+          <button
+            class="btn btn-sm btn-primary"
+            style="float: right;"
+            type="button"
+            (click)="back()"
+          >
+            Back
+          </button>
         </div>
         <div class="card-header group-title-221">
           <strong>Fridge: {{ fridge_name }}</strong>
@@ -25,6 +33,7 @@
                   [showTime]="true"
                   [maxDate]="dateTime"
                   formControlName="start_date"
+                  dateFormat="yy-mm-dd"
                   (onSelect)="validateDates()"
                 ></p-calendar>
                 <div
@@ -48,6 +57,7 @@
                   [showTime]="true"
                   [maxDate]="dateTime"
                   formControlName="end_date"
+                  dateFormat="yy-mm-dd"
                   (onSelect)="validateDates()"
                 ></p-calendar>
                 <div
@@ -163,14 +173,6 @@
                 </div>
                 <div class="row">
                   <div class="col-sm d-flex">
-                    <button
-                      class="btn btn-sm btn-primary"
-                      type="button"
-                      (click)="back()"
-                    >
-                      Back
-                    </button>
-
                     <button
                       *ngIf="permission == 'Admin'"
                       class="btn btn-sm btn-primary ml-auto"

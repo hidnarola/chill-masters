@@ -17,6 +17,8 @@ import exporting from "highcharts/modules/exporting";
 exporting(Highcharts);
 import HC_exportData from "highcharts/modules/export-data";
 HC_exportData(Highcharts);
+import _Highcharts from "highcharts/modules/offline-exporting";
+_Highcharts(Highcharts);
 // import * as exportingData from "highcharts/modules/export-data";
 @Component({
   selector: "app-fridge-detail",
@@ -60,9 +62,6 @@ export class FridgeDetailComponent implements OnInit {
     title: {
       text: "",
     },
-    subtitle: {
-      text: "Temperature measured with sensors on the fridge",
-    },
     legend: {
       enabled: false,
     },
@@ -76,8 +75,8 @@ export class FridgeDetailComponent implements OnInit {
       },
     },
     yAxis: {
-      // min: 0,
-      // max: "",
+      min: this.minRate,
+      max: this.maxRate,
       // tickInterval: 2,
       title: {
         text: "Temperature (°C)",
@@ -86,33 +85,26 @@ export class FridgeDetailComponent implements OnInit {
         {
           from: -150,
           to: "",
-          color: "#007bff55",
+          color: "#b3d9ff",
         },
         {
           from: "",
           to: 150,
-          color: "#dc354555",
+          color: "#ffcccc",
         },
       ],
     },
-    // new Date(
-    //   moment(Highcharts.dateFormat("%Y-%m-%d %H:%M:%S", this.x)).format(
-    //     "DD-mm-YYYY HH:mm"
-    //   )
-    // ) +
     tooltip: {
       formatter: function () {
         return (
           "<b>" +
           " date: </b>" +
-          moment(new Date(this.x)).format("DD-MM-YYYY HH:mm") +
+          moment(new Date(this.x)).format("YYYY-MM-DD HH:mm") +
           "<br> <b>Temperature: </b>" +
           this.y +
           "°C"
         );
       },
-      /* headerFormat: '<b>{series.name}</b><br>',
-       pointFormat: '{point.x:%e. %b}: {point.y:.2f} m' */
     },
     plotOptions: {
       series: {
@@ -121,7 +113,8 @@ export class FridgeDetailComponent implements OnInit {
         },
       },
     },
-    colors: ["#6CF", "#39F", "#06C", "#036", "#000"],
+    fallbackToExportServer: false,
+    colors: ["#00e673", "#00b359", "#008040", "#00331a", "#000"],
     series: [],
     responsive: {
       rules: [
@@ -213,8 +206,20 @@ export class FridgeDetailComponent implements OnInit {
           this.annotationLineChart.yAxis.plotBands[0].to = this.data.storage_range_min;
           this.annotationLineChart.yAxis.plotBands[1].from = this.data.storage_range_max;
           this.annotationLineChart.title.text =
-            "Temperature Fridge " + this.fridge_name;
-          // this.annotationLineChart.yAxis.max = this.data.storage_range_max + 10;
+            this.store_name + " : Fridge " + this.fridge_name;
+          this.annotationLineChart.yAxis.max = this.maxRate + 0.5;
+          this.annotationLineChart.yAxis.min = this.minRate - 0.5;
+
+          if (res[`maximum`] < this.data.storage_range_max) {
+            this.annotationLineChart.yAxis.max =
+              this.data.storage_range_max + 0.5;
+          }
+
+          if (res[`minimum`] > this.data.storage_range_min) {
+            this.annotationLineChart.yAxis.min =
+              this.data.storage_range_min - 0.5;
+          }
+
           this.annotationLineChart.series = this.data[`graph`];
           this.updateFlag = true;
         },
@@ -281,8 +286,20 @@ export class FridgeDetailComponent implements OnInit {
           this.annotationLineChart.yAxis.plotBands[0].to = this.data.storage_range_min;
           this.annotationLineChart.yAxis.plotBands[1].from = this.data.storage_range_max;
           this.annotationLineChart.title.text =
-            "Temperature Fridge " + this.fridge_name;
-          // this.annotationLineChart.yAxis.max = this.data.storage_range_max + 10;
+            this.store_name + " : Fridge " + this.fridge_name;
+
+          this.annotationLineChart.yAxis.max = this.maxRate + 0.5;
+          this.annotationLineChart.yAxis.min = this.minRate - 0.5;
+
+          if (res[`maximum`] <= this.data.storage_range_max) {
+            this.annotationLineChart.yAxis.max =
+              this.data.storage_range_max + 0.5;
+          }
+
+          if (res[`minimum`] >= this.data.storage_range_min) {
+            this.annotationLineChart.yAxis.min =
+              this.data.storage_range_min - 0.5;
+          }
           this.annotationLineChart.series = this.data[`graph`];
           this.updateFlag = true;
         },

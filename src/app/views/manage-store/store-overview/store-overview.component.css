@@ -22,3 +22,85 @@
   background-color: #ff8000d7;
   border-color: #faa958;
 }
+
+.card-body h6.card-title {
+  text-align: center;
+  font-weight: 300;
+}
+
+.card-body h5.card-title {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 25px;
+  /* font-weight: 300; */
+}
+
+.card-body p.card-text {
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+.StoreOverview h4.card-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 3rem;
+}
+.TemperatureDiv {
+  font-weight: 400;
+}
+.TemperatureDiv {
+  position: relative;
+}
+.TemperatureDiv:before {
+  content: "";
+  height: 10px;
+  width: 100%;
+  background: #fff;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.TemperatureDiv span {
+  background: #fff;
+  width: 40px;
+  height: 40px;
+  color: #333;
+  line-height: 40px;
+}
+.StoreOverview p.card-text {
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.TemperatureDiv {
+  position: relative;
+  display: flex;
+  margin: 0 0 1rem;
+}
+.TemperatureDiv:before {
+  content: "";
+  height: 10px;
+  width: 98%;
+  background: #fff;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+  left: 1%;
+}
+.TemperatureDiv span {
+  background: #fff;
+  width: 34px;
+  height: 34px;
+  color: #333;
+  line-height: 34px;
+  border-radius: 100px;
+  display: inline-block;
+  z-index: 1;
+  position: relative;
+  text-align: center;
+  font-weight: 400;
+}
+.TemperatureDiv span:last-child {
+  margin-left: auto;
+}

@@ -18,6 +18,12 @@
                   <div
                     class="card mb-3"
                     [ngClass]="{
+                      'text-white bg-warning':
+                        (item.low_battery_percentage != null &&
+                          item.current_battery != null &&
+                          item.current_battery <=
+                            item.low_battery_percentage) ||
+                        item.offline_status === true,
                       'text-white bg-success':
                         item.current_temperature >= item.storage_range_min &&
                         item.current_temperature <= item.storage_range_max,
@@ -25,9 +31,14 @@
                       'text-white bg-primary':
                         item.current_temperature <= item.storage_range_min,
                       'text-white bg-danger':
+                        ((item.low_battery_percentage != null &&
+                          item.current_battery != null &&
+                          item.current_battery <=
+                            item.low_battery_percentage) ||
+                          item.offline_status === true) === false &&
                         item.current_temperature > item.storage_range_max
                     }"
-                    style="max-width: 14rem; cursor: pointer;"
+                    style="width: 14rem; cursor: pointer;"
                   >
                     <div
                       class="card-header"
@@ -39,10 +50,28 @@
                     >
                       {{ item.fridge_name }}
                     </div>
-                    <div class="card-body">
-                      <h5 class="card-title">
-                        Current Temperature : {{ item.current_temperature }}°C
+                    <div class="card-body StoreOverview">
+                      <h4
+                        class="card-title"
+                        *ngIf="item.current_temperature === 0"
+                      >
+                        --
+                      </h4>
+                      <h4
+                        class="card-title"
+                        *ngIf="
+                          !item.offline_status && item.current_temperature !== 0
+                        "
+                      >
+                        {{ item.current_temperature }}°C
+                      </h4>
+                      <h5 class="card-title" *ngIf="item.offline_status">
+                        Offline
                       </h5>
+                      <div class="TemperatureDiv">
+                        <span>{{ item.storage_range_min }}</span>
+                        <span>{{ item.storage_range_max }}</span>
+                      </div>
                       <p class="card-text">
                         {{ item.fridge_content }}
                       </p>

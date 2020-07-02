@@ -298,6 +298,7 @@
                     <td class="pb-4">
                       <p-calendar
                         formControlName="installed_at"
+                        dateFormat="yy-mm-dd"
                         [showTime]="true"
                         (onSelect)="onSelectDate($event, i)"
                       ></p-calendar>
@@ -345,6 +346,7 @@
                       <p-calendar
                         formControlName="removed_at"
                         [showTime]="true"
+                        dateFormat="yy-mm-dd"
                         (onSelect)="onSelectDate($event, i)"
                       ></p-calendar>
                       <!-- [minDate]="minimumDate" -->
