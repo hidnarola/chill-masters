@@ -78,8 +78,8 @@ export class MyStoreService {
     });
   }
 
-  addFridge(data): Observable<any[]> {
-    return this.http.post<any[]>(`${this.url}` + "api/fridge/", data, {
+  addInstallation(data): Observable<any[]> {
+    return this.http.post<any[]>(`${this.url}` + "api/installation/", data, {
       headers: new HttpHeaders({
         Authorization: "Token " + localStorage.getItem("token"),
       }),
@@ -88,7 +88,7 @@ export class MyStoreService {
 
   overviewList(data, page): Observable<any[]> {
     return this.http.post<any[]>(
-      `${this.url}` + "api/store/fridge/?page_size=10&page=" + page,
+      `${this.url}` + "api/store/installation/?page_size=10&page=" + page,
       data,
       {
         headers: new HttpHeaders({
@@ -106,9 +106,9 @@ export class MyStoreService {
     });
   }
 
-  deletedFridgeList(data, page): Observable<any[]> {
+  deletedInstallationList(data, page): Observable<any[]> {
     return this.http.post<any[]>(
-      `${this.url}` + "api/store/fridge/?page_size=10&page=" + page,
+      `${this.url}` + "api/store/installation/?page_size=10&page=" + page,
       data,
       {
         headers: new HttpHeaders({
@@ -118,7 +118,7 @@ export class MyStoreService {
     );
   }
 
-  deletedFridgeListByPage(url, data): Observable<any[]> {
+  deletedInstallationListByPage(url, data): Observable<any[]> {
     return this.http.post<any[]>(`${url}`, data, {
       headers: new HttpHeaders({
         Authorization: "Token " + localStorage.getItem("token"),
@@ -126,17 +126,9 @@ export class MyStoreService {
     });
   }
 
-  fridgeDetail(data): Observable<any[]> {
-    return this.http.post<any[]>(`${this.url}` + "api/fridge/graph/", data, {
-      headers: new HttpHeaders({
-        Authorization: "Token " + localStorage.getItem("token"),
-      }),
-    });
-  }
-
-  getFreidgeById(data): Observable<any[]> {
+  installationDetail(data): Observable<any[]> {
     return this.http.post<any[]>(
-      `${this.url}` + "api/fridge/particular/",
+      `${this.url}` + "api/installation/graph/",
       data,
       {
         headers: new HttpHeaders({
@@ -146,8 +138,20 @@ export class MyStoreService {
     );
   }
 
-  updatefridge(data): Observable<any[]> {
-    return this.http.put<any[]>(`${this.url}` + "api/fridge/", data, {
+  getInstallationById(data): Observable<any[]> {
+    return this.http.post<any[]>(
+      `${this.url}` + "api/installation/particular/",
+      data,
+      {
+        headers: new HttpHeaders({
+          Authorization: "Token " + localStorage.getItem("token"),
+        }),
+      }
+    );
+  }
+
+  updateInstallation(data): Observable<any[]> {
+    return this.http.put<any[]>(`${this.url}` + "api/installation/", data, {
       headers: new HttpHeaders({
         Authorization: "Token " + localStorage.getItem("token"),
       }),
@@ -201,8 +205,8 @@ export class MyStoreService {
     });
   }
 
-  deleteFridge(data): Observable<any[]> {
-    return this.http.patch<any[]>(`${this.url}` + "api/fridge/", data, {
+  deleteInstallation(data): Observable<any[]> {
+    return this.http.patch<any[]>(`${this.url}` + "api/installation/", data, {
       headers: new HttpHeaders({
         Authorization: "Token " + localStorage.getItem("token"),
       }),

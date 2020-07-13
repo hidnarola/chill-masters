@@ -3,7 +3,7 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header group-title-221">
-          <strong>Store Overview</strong>
+          <strong>Site Overview</strong>
           <p class="pull-right"></p>
         </div>
         <div class="card-body">
@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="card-header group-title-221">
-          <strong>Store Overview</strong>
+          <strong>Site Overview</strong>
           <p class="pull-right"></p>
         </div>
 
@@ -50,43 +50,48 @@
             <p class="text-center">No Data Available..!</p>
           </div>
           <div class="col-md-12 ml-4" *ngIf="this.data.length > 0">
+            <!-- (item.low_battery_percentage != null &&
+                  item.current_battery != null &&
+                  item.current_battery <= item.low_battery_percentage) || -->
             <div class="row">
               <div
                 *ngFor="let item of data"
                 class="card mb-3 mr-3"
                 [ngClass]="{
                   'text-white bg-warning':
-                    (item.low_battery_percentage != null &&
+                    item.offline_status === true ||
+                    (item.offline_status === false &&
+                      item.low_battery_percentage != null &&
                       item.current_battery != null &&
-                      item.current_battery <= item.low_battery_percentage) ||
-                    item.offline_status === true,
+                      item.current_battery <= item.low_battery_percentage &&
+                      item.current_temperature >= item.storage_range_min &&
+                      item.current_temperature <= item.storage_range_max),
                   'text-white bg-success':
                     item.current_temperature >= item.storage_range_min &&
-                    item.current_temperature <= item.storage_range_max,
-                  'text-white bg-secondary': item.current_temperature === 0,
-                  'text-white bg-primary':
-                    item.current_temperature <= item.storage_range_min,
-                  'text-white bg-danger':
-                    ((item.low_battery_percentage != null &&
-                      item.current_battery != null &&
-                      item.current_battery <= item.low_battery_percentage) ||
-                      item.offline_status === true) === false &&
-                    item.current_temperature > item.storage_range_max
-                }"
-                style="width: 14rem; cursor: pointer;"
-                [routerLink]="['/store/fridge_detail']"
-                [queryParams]="{ store_id: item.store, fridge_id: item.id }"
-              >
-                <div
-                  class="card-header"
-                  [ngStyle]="
+                    item.current_temperature <= item.storage_range_max &&
+                    item.offline_status === false,
+                  'text-white bg-secondary':
                     item.current_temperature === 0 &&
-                    item.offline_status === null
-                      ? { 'background-color': '#808080' }
-                      : { 'background-color': '' }
-                  "
-                >
-                  {{ item.fridge_name }}
+                    item.offline_status === null,
+                  'text-white bg-primary':
+                    (item.current_temperature <= item.storage_range_min ||
+                      item.current_battery < item.low_battery_percentage) &&
+                    item.offline_status === false,
+                  'text-white bg-danger':
+                    item.low_battery_percentage != null &&
+                    item.current_battery != null &&
+                    item.current_temperature > item.storage_range_max &&
+                    item.offline_status === false
+                }"
+                style="width: 14rem; cursor: pointer; color: #fff;"
+                [routerLink]="['/site/installation_detail']"
+                [queryParams]="{
+                  site_id: item.store,
+                  installation_id: item.id
+                }"
+              >
+                <div class="card-header">
+                  {{ item.installation_name }}
                 </div>
                 <div class="card-body StoreOverview">
                   <h4
@@ -114,7 +119,17 @@
                     <span>{{ item.storage_range_max }}</span>
                   </div>
                   <p class="card-text">
-                    {{ item.fridge_content }}
+                    {{ item.installation_content }}
+                    <img
+                      *ngIf="
+                        item.low_battery_percentage != null &&
+                        item.current_battery != null &&
+                        item.current_battery <= item.low_battery_percentage &&
+                        !item.offline_status
+                      "
+                      class="battery-icon"
+                      src="../../../../assets/img/brand/low_battery.svg"
+                    />
                   </p>
                 </div>
               </div>
@@ -157,7 +172,7 @@
                 pButton
                 icon="pi pi-plus"
                 (click)="onclick()"
-                label="Add New Fridge"
+                label="Add New Installation"
               ></button>
             </div>
             <div class="ml-auto mr-5">
@@ -167,7 +182,7 @@
                 pButton
                 icon="pi pi-undo"
                 (click)="restore()"
-                label="Restore Deleted Fridge"
+                label="Restore Deleted Installation"
               ></button>
             </div>
           </div>

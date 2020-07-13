@@ -90,7 +90,7 @@ export class LoginComponent implements OnInit {
           const token = res.body["key"];
           if (token) {
             this.service.setToken(token);
-            this.router.navigate(["/user/store"]);
+            this.router.navigate(["/user/site"]);
             this.spinner.hide();
             this.toastr.success("Login Successfully", "Success!", {
               timeOut: 3000,

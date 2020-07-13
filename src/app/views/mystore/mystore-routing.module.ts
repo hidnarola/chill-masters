@@ -6,20 +6,20 @@ const routes: Routes = [
   {
     path: "",
     data: {
-      title: "Store"
+      title: "Site",
     },
     children: [
       {
         path: "",
-        redirectTo: "store"
+        redirectTo: "site",
       },
       {
-        path: "store",
+        path: "site",
         component: StorelistComponent,
         data: {
-          title: "My Store"
-        }
-      }
+          title: "My Site",
+        },
+      },
       // {
       //   path: 'add',
       //   component: GroupAddComponent,
@@ -42,12 +42,12 @@ const routes: Routes = [
       //     title: 'View'
       //   }
       // },
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class MystoreRoutingModule {}

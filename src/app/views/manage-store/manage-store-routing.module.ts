@@ -43,31 +43,31 @@ const routes: Routes = [
         },
       },
       {
-        path: "retore_fridge/:id",
+        path: "restore_installation/:id",
         component: RestoreFridgeComponent,
         data: {
-          title: "Restore Fridge",
+          title: "Restore installation",
         },
       },
       {
-        path: "add_fridge",
+        path: "add_installation",
         component: AddFridgeComponent,
         data: {
-          title: "Add Fridge",
+          title: "Add installation",
         },
       },
       {
-        path: "edit_fridge",
+        path: "edit_installation",
         component: AddFridgeComponent,
         data: {
-          title: "Edit Fridge",
+          title: "Edit installation",
         },
       },
       {
-        path: "fridge_detail",
+        path: "installation_detail",
         component: FridgeDetailComponent,
         data: {
-          title: "Fridge Detail",
+          title: "installation Detail",
         },
       },
     ],

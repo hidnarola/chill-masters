@@ -48,11 +48,11 @@ export class StorelistComponent implements OnInit, OnDestroy {
   }
 
   navigateToUsers(id) {
-    this.router.navigate([`/store/users/` + id]);
+    this.router.navigate([`/site/users/` + id]);
   }
 
   navigateToOverview(id) {
-    this.router.navigate([`/store/overview/` + id]);
+    this.router.navigate([`/site/overview/` + id]);
   }
 
   ngOnDestroy(): void {

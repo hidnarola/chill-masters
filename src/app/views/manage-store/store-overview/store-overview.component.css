@@ -23,6 +23,10 @@
   border-color: #faa958;
 }
 
+.card.bg-secondary .card-header {
+  background-color: #808080;
+}
+
 .card-body h6.card-title {
   text-align: center;
   font-weight: 300;
@@ -39,6 +43,11 @@
   font-size: 20px;
   font-weight: 400;
   text-transform: capitalize;
+}
+
+.card-body p.card-text .battery-icon {
+  float: right;
+  height: 30px;
 }
 .StoreOverview h4.card-title {
   text-align: center;

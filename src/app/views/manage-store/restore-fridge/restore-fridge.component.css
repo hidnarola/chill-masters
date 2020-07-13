@@ -18,6 +18,10 @@
   border-color: #faa958;
 }
 
+.card.bg-secondary .card-header {
+  background-color: #808080;
+}
+
 .card-body h6.card-title {
   text-align: center;
   font-weight: 300;
@@ -98,4 +102,8 @@
 }
 .TemperatureDiv span:last-child {
   margin-left: auto;
+}
+.card-body p.card-text .battery-icon {
+  float: right;
+  height: 30px;
 }

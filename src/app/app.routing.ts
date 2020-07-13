@@ -97,7 +97,7 @@ export const routes: Routes = [
         canActivate: [AuthGuardService],
       },
       {
-        path: "store",
+        path: "site",
         loadChildren: () =>
           import("./views/manage-store/manage-store.module").then(
             (m) => m.ManageStoreModule

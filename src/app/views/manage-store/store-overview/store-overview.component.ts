@@ -54,7 +54,7 @@ export class StoreOverviewComponent
         console.log("in else");
         setTimeout(() => {
           if (this.store.length > 0) {
-            this.router.navigate([`/store/overview/` + this.store[0][`id`]]);
+            this.router.navigate([`/site/overview/` + this.store[0][`id`]]);
             this.displayPage = true;
           } else {
             this.displayPage = false;
@@ -106,7 +106,7 @@ export class StoreOverviewComponent
       };
       this.service.overviewList(obj, page).subscribe(
         (res) => {
-          this.data = res[`fridge_data`];
+          this.data = res[`installation_data`];
           this.permission = res[`permission`];
           this.previous = res[`pagination`][`previous`];
           this.next = res[`pagination`][`next`];
@@ -137,14 +137,14 @@ export class StoreOverviewComponent
   }
 
   onclick() {
-    this.router.navigate(["/store/add_fridge"], {
-      queryParams: { store_id: this.id },
+    this.router.navigate(["/site/add_installation"], {
+      queryParams: { site_id: this.id },
     });
   }
 
   getCode(e) {
     // this.spinner.show();
-    this.router.navigate([`/store/overview/` + e.value.id]);
+    this.router.navigate([`/site/overview/` + e.value.id]);
     setTimeout(() => {
       this.displaydata(this.page);
     }, 1000);
@@ -157,7 +157,7 @@ export class StoreOverviewComponent
     };
     this.service.overviewListByPage(url, obj).subscribe(
       (res) => {
-        this.data = res[`fridge_data`];
+        this.data = res[`installation_data`];
         this.previous = res[`pagination`][`previous`];
         this.next = res[`pagination`][`next`];
         // this.selectedStorenmae = this.store.find(x => x.id == this.id);
@@ -184,7 +184,7 @@ export class StoreOverviewComponent
     };
     this.service.overviewListByPage(url, obj).subscribe(
       (res) => {
-        this.data = res[`fridge_data`];
+        this.data = res[`installation_data`];
         this.previous = res[`pagination`][`previous`];
         this.next = res[`pagination`][`next`];
         // this.selectedStorenmae = this.store.find(x => x.id == this.id);
@@ -205,16 +205,16 @@ export class StoreOverviewComponent
   }
 
   restore() {
-    this.router.navigate([`store/retore_fridge/` + this.id]);
+    this.router.navigate([`site/restore_installation/` + this.id]);
   }
 
   ngAfterViewInit() {
-    const source = interval(10000);
-    this.subscription = source.subscribe(() => this.displaydata(this.page));
+    // const source = interval(10000);
+    // this.subscription = source.subscribe(() => this.displaydata(this.page));
   }
 
   ngOnDestroy() {
     // console.log(" : hii ==> ");
-    this.subscription && this.subscription.unsubscribe();
+    // this.subscription && this.subscription.unsubscribe();
   }
 }

@@ -96,7 +96,7 @@ export class UserlistComponent implements OnInit, OnDestroy {
       } else {
         setTimeout(() => {
           if (this.store.length > 0) {
-            this.router.navigate([`store/users/` + this.store[0][`id`]]);
+            this.router.navigate([`site/users/` + this.store[0][`id`]]);
             this.displayPage = true;
           } else {
             this.displayPage = false;
@@ -175,7 +175,7 @@ export class UserlistComponent implements OnInit, OnDestroy {
   getCode(e) {
     this.spinner.show();
     this.valueChange = true;
-    this.router.navigate([`/store/users/` + e.value.id]);
+    this.router.navigate([`/site/users/` + e.value.id]);
     setTimeout(() => {
       this.displaydata();
     }, 1000);

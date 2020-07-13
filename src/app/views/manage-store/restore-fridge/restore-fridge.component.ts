@@ -41,9 +41,9 @@ export class RestoreFridgeComponent implements OnInit {
         store_id: this.id,
         delete_status: true,
       };
-      this.service.deletedFridgeList(obj, page).subscribe(
+      this.service.deletedInstallationList(obj, page).subscribe(
         (res) => {
-          this.data = res[`fridge_data`];
+          this.data = res[`installation_data`];
           this.previous = res[`pagination`][`previous`];
           this.next = res[`pagination`][`next`];
           this.spinner.hide();
@@ -71,9 +71,9 @@ export class RestoreFridgeComponent implements OnInit {
       store_id: parseInt(id),
       delete_status: true,
     };
-    this.service.deletedFridgeListByPage(url, obj).subscribe(
+    this.service.deletedInstallationListByPage(url, obj).subscribe(
       (res) => {
-        this.data = res[`fridge_data`];
+        this.data = res[`installation_data`];
         this.previous = res[`pagination`][`previous`];
         this.next = res[`pagination`][`next`];
       },
@@ -99,9 +99,9 @@ export class RestoreFridgeComponent implements OnInit {
       store_id: parseInt(id),
       delete_status: true,
     };
-    this.service.deletedFridgeListByPage(url, obj).subscribe(
+    this.service.deletedInstallationListByPage(url, obj).subscribe(
       (res) => {
-        this.data = res[`fridge_data`];
+        this.data = res[`installation_data`];
         this.previous = res[`pagination`][`previous`];
         this.next = res[`pagination`][`next`];
         // this.selectedStorenmae = this.store.find(x => x.id == this.id);
@@ -121,13 +121,13 @@ export class RestoreFridgeComponent implements OnInit {
     );
   }
 
-  restoreFridge(fridge_id, store_id) {
+  restoreInstallation(installation_id, store_id) {
     const restoreObj = {
-      fridge_id: fridge_id,
+      installation_id: installation_id,
       store_id: store_id,
       delete_status: false,
     };
-    this.service.deleteFridge(restoreObj).subscribe(
+    this.service.deleteInstallation(restoreObj).subscribe(
       (res) => {
         if (this.data.length <= 1 && this.previous != null) {
           this.page = this.page - 1;
@@ -151,6 +151,6 @@ export class RestoreFridgeComponent implements OnInit {
   }
 
   onclick() {
-    this.router.navigate([`store/overview/` + this.id]);
+    this.router.navigate([`site/overview/` + this.id]);
   }
 }

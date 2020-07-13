@@ -32,7 +32,7 @@ export class AddFridgeComponent implements OnInit {
   public isFormSubmitted;
   public isCreateSensorFormSubmitted;
   store_id: any;
-  fridge_id: any;
+  installation_id: any;
   storeList: any = [{ label: "Select Location", value: "" }];
   sensorsList: any = [{ label: "Select Sensor", value: "" }];
   originalSensorsList: any = [];
@@ -41,7 +41,7 @@ export class AddFridgeComponent implements OnInit {
   getSensorsById: any = [];
   finalSensorData: any = [];
   editMode = false;
-  PageTitle = "Add New Fridge";
+  PageTitle = "Add New Installation";
   display: boolean = false;
   currentIndex = null;
   tempSensorData: any = [];
@@ -60,8 +60,8 @@ export class AddFridgeComponent implements OnInit {
     private spinner: NgxSpinnerService
   ) {
     this.route.queryParamMap.subscribe((params) => {
-      this.store_id = params.get("store_id");
-      this.fridge_id = params.get("fridge_id");
+      this.store_id = params.get("site_id");
+      this.installation_id = params.get("installation_id");
     });
   }
 
@@ -73,15 +73,15 @@ export class AddFridgeComponent implements OnInit {
         Validators.required,
         this.noWhitespaceValidator,
       ]),
-      fridge_name: new FormControl("", [
+      installation_name: new FormControl("", [
         Validators.required,
         this.noWhitespaceValidator,
       ]),
-      fridge_content: new FormControl("", [
+      installation_content: new FormControl("", [
         Validators.required,
         this.noWhitespaceValidator,
       ]),
-      fridge_description: new FormControl("", [
+      installation_description: new FormControl("", [
         Validators.required,
         this.noWhitespaceValidator,
       ]),
@@ -101,34 +101,36 @@ export class AddFridgeComponent implements OnInit {
       ]),
     });
 
-    if (this.store_id != null && this.fridge_id != null) {
+    if (this.store_id != null && this.installation_id != null) {
       this.spinner.show();
       this.editMode = true;
-      this.PageTitle = "Edit Fridge";
+      this.PageTitle = "Edit Installation";
       const obj = {
         store_id: parseInt(this.store_id, 10),
-        fridge_id: parseInt(this.fridge_id, 10),
+        installation_id: parseInt(this.installation_id, 10),
       };
-      this.service.getFreidgeById(obj).subscribe(
+      this.service.getInstallationById(obj).subscribe(
         (res) => {
-          this.form.controls[`store`].setValue(res[`fridge_data`][`store`]);
-          this.form.controls[`fridge_name`].setValue(
-            res[`fridge_data`][`fridge_name`]
+          this.form.controls[`store`].setValue(
+            res[`installation_data`][`store`]
           );
-          this.form.controls[`fridge_content`].setValue(
-            res[`fridge_data`][`fridge_content`]
+          this.form.controls[`installation_name`].setValue(
+            res[`installation_data`][`installation_name`]
           );
-          this.form.controls[`fridge_description`].setValue(
-            res[`fridge_data`][`fridge_description`]
+          this.form.controls[`installation_content`].setValue(
+            res[`installation_data`][`installation_content`]
+          );
+          this.form.controls[`installation_description`].setValue(
+            res[`installation_data`][`installation_description`]
           );
           this.form.controls[`storage_range_min`].setValue(
-            res[`fridge_data`][`storage_range_min`]
+            res[`installation_data`][`storage_range_min`]
           );
           this.form.controls[`storage_range_max`].setValue(
-            res[`fridge_data`][`storage_range_max`]
+            res[`installation_data`][`storage_range_max`]
           );
           this.form.controls[`created_by`].setValue(
-            res[`fridge_data`][`created_by`]
+            res[`installation_data`][`created_by`]
           );
           this.getSensor();
         },
@@ -156,13 +158,13 @@ export class AddFridgeComponent implements OnInit {
 
   getSensor() {
     const sensorObj = {
-      fridge_id: this.fridge_id,
+      installation_id: this.installation_id,
       store_id: this.store_id,
     };
 
     this.service.getSensor(sensorObj).subscribe(
       (res) => {
-        this.getSensorsById = res[`sensor_fridge_data`];
+        this.getSensorsById = res[`sensor_installation_data`];
         for (
           let index = 0;
           this.myForm.controls[`sensor_data`][`controls`].length <
@@ -339,7 +341,7 @@ export class AddFridgeComponent implements OnInit {
     this.sensor_data = this.myForm.get("sensor_data") as FormArray;
     if (this.sensor_data.value[index][`id`] != null) {
       const deleteObj = {
-        sensor_fridge_id: this.sensor_data.value[index][`id`],
+        sensor_installation_id: this.sensor_data.value[index][`id`],
         store: parseInt(this.store_id, 10),
       };
       this.service.deleteSensor(deleteObj).subscribe(
@@ -360,20 +362,20 @@ export class AddFridgeComponent implements OnInit {
     return false;
   }
 
-  deleteFridge() {
+  deleteInstallation() {
     this.spinner.show();
     const deleteObj = {
-      fridge_id: parseInt(this.fridge_id, 10),
+      installation_id: parseInt(this.installation_id, 10),
       store_id: parseInt(this.store_id, 10),
       delete_status: true,
     };
 
-    this.service.deleteFridge(deleteObj).subscribe(
+    this.service.deleteInstallation(deleteObj).subscribe(
       (res) => {
-        this.toastr.success("Fridge Deleted Sucessfully", "Success!", {
+        this.toastr.success("Installation Deleted Sucessfully", "Success!", {
           timeOut: 3000,
         });
-        this.router.navigate(["store/overview/" + this.store_id]);
+        this.router.navigate(["site/overview/" + this.store_id]);
         this.spinner.hide();
       },
       (err) => {
@@ -548,7 +550,7 @@ export class AddFridgeComponent implements OnInit {
         return;
       }
       this.spinner.show();
-      if (this.store_id != null && this.fridge_id != null) {
+      if (this.store_id != null && this.installation_id != null) {
         for (
           let index = 0;
           index < this.myForm.value.sensor_data.length;
@@ -586,27 +588,31 @@ export class AddFridgeComponent implements OnInit {
 
         const updatedData = {
           ...this.form.value,
-          id: parseInt(this.fridge_id, 10),
+          id: parseInt(this.installation_id, 10),
           store: parseInt(this.store_id, 10),
         };
         const UpdateSensors = {
           sensor_data: this.finalSensorData,
-          fridge_data: updatedData,
+          installation_data: updatedData,
           store: parseInt(this.store_id, 10),
         };
 
         this.service.updateSensor(UpdateSensors).subscribe(
           (result) => {
             if (result[`detail`]) {
-              this.toastr.success("Fridge Updated Sucessfully", "Success!", {
-                timeOut: 3000,
-              });
+              this.toastr.success(
+                "Installation Updated Sucessfully",
+                "Success!",
+                {
+                  timeOut: 3000,
+                }
+              );
               this.form.reset();
               this.myForm.reset();
-              this.router.navigate(["store/fridge_detail"], {
+              this.router.navigate(["site/installation_detail"], {
                 queryParams: {
-                  store_id: this.store_id,
-                  fridge_id: this.fridge_id,
+                  site_id: this.store_id,
+                  installation_id: this.installation_id,
                 },
               });
               this.spinner.hide();
@@ -661,7 +667,8 @@ export class AddFridgeComponent implements OnInit {
                   old_removed_at = null;
                 }
 
-                const old_sensor_fridge_name = element.old_sensor_fridge_name;
+                const old_sensor_installation_name =
+                  element.old_sensor_installation_name;
                 const old_sensor_temperature_sensor =
                   element.old_sensor_temperature_sensor;
                 const errorString =
@@ -671,7 +678,7 @@ export class AddFridgeComponent implements OnInit {
                   " to " +
                   current_removed_at +
                   " is already time slot registered by " +
-                  old_sensor_fridge_name +
+                  old_sensor_installation_name +
                   " and " +
                   old_sensor_temperature_sensor +
                   " with time " +
@@ -737,18 +744,22 @@ export class AddFridgeComponent implements OnInit {
 
         const sensor_obj = {
           sensor_data: this.finalSensorData,
-          fridge_data: this.form.value,
+          installation_data: this.form.value,
           store: parseInt(this.store_id, 10),
         };
         this.service.addSensor(sensor_obj).subscribe(
           (result) => {
             if (result[`detail`]) {
-              this.toastr.success("Fridge Added Sucessfully.", "Success!", {
-                timeOut: 3000,
-              });
+              this.toastr.success(
+                "Installation Added Sucessfully.",
+                "Success!",
+                {
+                  timeOut: 3000,
+                }
+              );
               this.form.reset();
               this.myForm.reset();
-              this.router.navigate(["store/overview/" + this.store_id]);
+              this.router.navigate(["site/overview/" + this.store_id]);
               this.spinner.hide();
             }
           },
@@ -801,7 +812,8 @@ export class AddFridgeComponent implements OnInit {
                   old_removed_at = null;
                 }
 
-                const old_sensor_fridge_name = element.old_sensor_fridge_name;
+                const old_sensor_installation_name =
+                  element.old_sensor_installation_name;
                 const old_sensor_temperature_sensor =
                   element.old_sensor_temperature_sensor;
                 const errorString =
@@ -811,7 +823,7 @@ export class AddFridgeComponent implements OnInit {
                   " to " +
                   current_removed_at +
                   " is already time slot registered by " +
-                  old_sensor_fridge_name +
+                  old_sensor_installation_name +
                   " and " +
                   old_sensor_temperature_sensor +
                   " with time " +
@@ -840,12 +852,12 @@ export class AddFridgeComponent implements OnInit {
 
   onBack() {
     if (this.editMode === false) {
-      this.router.navigate(["store/overview/" + this.store_id]);
+      this.router.navigate(["site/overview/" + this.store_id]);
     } else {
-      this.router.navigate(["store/fridge_detail"], {
+      this.router.navigate(["site/installation_detail"], {
         queryParams: {
-          store_id: this.store_id,
-          fridge_id: this.fridge_id,
+          site_id: this.store_id,
+          installation_id: this.installation_id,
         },
       });
     }

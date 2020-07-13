@@ -4,12 +4,12 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   UrlTree,
-  Router
+  Router,
 } from "@angular/router";
 import { Observable } from "rxjs";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class LoginGuard implements CanActivate {
   constructor(private router: Router) {}
@@ -32,7 +32,7 @@ export class LoginGuard implements CanActivate {
       islogin = false;
     }
     if (islogin) {
-      this.router.navigate(["/user/store"]);
+      this.router.navigate(["/user/site"]);
       return false;
     }
 

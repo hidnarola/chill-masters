@@ -15,7 +15,7 @@
           </button>
         </div>
         <div class="card-header group-title-221">
-          <strong>Fridge: {{ fridge_name }}</strong>
+          <strong>{{ installation_name }}</strong>
           <p class="pull-right"></p>
         </div>
 
@@ -177,13 +177,13 @@
                       *ngIf="permission == 'Admin'"
                       class="btn btn-sm btn-primary ml-auto"
                       type="button"
-                      [routerLink]="['/store/edit_fridge']"
+                      [routerLink]="['/site/edit_installation']"
                       [queryParams]="{
-                        store_id: store_id,
-                        fridge_id: fridge_id
+                        site_id: store_id,
+                        installation_id: installation_id
                       }"
                     >
-                      Edit Fridge
+                      Edit Installation
                     </button>
                   </div>
                 </div>
