@@ -7,24 +7,24 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 @Injectable({
   providedIn: "root",
 })
-export class MyStoreService {
+export class MySiteService {
   private url = env.environment.API_URL;
 
   constructor(public router: Router, private http: HttpClient) {}
 
-  mystore_list(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}` + "api/user/store/", {
+  mysite_list(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.url}` + "api/user/site/", {
       headers: new HttpHeaders({
         Authorization: "Token " + localStorage.getItem("token"),
       }),
     });
   }
 
-  store_users(id): Observable<any[]> {
+  site_users(id): Observable<any[]> {
     const obj = {
-      store_id: id,
+      site_id: id,
     };
-    return this.http.post<any[]>(`${this.url}` + "api/user/store/", obj, {
+    return this.http.post<any[]>(`${this.url}` + "api/user/site/", obj, {
       headers: new HttpHeaders({
         Authorization: "Token " + localStorage.getItem("token"),
       }),
@@ -32,7 +32,7 @@ export class MyStoreService {
   }
 
   changePemission(data): Observable<any[]> {
-    return this.http.put<any[]>(`${this.url}` + "api/user/store/", data, {
+    return this.http.put<any[]>(`${this.url}` + "api/user/site/", data, {
       headers: new HttpHeaders({
         Authorization: "Token " + localStorage.getItem("token"),
       }),
@@ -40,7 +40,7 @@ export class MyStoreService {
   }
 
   changeAlert(data): Observable<any[]> {
-    return this.http.patch<any[]>(`${this.url}` + "api/user/store/", data, {
+    return this.http.patch<any[]>(`${this.url}` + "api/user/site/", data, {
       headers: new HttpHeaders({
         Authorization: "Token " + localStorage.getItem("token"),
       }),
@@ -49,7 +49,7 @@ export class MyStoreService {
 
   changeMyalert(data): Observable<any[]> {
     return this.http.put<any[]>(
-      `${this.url}` + "api/user/store/myalert/",
+      `${this.url}` + "api/user/site/myalert/",
       data,
       {
         headers: new HttpHeaders({
@@ -88,7 +88,7 @@ export class MyStoreService {
 
   overviewList(data, page): Observable<any[]> {
     return this.http.post<any[]>(
-      `${this.url}` + "api/store/installation/?page_size=10&page=" + page,
+      `${this.url}` + "api/site/installation/?page_size=10&page=" + page,
       data,
       {
         headers: new HttpHeaders({
@@ -108,7 +108,7 @@ export class MyStoreService {
 
   deletedInstallationList(data, page): Observable<any[]> {
     return this.http.post<any[]>(
-      `${this.url}` + "api/store/installation/?page_size=10&page=" + page,
+      `${this.url}` + "api/site/installation/?page_size=10&page=" + page,
       data,
       {
         headers: new HttpHeaders({

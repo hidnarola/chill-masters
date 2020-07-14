@@ -8,7 +8,7 @@
         </div>
         <div class="card-body">
           <div class="NoData">
-            <p class="text-center">No stores..!</p>
+            <p class="text-center">No sites..!</p>
           </div>
         </div>
       </div>
@@ -33,13 +33,13 @@
             <div class="ml-auto">
               <form [formGroup]="form">
                 <p-dropdown
-                  [options]="store"
-                  placeholder="Select store"
-                  optionLabel="store_name"
-                  formControlName="store_name"
-                  [(ngModel)]="selectedStorenmae"
+                  [options]="site"
+                  placeholder="Select site"
+                  optionLabel="site_name"
+                  formControlName="site_name"
+                  [(ngModel)]="selectedSitename"
                   (onChange)="getCode($event)"
-                  id="store_name"
+                  id="site_name"
                 ></p-dropdown>
               </form>
             </div>
@@ -47,7 +47,7 @@
         </div>
         <div class="card-header group-title-221" *ngIf="users.length > 0">
           <!-- <i class="fa fa-info-circle icon-size" style="cursor: pointer;"></i> -->
-          <strong>{{ storename }}</strong>
+          <strong>{{ sitename }}</strong>
           <p class="pull-right"></p>
         </div>
 

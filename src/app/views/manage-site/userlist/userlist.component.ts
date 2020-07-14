@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { MyStoreService } from "../../../services/mystore.service";
+import { MySiteService } from "../../../services/mysite.service";
 import { Subject } from "rxjs";
 import _ from "lodash";
 import {
@@ -29,12 +29,12 @@ export class UserlistComponent implements OnInit, OnDestroy {
   alertForm: FormGroup;
   userForm: FormGroup;
   public isFormSubmitted;
-  store: any = [];
-  selectedStorenmae: any;
+  site: any = [];
+  selectedSitename: any;
   id: any;
   users: any = [];
   permission: any;
-  storename = "";
+  sitename = "";
   valueChange = false;
   PermissionData: any;
   alertData: any;
@@ -53,14 +53,14 @@ export class UserlistComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private service: MyStoreService,
+    private service: MySiteService,
     public fb: FormBuilder,
     private router: Router,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) {
     this.form = this.fb.group({
-      store_name: new FormControl(""),
+      site_name: new FormControl(""),
     });
   }
 
@@ -70,11 +70,11 @@ export class UserlistComponent implements OnInit, OnDestroy {
       pagingType: "full_numbers",
       destroy: true,
     };
-    this.storelist();
+    this.sitelist();
     this.allUsers();
 
     this.form = this.fb.group({
-      store_name: new FormControl(""),
+      site_name: new FormControl(""),
     });
 
     this.permissionForm = this.fb.group({
@@ -95,8 +95,8 @@ export class UserlistComponent implements OnInit, OnDestroy {
         this.displaydata();
       } else {
         setTimeout(() => {
-          if (this.store.length > 0) {
-            this.router.navigate([`site/users/` + this.store[0][`id`]]);
+          if (this.site.length > 0) {
+            this.router.navigate([`site/users/` + this.site[0][`id`]]);
             this.displayPage = true;
           } else {
             this.displayPage = false;
@@ -109,7 +109,7 @@ export class UserlistComponent implements OnInit, OnDestroy {
 
   displaydata() {
     if (this.id) {
-      this.service.store_users(this.id).subscribe(
+      this.service.site_users(this.id).subscribe(
         (res) => {
           setTimeout(() => {
             if (this.valueChange == false) {
@@ -118,11 +118,11 @@ export class UserlistComponent implements OnInit, OnDestroy {
               this.rerender();
             }
 
-            this.users = res[`user_store`];
+            this.users = res[`user_site`];
             this.permission = res[`permission`];
-            this.storename = res[`user_store`][0][`store`][`store_name`];
-            this.selectedStorenmae = this.store.find(
-              (x) => x.store_name == res[`user_store`][0][`store`][`store_name`]
+            this.sitename = res[`user_site`][0][`site`][`site_name`];
+            this.selectedSitename = this.site.find(
+              (x) => x.site_name == res[`user_site`][0][`site`][`site_name`]
             );
             this.spinner.hide();
           }, 300);
@@ -144,16 +144,16 @@ export class UserlistComponent implements OnInit, OnDestroy {
     }
   }
 
-  storelist() {
-    this.service.mystore_list().subscribe(
+  sitelist() {
+    this.service.mysite_list().subscribe(
       (res) => {
-        const store = res;
-        const storeList = [];
-        if (store.length > 0) {
-          for (const item of store) {
-            storeList.push(item.store);
+        const site = res;
+        const siteList = [];
+        if (site.length > 0) {
+          for (const item of site) {
+            siteList.push(item.site);
           }
-          this.store = _.uniqBy(storeList, "store_name");
+          this.site = _.uniqBy(siteList, "site_name");
         } else {
           this.spinner.hide();
         }
@@ -218,8 +218,8 @@ export class UserlistComponent implements OnInit, OnDestroy {
     this.spinner.show();
     this.valueChange = true;
     const obj = {
-      user_store_id: this.PermissionData[`id`],
-      store_id: this.PermissionData[`store`][`id`],
+      user_site_id: this.PermissionData[`id`],
+      site_id: this.PermissionData[`site`][`id`],
       ...this.permissionForm.value,
     };
     this.service.changePemission(obj).subscribe(
@@ -254,8 +254,8 @@ export class UserlistComponent implements OnInit, OnDestroy {
     let obj = {};
     if (this.alertForm.value && this.alertForm.value[`alerts`] === "true") {
       obj = {
-        store_id: this.alertData[`store`][`id`],
-        user_store_id: this.alertData["id"],
+        site_id: this.alertData[`site`][`id`],
+        user_site_id: this.alertData["id"],
         alerts: true,
       };
     } else if (
@@ -263,8 +263,8 @@ export class UserlistComponent implements OnInit, OnDestroy {
       this.alertForm.value[`alerts`] === "false"
     ) {
       obj = {
-        store_id: this.alertData[`store`][`id`],
-        user_store_id: this.alertData["id"],
+        site_id: this.alertData[`site`][`id`],
+        user_site_id: this.alertData["id"],
         alerts: false,
       };
     }
@@ -302,7 +302,7 @@ export class UserlistComponent implements OnInit, OnDestroy {
       this.spinner.show();
       const userId = this.userForm.value;
       const obj = {
-        store: parseInt(this.id, 10),
+        site: parseInt(this.id, 10),
         user: userId.user.id,
       };
       this.service.addUser(obj).subscribe(

@@ -93,14 +93,14 @@ export const routes: Routes = [
       {
         path: "user",
         loadChildren: () =>
-          import("./views/mystore/mystore.module").then((m) => m.MystoreModule),
+          import("./views/mysite/mysite.module").then((m) => m.MysiteModule),
         canActivate: [AuthGuardService],
       },
       {
         path: "site",
         loadChildren: () =>
-          import("./views/manage-store/manage-store.module").then(
-            (m) => m.ManageStoreModule
+          import("./views/manage-site/manage-site.module").then(
+            (m) => m.ManageSiteModule
           ),
         canActivate: [AuthGuardService],
       },

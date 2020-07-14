@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { MyStoreService } from "../../../services/mystore.service";
+import { MySiteService } from "../../../services/mysite.service";
 import {
   FormGroup,
   FormBuilder,
@@ -21,21 +21,21 @@ import _Highcharts from "highcharts/modules/offline-exporting";
 _Highcharts(Highcharts);
 // import * as exportingData from "highcharts/modules/export-data";
 @Component({
-  selector: "app-fridge-detail",
-  templateUrl: "./fridge-detail.component.html",
-  styleUrls: ["./fridge-detail.component.css"],
+  selector: "app-installation-detail",
+  templateUrl: "./installation-detail.component.html",
+  styleUrls: ["./installation-detail.component.css"],
 })
-export class FridgeDetailComponent implements OnInit {
+export class InstallationDetailComponent implements OnInit {
   form: FormGroup;
   filterForm: FormGroup;
   isFormSubmitted = false;
   error: any = { isError: false, errorMessage: "" };
   isValidDate: any;
-  store_id: any;
+  site_id: any;
   installation_id: any;
   dateTime = new Date();
   data: any;
-  store_name = "";
+  site_name = "";
   installation_name = "";
   permission: any;
   minRate: any;
@@ -139,12 +139,12 @@ export class FridgeDetailComponent implements OnInit {
     private Activatedroute: ActivatedRoute,
     private router: Router,
     public fb: FormBuilder,
-    private service: MyStoreService,
+    private service: MySiteService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) {
     this.Activatedroute.queryParamMap.subscribe((params) => {
-      this.store_id = params.get("site_id");
+      this.site_id = params.get("site_id");
       this.installation_id = params.get("installation_id");
     });
 
@@ -169,7 +169,7 @@ export class FridgeDetailComponent implements OnInit {
     this.spinner.hide();
     if (this.filterForm.valid) {
       const obj = {
-        store_id: parseInt(this.store_id, 10),
+        site_id: parseInt(this.site_id, 10),
         installation_id: parseInt(this.installation_id, 10),
         start_date: moment(this.filterForm.get("start_date").value)
           .utc()
@@ -201,12 +201,12 @@ export class FridgeDetailComponent implements OnInit {
           this.permission = res[`permission`];
           this.graphDataLength = this.data[`graph`].length;
 
-          this.store_name = res[`store_name`];
+          this.site_name = res[`site_name`];
           this.installation_name = res[`installation_name`];
           this.annotationLineChart.yAxis.plotBands[0].to = this.data.storage_range_min;
           this.annotationLineChart.yAxis.plotBands[1].from = this.data.storage_range_max;
           this.annotationLineChart.title.text =
-            this.store_name + " : " + this.installation_name;
+            this.site_name + " : " + this.installation_name;
           this.annotationLineChart.yAxis.max = this.maxRate + 0.5;
           this.annotationLineChart.yAxis.min = this.minRate - 0.5;
 
@@ -250,7 +250,7 @@ export class FridgeDetailComponent implements OnInit {
 
       this.spinner.show();
       const obj = {
-        store_id: parseInt(this.store_id, 10),
+        site_id: parseInt(this.site_id, 10),
         installation_id: parseInt(this.installation_id, 10),
         start_date: moment(this.filterForm.get("start_date").value)
           .utc()
@@ -281,12 +281,12 @@ export class FridgeDetailComponent implements OnInit {
           }
           this.permission = res[`permission`];
           this.graphDataLength = this.data[`graph`].length;
-          this.store_name = res[`store_name`];
+          this.site_name = res[`site_name`];
           this.installation_name = res[`installation_name`];
           this.annotationLineChart.yAxis.plotBands[0].to = this.data.storage_range_min;
           this.annotationLineChart.yAxis.plotBands[1].from = this.data.storage_range_max;
           this.annotationLineChart.title.text =
-            this.store_name + " : " + this.installation_name;
+            this.site_name + " : " + this.installation_name;
 
           this.annotationLineChart.yAxis.max = this.maxRate + 0.5;
           this.annotationLineChart.yAxis.min = this.minRate - 0.5;
@@ -338,6 +338,6 @@ export class FridgeDetailComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate(["/site/overview/" + this.store_id]);
+    this.router.navigate(["/site/overview/" + this.site_id]);
   }
 }

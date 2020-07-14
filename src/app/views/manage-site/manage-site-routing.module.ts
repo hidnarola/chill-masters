@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { UserlistComponent } from "./userlist/userlist.component";
-import { StoreOverviewComponent } from "./store-overview/store-overview.component";
-import { AddFridgeComponent } from "./add-fridge/add-fridge.component";
-import { FridgeDetailComponent } from "./fridge-detail/fridge-detail.component";
-import { RestoreFridgeComponent } from "./restore-fridge/restore-fridge.component";
+import { SiteOverviewComponent } from "./site-overview/site-overview.component";
+import { AddInstallationComponent } from "./add-installation/add-installation.component";
+import { InstallationDetailComponent } from "./installation-detail/installation-detail.component";
+import { RestoreInstallationComponent } from "./restore-installation/restore-installation.component";
 
 const routes: Routes = [
   {
@@ -30,42 +30,42 @@ const routes: Routes = [
       },
       {
         path: "overview",
-        component: StoreOverviewComponent,
+        component: SiteOverviewComponent,
         data: {
           title: "Overview",
         },
       },
       {
         path: "overview/:id",
-        component: StoreOverviewComponent,
+        component: SiteOverviewComponent,
         data: {
           title: "Overview",
         },
       },
       {
         path: "restore_installation/:id",
-        component: RestoreFridgeComponent,
+        component: RestoreInstallationComponent,
         data: {
           title: "Restore installation",
         },
       },
       {
         path: "add_installation",
-        component: AddFridgeComponent,
+        component: AddInstallationComponent,
         data: {
           title: "Add installation",
         },
       },
       {
         path: "edit_installation",
-        component: AddFridgeComponent,
+        component: AddInstallationComponent,
         data: {
           title: "Edit installation",
         },
       },
       {
         path: "installation_detail",
-        component: FridgeDetailComponent,
+        component: InstallationDetailComponent,
         data: {
           title: "installation Detail",
         },
@@ -78,4 +78,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ManageStoreRoutingModule {}
+export class ManageSiteRoutingModule {}

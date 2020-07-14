@@ -1,16 +1,16 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, Params } from "@angular/router";
-import { MyStoreService } from "../../../services/mystore.service";
+import { MySiteService } from "../../../services/mysite.service";
 import { FormBuilder } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
-  selector: "app-restore-fridge",
-  templateUrl: "./restore-fridge.component.html",
-  styleUrls: ["./restore-fridge.component.css"],
+  selector: "app-restore-installation",
+  templateUrl: "./restore-installation.component.html",
+  styleUrls: ["./restore-installation.component.css"],
 })
-export class RestoreFridgeComponent implements OnInit {
+export class RestoreInstallationComponent implements OnInit {
   id: any;
   page: any;
   data: any = [];
@@ -19,7 +19,7 @@ export class RestoreFridgeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private service: MyStoreService,
+    private service: MySiteService,
     public fb: FormBuilder,
     private router: Router,
     private toastr: ToastrService,
@@ -38,7 +38,7 @@ export class RestoreFridgeComponent implements OnInit {
     if (this.id) {
       this.spinner.show();
       const obj = {
-        store_id: this.id,
+        site_id: this.id,
         delete_status: true,
       };
       this.service.deletedInstallationList(obj, page).subscribe(
@@ -68,7 +68,7 @@ export class RestoreFridgeComponent implements OnInit {
     this.page = this.page + 1;
 
     const obj = {
-      store_id: parseInt(id),
+      site_id: parseInt(id),
       delete_status: true,
     };
     this.service.deletedInstallationListByPage(url, obj).subscribe(
@@ -96,7 +96,7 @@ export class RestoreFridgeComponent implements OnInit {
     this.page = this.page - 1;
 
     const obj = {
-      store_id: parseInt(id),
+      site_id: parseInt(id),
       delete_status: true,
     };
     this.service.deletedInstallationListByPage(url, obj).subscribe(
@@ -104,7 +104,6 @@ export class RestoreFridgeComponent implements OnInit {
         this.data = res[`installation_data`];
         this.previous = res[`pagination`][`previous`];
         this.next = res[`pagination`][`next`];
-        // this.selectedStorenmae = this.store.find(x => x.id == this.id);
       },
       (err) => {
         console.log(" : err ==> ", err);
@@ -121,10 +120,10 @@ export class RestoreFridgeComponent implements OnInit {
     );
   }
 
-  restoreInstallation(installation_id, store_id) {
+  restoreInstallation(installation_id, site_id) {
     const restoreObj = {
       installation_id: installation_id,
-      store_id: store_id,
+      site_id: site_id,
       delete_status: false,
     };
     this.service.deleteInstallation(restoreObj).subscribe(

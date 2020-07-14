@@ -1,29 +1,28 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from "@angular/core";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
-import { MyStoreService } from "../../../services/mystore.service";
+import { MySiteService } from "../../../services/mysite.service";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
 import { interval, Subscription } from "rxjs";
 import _ from "lodash";
 
 @Component({
-  selector: "app-store-overview",
-  templateUrl: "./store-overview.component.html",
-  styleUrls: ["./store-overview.component.css"],
+  selector: "app-site-overview",
+  templateUrl: "./site-overview.component.html",
+  styleUrls: ["./site-overview.component.css"],
 })
-export class StoreOverviewComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+export class SiteOverviewComponent implements OnInit, AfterViewInit, OnDestroy {
   form: FormGroup;
-  store: any = [];
+  site: any = [];
   permission: any;
   id: number;
   page: any;
   pagination: any;
   previous: any;
   next: any;
-  selectedStorenmae: any;
-  selectedStore = "";
+  selectedSitename: any;
+  selectedSite = "";
   data: any = [];
   displayPage: boolean = true;
   subscription: Subscription;
@@ -31,21 +30,21 @@ export class StoreOverviewComponent
   initialAPICall = false;
   constructor(
     private route: ActivatedRoute,
-    private service: MyStoreService,
+    private service: MySiteService,
     public fb: FormBuilder,
     private router: Router,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) {
     this.form = this.fb.group({
-      store_name: new FormControl(""),
+      site_name: new FormControl(""),
     });
   }
 
   ngOnInit(): void {
     this.spinner.show();
     this.page = 1;
-    this.storelist();
+    this.sitelist();
     this.route.paramMap.subscribe((params: Params) => {
       this.id = params.get("id");
       if (this.id != null) {
@@ -53,8 +52,8 @@ export class StoreOverviewComponent
       } else {
         console.log("in else");
         setTimeout(() => {
-          if (this.store.length > 0) {
-            this.router.navigate([`/site/overview/` + this.store[0][`id`]]);
+          if (this.site.length > 0) {
+            this.router.navigate([`/site/overview/` + this.site[0][`id`]]);
             this.displayPage = true;
           } else {
             this.displayPage = false;
@@ -65,16 +64,16 @@ export class StoreOverviewComponent
     });
   }
 
-  storelist() {
-    this.service.mystore_list().subscribe(
+  sitelist() {
+    this.service.mysite_list().subscribe(
       (res) => {
-        const store = res;
-        const storeList = [];
-        if (store.length > 0) {
-          for (const item of store) {
-            storeList.push(item.store);
+        const site = res;
+        const siteList = [];
+        if (site.length > 0) {
+          for (const item of site) {
+            siteList.push(item.site);
           }
-          this.store = _.uniqBy(storeList, "store_name");
+          this.site = _.uniqBy(siteList, "site_name");
         } else {
           this.spinner.hide();
         }
@@ -101,7 +100,7 @@ export class StoreOverviewComponent
         this.spinner.show();
       }
       const obj = {
-        store_id: this.id,
+        site_id: this.id,
         delete_status: false,
       };
       this.service.overviewList(obj, page).subscribe(
@@ -111,8 +110,8 @@ export class StoreOverviewComponent
           this.previous = res[`pagination`][`previous`];
           this.next = res[`pagination`][`next`];
           setTimeout(() => {
-            this.selectedStorenmae = this.store.find((x) => x.id == this.id);
-            this.selectedStore = this.selectedStorenmae[`store_name`];
+            this.selectedSitename = this.site.find((x) => x.id == this.id);
+            this.selectedSite = this.selectedSitename[`site_name`];
           }, 500);
           if (!this.initialAPICall) {
             this.spinner.hide();
@@ -152,7 +151,7 @@ export class StoreOverviewComponent
 
   nextPage(url, id) {
     const obj = {
-      store_id: parseInt(id),
+      site_id: parseInt(id),
       delete_status: false,
     };
     this.service.overviewListByPage(url, obj).subscribe(
@@ -160,7 +159,6 @@ export class StoreOverviewComponent
         this.data = res[`installation_data`];
         this.previous = res[`pagination`][`previous`];
         this.next = res[`pagination`][`next`];
-        // this.selectedStorenmae = this.store.find(x => x.id == this.id);
       },
       (err) => {
         console.log(" : err ==> ", err);
@@ -179,7 +177,7 @@ export class StoreOverviewComponent
 
   previousPage(url, id) {
     const obj = {
-      store_id: parseInt(id),
+      site_id: parseInt(id),
       delete_status: false,
     };
     this.service.overviewListByPage(url, obj).subscribe(
@@ -187,7 +185,6 @@ export class StoreOverviewComponent
         this.data = res[`installation_data`];
         this.previous = res[`pagination`][`previous`];
         this.next = res[`pagination`][`next`];
-        // this.selectedStorenmae = this.store.find(x => x.id == this.id);
       },
       (err) => {
         console.log(" : err ==> ", err);
@@ -209,12 +206,12 @@ export class StoreOverviewComponent
   }
 
   ngAfterViewInit() {
-    // const source = interval(10000);
-    // this.subscription = source.subscribe(() => this.displaydata(this.page));
+    const source = interval(10000);
+    this.subscription = source.subscribe(() => this.displaydata(this.page));
   }
 
   ngOnDestroy() {
     // console.log(" : hii ==> ");
-    // this.subscription && this.subscription.unsubscribe();
+    this.subscription && this.subscription.unsubscribe();
   }
 }

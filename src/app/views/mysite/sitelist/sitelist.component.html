@@ -27,22 +27,22 @@
                 <td>
                   <a
                     style="color: #34b7eb; cursor: pointer;"
-                    (click)="navigateToOverview(item.store.id)"
-                    >{{ item.store.store_name }}</a
+                    (click)="navigateToOverview(item.site.id)"
+                    >{{ item.site.site_name }}</a
                   >
                 </td>
                 <td>{{ item.permission }}</td>
                 <td *ngIf="item.permission == 'Admin'">
                   <a
                     style="color: #34b7eb; cursor: pointer;"
-                    (click)="navigateToUsers(item.store.id)"
+                    (click)="navigateToUsers(item.site.id)"
                     >Manage</a
                   >
                 </td>
                 <td *ngIf="item.permission == 'Viewer'">
                   <a
                     style="color: #34b7eb; cursor: pointer;"
-                    (click)="navigateToUsers(item.store.id)"
+                    (click)="navigateToUsers(item.site.id)"
                     >View</a
                   >
                 </td>

@@ -25,17 +25,17 @@
                 </div>
                 <div class="col-md-4">
                   <p-dropdown
-                    [options]="storeList"
+                    [options]="siteList"
                     placeholder="Select Site"
-                    formControlName="store"
-                    id="store"
+                    formControlName="site"
+                    id="site"
                     [disabled]="true"
                   ></p-dropdown>
                   <div
                     class="error"
-                    *ngIf="!form.controls['store'].valid && isFormSubmitted"
+                    *ngIf="!form.controls['site'].valid && isFormSubmitted"
                   >
-                    <span *ngIf="form.controls['store'].errors['required']"
+                    <span *ngIf="form.controls['site'].errors['required']"
                       >This field is required.</span
                     >
                   </div>

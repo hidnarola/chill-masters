@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { StorelistComponent } from "./storelist/storelist.component";
+import { SitelistComponent } from "./sitelist/sitelist.component";
 
 const routes: Routes = [
   {
@@ -15,7 +15,7 @@ const routes: Routes = [
       },
       {
         path: "site",
-        component: StorelistComponent,
+        component: SitelistComponent,
         data: {
           title: "My Site",
         },
@@ -50,4 +50,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MystoreRoutingModule {}
+export class MysiteRoutingModule {}

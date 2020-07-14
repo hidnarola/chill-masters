@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
-import { MystoreRoutingModule } from "./mystore-routing.module";
-import { StorelistComponent } from "./storelist/storelist.component";
+import { MysiteRoutingModule } from "./mysite-routing.module";
+import { SitelistComponent } from "./sitelist/sitelist.component";
 import { DataTablesModule } from "angular-datatables";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { DialogModule } from "primeng/dialog";
@@ -10,10 +10,10 @@ import { CheckboxModule } from "primeng/checkbox";
 import { ButtonModule } from "primeng/button";
 
 @NgModule({
-  declarations: [StorelistComponent],
+  declarations: [SitelistComponent],
   imports: [
     CommonModule,
-    MystoreRoutingModule,
+    MysiteRoutingModule,
     DataTablesModule,
     ReactiveFormsModule,
     FormsModule,
@@ -22,4 +22,4 @@ import { ButtonModule } from "primeng/button";
     ButtonModule,
   ],
 })
-export class MystoreModule {}
+export class MysiteModule {}

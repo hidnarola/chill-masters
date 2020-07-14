@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
-import { ManageStoreRoutingModule } from "./manage-store-routing.module";
+import { ManageSiteRoutingModule } from "./manage-site-routing.module";
 import { UserlistComponent } from "./userlist/userlist.component";
 import { DropdownModule } from "primeng/dropdown";
 import { DataTablesModule } from "angular-datatables";
@@ -10,12 +10,12 @@ import { DialogModule } from "primeng/dialog";
 import { ButtonModule } from "primeng/button";
 import { RadioButtonModule } from "primeng/radiobutton";
 import { AutocompleteLibModule } from "angular-ng-autocomplete";
-import { StoreOverviewComponent } from "./store-overview/store-overview.component";
-import { AddFridgeComponent } from "./add-fridge/add-fridge.component";
-import { FridgeDetailComponent } from "./fridge-detail/fridge-detail.component";
+import { SiteOverviewComponent } from "./site-overview/site-overview.component";
+import { AddInstallationComponent } from "./add-installation/add-installation.component";
+import { InstallationDetailComponent } from "./installation-detail/installation-detail.component";
 import { ChartsModule } from "ng2-charts";
 import { CalendarModule } from "primeng/calendar";
-import { RestoreFridgeComponent } from "./restore-fridge/restore-fridge.component";
+import { RestoreInstallationComponent } from "./restore-installation/restore-installation.component";
 import { CheckboxModule } from "primeng/checkbox";
 import { InputTextModule } from "primeng/inputtext";
 import { HighchartsChartModule } from "highcharts-angular";
@@ -24,15 +24,15 @@ import { UppercaseInputDirective } from "../../directives/uppercase-input.direct
 @NgModule({
   declarations: [
     UserlistComponent,
-    StoreOverviewComponent,
-    AddFridgeComponent,
-    FridgeDetailComponent,
-    RestoreFridgeComponent,
+    SiteOverviewComponent,
+    AddInstallationComponent,
+    InstallationDetailComponent,
+    RestoreInstallationComponent,
     UppercaseInputDirective,
   ],
   imports: [
     CommonModule,
-    ManageStoreRoutingModule,
+    ManageSiteRoutingModule,
     DropdownModule,
     DataTablesModule,
     ReactiveFormsModule,
@@ -48,4 +48,4 @@ import { UppercaseInputDirective } from "../../directives/uppercase-input.direct
     InputTextModule,
   ],
 })
-export class ManageStoreModule {}
+export class ManageSiteModule {}

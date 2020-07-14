@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { MyStoreService } from "../../../services/mystore.service";
+import { MySiteService } from "../../../services/mysite.service";
 import * as moment from "moment";
 
 import {
@@ -18,11 +18,11 @@ import _ from "lodash";
 import Swal from "sweetalert2";
 
 @Component({
-  selector: "app-add-fridge",
-  templateUrl: "./add-fridge.component.html",
-  styleUrls: ["./add-fridge.component.css"],
+  selector: "app-add-installation",
+  templateUrl: "./add-installation.component.html",
+  styleUrls: ["./add-installation.component.css"],
 })
-export class AddFridgeComponent implements OnInit {
+export class AddInstallationComponent implements OnInit {
   form: FormGroup;
   myForm: FormGroup;
   createSensorForm: FormGroup;
@@ -31,9 +31,9 @@ export class AddFridgeComponent implements OnInit {
   submitted = false;
   public isFormSubmitted;
   public isCreateSensorFormSubmitted;
-  store_id: any;
+  site_id: any;
   installation_id: any;
-  storeList: any = [{ label: "Select Location", value: "" }];
+  siteList: any = [{ label: "Select Location", value: "" }];
   sensorsList: any = [{ label: "Select Sensor", value: "" }];
   originalSensorsList: any = [];
   currentSensor: number = null;
@@ -48,28 +48,28 @@ export class AddFridgeComponent implements OnInit {
   errorList: any = [];
   warning: any = [];
 
-  selectedStorenmae: any;
+  selectedSitename: any;
   // minimumDate = new Date();
 
   constructor(
     private route: ActivatedRoute,
-    private service: MyStoreService,
+    private service: MySiteService,
     public fb: FormBuilder,
     private router: Router,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) {
     this.route.queryParamMap.subscribe((params) => {
-      this.store_id = params.get("site_id");
+      this.site_id = params.get("site_id");
       this.installation_id = params.get("installation_id");
     });
   }
 
   ngOnInit(): void {
-    this.storelist();
+    this.sitelist();
     // this.sensorList();
     this.form = this.fb.group({
-      store: new FormControl("", [
+      site: new FormControl("", [
         Validators.required,
         this.noWhitespaceValidator,
       ]),
@@ -101,19 +101,17 @@ export class AddFridgeComponent implements OnInit {
       ]),
     });
 
-    if (this.store_id != null && this.installation_id != null) {
+    if (this.site_id != null && this.installation_id != null) {
       this.spinner.show();
       this.editMode = true;
       this.PageTitle = "Edit Installation";
       const obj = {
-        store_id: parseInt(this.store_id, 10),
+        site_id: parseInt(this.site_id, 10),
         installation_id: parseInt(this.installation_id, 10),
       };
       this.service.getInstallationById(obj).subscribe(
         (res) => {
-          this.form.controls[`store`].setValue(
-            res[`installation_data`][`store`]
-          );
+          this.form.controls[`site`].setValue(res[`installation_data`][`site`]);
           this.form.controls[`installation_name`].setValue(
             res[`installation_data`][`installation_name`]
           );
@@ -148,7 +146,7 @@ export class AddFridgeComponent implements OnInit {
         }
       );
     } else {
-      this.form.controls[`store`].setValue(parseInt(this.store_id, 10));
+      this.form.controls[`site`].setValue(parseInt(this.site_id, 10));
     }
   }
 
@@ -159,7 +157,7 @@ export class AddFridgeComponent implements OnInit {
   getSensor() {
     const sensorObj = {
       installation_id: this.installation_id,
-      store_id: this.store_id,
+      site_id: this.site_id,
     };
 
     this.service.getSensor(sensorObj).subscribe(
@@ -342,7 +340,7 @@ export class AddFridgeComponent implements OnInit {
     if (this.sensor_data.value[index][`id`] != null) {
       const deleteObj = {
         sensor_installation_id: this.sensor_data.value[index][`id`],
-        store: parseInt(this.store_id, 10),
+        site: parseInt(this.site_id, 10),
       };
       this.service.deleteSensor(deleteObj).subscribe(
         (res) => {
@@ -366,7 +364,7 @@ export class AddFridgeComponent implements OnInit {
     this.spinner.show();
     const deleteObj = {
       installation_id: parseInt(this.installation_id, 10),
-      store_id: parseInt(this.store_id, 10),
+      site_id: parseInt(this.site_id, 10),
       delete_status: true,
     };
 
@@ -375,7 +373,7 @@ export class AddFridgeComponent implements OnInit {
         this.toastr.success("Installation Deleted Sucessfully", "Success!", {
           timeOut: 3000,
         });
-        this.router.navigate(["site/overview/" + this.store_id]);
+        this.router.navigate(["site/overview/" + this.site_id]);
         this.spinner.hide();
       },
       (err) => {
@@ -394,16 +392,16 @@ export class AddFridgeComponent implements OnInit {
     );
   }
 
-  storelist() {
-    this.service.mystore_list().subscribe(
+  sitelist() {
+    this.service.mysite_list().subscribe(
       (res) => {
-        const store = res;
-        this.storeList = [];
-        if (store.length > 0) {
-          for (const item of store) {
-            this.storeList.push({
-              label: item.store.store_name,
-              value: item.store.id,
+        const site = res;
+        this.siteList = [];
+        if (site.length > 0) {
+          for (const item of site) {
+            this.siteList.push({
+              label: item.site.site_name,
+              value: item.site.id,
             });
           }
         }
@@ -503,7 +501,7 @@ export class AddFridgeComponent implements OnInit {
     if (valid) {
       const createSensorObj = {
         ...this.createSensorForm.value,
-        store: this.store_id,
+        site: this.site_id,
         deleted_at: null,
       };
 
@@ -550,7 +548,7 @@ export class AddFridgeComponent implements OnInit {
         return;
       }
       this.spinner.show();
-      if (this.store_id != null && this.installation_id != null) {
+      if (this.site_id != null && this.installation_id != null) {
         for (
           let index = 0;
           index < this.myForm.value.sensor_data.length;
@@ -589,12 +587,12 @@ export class AddFridgeComponent implements OnInit {
         const updatedData = {
           ...this.form.value,
           id: parseInt(this.installation_id, 10),
-          store: parseInt(this.store_id, 10),
+          site: parseInt(this.site_id, 10),
         };
         const UpdateSensors = {
           sensor_data: this.finalSensorData,
           installation_data: updatedData,
-          store: parseInt(this.store_id, 10),
+          site: parseInt(this.site_id, 10),
         };
 
         this.service.updateSensor(UpdateSensors).subscribe(
@@ -611,7 +609,7 @@ export class AddFridgeComponent implements OnInit {
               this.myForm.reset();
               this.router.navigate(["site/installation_detail"], {
                 queryParams: {
-                  site_id: this.store_id,
+                  site_id: this.site_id,
                   installation_id: this.installation_id,
                 },
               });
@@ -745,7 +743,7 @@ export class AddFridgeComponent implements OnInit {
         const sensor_obj = {
           sensor_data: this.finalSensorData,
           installation_data: this.form.value,
-          store: parseInt(this.store_id, 10),
+          site: parseInt(this.site_id, 10),
         };
         this.service.addSensor(sensor_obj).subscribe(
           (result) => {
@@ -759,7 +757,7 @@ export class AddFridgeComponent implements OnInit {
               );
               this.form.reset();
               this.myForm.reset();
-              this.router.navigate(["site/overview/" + this.store_id]);
+              this.router.navigate(["site/overview/" + this.site_id]);
               this.spinner.hide();
             }
           },
@@ -852,11 +850,11 @@ export class AddFridgeComponent implements OnInit {
 
   onBack() {
     if (this.editMode === false) {
-      this.router.navigate(["site/overview/" + this.store_id]);
+      this.router.navigate(["site/overview/" + this.site_id]);
     } else {
       this.router.navigate(["site/installation_detail"], {
         queryParams: {
-          site_id: this.store_id,
+          site_id: this.site_id,
           installation_id: this.installation_id,
         },
       });

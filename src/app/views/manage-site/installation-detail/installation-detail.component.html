@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-header group-title-300">
           <!-- <i class="fa fa-info-circle icon-size" style="cursor: pointer;"></i> -->
-          <strong>{{ store_name }}</strong>
+          <strong>{{ site_name }}</strong>
           <button
             class="btn btn-sm btn-primary"
             style="float: right;"
@@ -179,7 +179,7 @@
                       type="button"
                       [routerLink]="['/site/edit_installation']"
                       [queryParams]="{
-                        site_id: store_id,
+                        site_id: site_id,
                         installation_id: installation_id
                       }"
                     >
