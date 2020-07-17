@@ -619,6 +619,20 @@ export class AddInstallationComponent implements OnInit {
           (err) => {
             this.spinner.hide();
             this.errorList = [];
+            console.log(" : err ==> ", err);
+            if (err.error.date_issues) {
+              for (
+                let index = 0;
+                index < err.error.date_issues.length;
+                index++
+              ) {
+                const element = err.error.date_issues[index];
+                console.log(" : element ==> ", element);
+                this.errorList.push(element);
+                this.display = true;
+              }
+            }
+
             if (err.error.already_available_list) {
               for (
                 let index = 0;
@@ -636,7 +650,7 @@ export class AddInstallationComponent implements OnInit {
                 if (element.current_installed_at != null) {
                   current_installed_at = moment(
                     new Date(element.current_installed_at)
-                  ).format("MM-DD-YYYY HH:mm");
+                  ).format("YYYY-MM-DD HH:mm");
                 } else {
                   current_installed_at = null;
                 }
@@ -644,7 +658,7 @@ export class AddInstallationComponent implements OnInit {
                 if (element.current_removed_at != null) {
                   current_removed_at = moment(
                     new Date(element.current_removed_at)
-                  ).format("MM-DD-YYYY HH:mm");
+                  ).format("YYYY-MM-DD HH:mm");
                 } else {
                   current_removed_at = null;
                 }
@@ -652,7 +666,7 @@ export class AddInstallationComponent implements OnInit {
                 if (element.old_installed_at != null) {
                   old_installed_at = moment(
                     new Date(element.old_installed_at)
-                  ).format("MM-DD-YYYY HH:mm");
+                  ).format("YYYY-MM-DD HH:mm");
                 } else {
                   old_installed_at = null;
                 }
@@ -660,7 +674,7 @@ export class AddInstallationComponent implements OnInit {
                 if (element.old_removed_at != null) {
                   old_removed_at = moment(
                     new Date(element.old_removed_at)
-                  ).format("MM-DD-YYYY HH:mm");
+                  ).format("YYYY-MM-DD HH:mm");
                 } else {
                   old_removed_at = null;
                 }
@@ -764,6 +778,19 @@ export class AddInstallationComponent implements OnInit {
           (err) => {
             this.spinner.hide();
             this.errorList = [];
+            if (err.error.date_issues) {
+              for (
+                let index = 0;
+                index < err.error.date_issues.length;
+                index++
+              ) {
+                const element = err.error.date_issues[index];
+                console.log(" : element ==> ", element);
+                this.errorList.push(element);
+                this.display = true;
+              }
+            }
+
             if (err.error.already_available_list) {
               for (
                 let index = 0;
@@ -781,7 +808,7 @@ export class AddInstallationComponent implements OnInit {
                 if (element.current_installed_at != null) {
                   current_installed_at = moment(
                     new Date(element.current_installed_at)
-                  ).format("MM-DD-YYYY HH:mm");
+                  ).format("YYYY-MM-DD HH:mm");
                 } else {
                   current_installed_at = null;
                 }
@@ -789,7 +816,7 @@ export class AddInstallationComponent implements OnInit {
                 if (element.current_removed_at != null) {
                   current_removed_at = moment(
                     new Date(element.current_removed_at)
-                  ).format("MM-DD-YYYY HH:mm");
+                  ).format("YYYY-MM-DD HH:mm");
                 } else {
                   current_removed_at = null;
                 }
@@ -797,7 +824,7 @@ export class AddInstallationComponent implements OnInit {
                 if (element.old_installed_at != null) {
                   old_installed_at = moment(
                     new Date(element.old_installed_at)
-                  ).format("MM-DD-YYYY HH:mm");
+                  ).format("YYYY-MM-DD HH:mm");
                 } else {
                   old_installed_at = null;
                 }
@@ -805,7 +832,7 @@ export class AddInstallationComponent implements OnInit {
                 if (element.old_removed_at != null) {
                   old_removed_at = moment(
                     new Date(element.old_removed_at)
-                  ).format("MM-DD-YYYY HH:mm");
+                  ).format("YYYY-MM-DD HH:mm");
                 } else {
                   old_removed_at = null;
                 }
