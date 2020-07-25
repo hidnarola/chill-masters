@@ -44,3 +44,28 @@
     overflow: auto;
   }
 }
+
+@media (max-width: 767px) {
+  .date-form .dateToFrom {
+    flex-direction: column;
+  }
+  .date-form .dateToFrom > div h5 {
+    width: 100%;
+    margin: 0 !important;
+  }
+  .date-form .dateToFrom > div {
+    margin: 0 !important;
+  }
+  .dateToFrom > div button.btn {
+    margin-top: 12px;
+  }
+  .row.row-graph-head > div {
+    margin-bottom: 15px !important;
+  }
+  .row.row-graph-head {
+    margin: 0;
+  }
+  .row.row-graph-head h1 {
+    font-size: 22px;
+  }
+}

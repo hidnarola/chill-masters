@@ -99,3 +99,23 @@ body
   border-bottom-left-radius: 0;
   border: 2px solid #007ad9;
 }
+
+@media (max-width: 767px) {
+  .dataTables_wrapper table {
+    overflow: auto;
+    width: 100%;
+    display: block;
+  }
+  .highcharts-container {
+    overflow: visible !important;
+  }
+  .app-body {
+    margin-top: 0;
+  }
+  main.main {
+    margin-top: 35px !important;
+  }
+  .card {
+    margin-bottom: 35px;
+  }
+}

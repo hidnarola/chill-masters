@@ -1,3 +1,7 @@
+.profile-view {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
 :host ::ng-deep .ui-button {
   margin: 0.5em 0.5em 0.5em 0;
   width: 140px;
@@ -5,5 +9,24 @@
 @media screen and (max-width: 40em) {
   :host ::ng-deep .ui-dialog {
     width: 75vw !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .profile-view {
+    width: 261px;
+    margin-left: -20px !important;
+    margin-top: -18px !important;
+  }
+  .buttonText {
+    margin-right: -8px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 567px) {
+  .profile-view {
+    width: 100%;
+    margin-left: 0px !important;
   }
 }

@@ -5,10 +5,7 @@
         <div class="card-body">
           <form [formGroup]="form" (ngSubmit)="onSubmit(form.valid)">
             <div class="form-group">
-              <div
-                class="col-md-4 ml-auto mr-auto"
-                style="border: 1px solid #000;"
-              >
+              <div class="col-md-4 ml-auto mr-auto profile-view">
                 <div class="row mt-4">
                   <div class="col-md">
                     <label class="control-label">Name</label>
@@ -152,14 +149,17 @@
                 </div>
                 <div class="row">
                   <div class="col-3">
-                    <button type="submit" class="btn btn-primary px-4">
+                    <button
+                      type="submit"
+                      class="btn btn-primary px-4 buttonText"
+                    >
                       Save
                     </button>
                   </div>
                   <div class="col-8 mb-2">
                     <button
                       type="button"
-                      class="btn btn-primary px-4 float-right"
+                      class="btn btn-primary px-4 float-right buttonText"
                       (click)="showBasicDialog()"
                     >
                       Change Password

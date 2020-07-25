@@ -12,7 +12,9 @@
   padding: 10px;
   border-radius: 4px;
 }
-
+.card-header {
+  height: 70px;
+}
 .bg-warning {
   border-color: #ff6207fa;
   background-color: #ff8c1a !important;

@@ -107,3 +107,6 @@
   float: right;
   height: 30px;
 }
+.card-header {
+  height: 70px;
+}

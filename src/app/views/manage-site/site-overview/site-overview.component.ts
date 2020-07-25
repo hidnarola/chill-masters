@@ -206,12 +206,12 @@ export class SiteOverviewComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    const source = interval(10000);
-    this.subscription = source.subscribe(() => this.displaydata(this.page));
+    // const source = interval(10000);
+    // this.subscription = source.subscribe(() => this.displaydata(this.page));
   }
 
   ngOnDestroy() {
     // console.log(" : hii ==> ");
-    this.subscription && this.subscription.unsubscribe();
+    // this.subscription && this.subscription.unsubscribe();
   }
 }

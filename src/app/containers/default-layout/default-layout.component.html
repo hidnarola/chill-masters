@@ -13,19 +13,36 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
+  <!-- -->
+
   <div class="collapse navbar-collapse ml-auto" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item px-3" *ngIf="!isLogin">
+      <li
+        class="nav-item px-3"
+        *ngIf="!isLogin"
+        data-toggle="collapse"
+        data-target=".navbar-collapse.show"
+      >
         <a class="nav-link" [routerLink]="['/home']" routerLinkActive="active"
           >Home</a
         >
       </li>
-      <li class="nav-item px-3" *ngIf="!isLogin">
+      <li
+        class="nav-item px-3"
+        *ngIf="!isLogin"
+        data-toggle="collapse"
+        data-target=".navbar-collapse.show"
+      >
         <a class="nav-link" [routerLink]="['/login']" routerLinkActive="active"
           >Login</a
         >
       </li>
-      <li class="nav-item px-3" *ngIf="!isLogin">
+      <li
+        class="nav-item px-3"
+        *ngIf="!isLogin"
+        data-toggle="collapse"
+        data-target=".navbar-collapse.show"
+      >
         <a
           class="nav-link"
           [routerLink]="['/aboutus']"
@@ -33,7 +50,12 @@
           >About Us</a
         >
       </li>
-      <li class="nav-item px-3" *ngIf="isLogin">
+      <li
+        class="nav-item px-3"
+        *ngIf="isLogin"
+        data-toggle="collapse"
+        data-target=".navbar-collapse.show"
+      >
         <a
           class="nav-link"
           [routerLink]="['/user/site']"
@@ -41,7 +63,12 @@
           >My Site</a
         >
       </li>
-      <li class="nav-item px-3" *ngIf="isLogin">
+      <li
+        class="nav-item px-3"
+        *ngIf="isLogin"
+        data-toggle="collapse"
+        data-target=".navbar-collapse.show"
+      >
         <a
           class="nav-link"
           [routerLink]="['/site/overview']"
@@ -49,7 +76,12 @@
           >Site Overview</a
         >
       </li>
-      <li class="nav-item px-3" *ngIf="isLogin">
+      <li
+        class="nav-item px-3"
+        *ngIf="isLogin"
+        data-toggle="collapse"
+        data-target=".navbar-collapse.show"
+      >
         <!--  -->
         <a
           class="nav-link"
@@ -58,7 +90,12 @@
           >Users</a
         >
       </li>
-      <li class="nav-item px-3" *ngIf="isLogin">
+      <li
+        class="nav-item px-3"
+        *ngIf="isLogin"
+        data-toggle="collapse"
+        data-target=".navbar-collapse.show"
+      >
         <a
           class="nav-link"
           href="#"
@@ -67,7 +104,12 @@
           >Logout</a
         >
       </li>
-      <li class="nav-item px-3" *ngIf="isLogin">
+      <li
+        class="nav-item px-3"
+        *ngIf="isLogin"
+        data-toggle="collapse"
+        data-target=".navbar-collapse.show"
+      >
         <a
           class="nav-link"
           [routerLink]="['/profile']"

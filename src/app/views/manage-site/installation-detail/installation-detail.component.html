@@ -16,11 +16,12 @@
         </div>
         <div class="card-header group-title-221">
           <strong>{{ installation_name }}</strong>
-          <p class="pull-right"></p>
+          <p cls="pull-right"></p>
         </div>
 
         <div class="card-body">
           <form
+            class="date-form"
             [formGroup]="filterForm"
             (ngSubmit)="onSubmit(filterForm.valid)"
           >
@@ -87,7 +88,7 @@
               </div>
             </div>
           </form>
-          <div class="row">
+          <div class="row row-graph-head">
             <div
               class="flex GraphWrapBox mb-5 width:'70%'"
               *ngIf="graphDataLength === 0"
