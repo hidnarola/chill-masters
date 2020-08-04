@@ -17,7 +17,7 @@ const routes: Routes = [
         path: "site",
         component: SitelistComponent,
         data: {
-          title: "My Site",
+          title: "My Sites",
         },
       },
       // {

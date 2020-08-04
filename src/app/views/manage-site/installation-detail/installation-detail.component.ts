@@ -120,7 +120,7 @@ export class InstallationDetailComponent implements OnInit {
       rules: [
         {
           condition: {
-            maxWidth: 500,
+            // maxWidth: 500,
           },
           chartOptions: {
             plotOptions: {

@@ -41,7 +41,7 @@ export class AddInstallationComponent implements OnInit {
   getSensorsById: any = [];
   finalSensorData: any = [];
   editMode = false;
-  PageTitle = "Add New Installation";
+  PageTitle = "Add";
   display: boolean = false;
   currentIndex = null;
   tempSensorData: any = [];
@@ -104,7 +104,7 @@ export class AddInstallationComponent implements OnInit {
     if (this.site_id != null && this.installation_id != null) {
       this.spinner.show();
       this.editMode = true;
-      this.PageTitle = "Edit Installation";
+      this.PageTitle = "Edit";
       const obj = {
         site_id: parseInt(this.site_id, 10),
         installation_id: parseInt(this.installation_id, 10),

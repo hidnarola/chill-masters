@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-header group-title-221">
           <!-- <i class="fa fa-info-circle icon-size" style="cursor: pointer;"></i> -->
-          <strong>{{ PageTitle }}</strong>
+          <strong>{{ PageTitle }} Installation</strong>
           <!-- <p class=""> -->
           <!-- <button
             type="button"
@@ -45,7 +45,7 @@
             <div class="form-group">
               <div class="row">
                 <div class="col-md-2">
-                  <label for="installation_name">Installation Name:</label>
+                  <label for="installation_name">Name:</label>
                 </div>
                 <div class="col-md-4">
                   <input
@@ -75,9 +75,7 @@
             <div class="form-group">
               <div class="row">
                 <div class="col-md-2">
-                  <label for="installation_content"
-                    >Installation Content:</label
-                  >
+                  <label for="installation_content">Content:</label>
                 </div>
                 <div class="col-md-4">
                   <input
@@ -109,9 +107,7 @@
             <div class="form-group">
               <div class="row">
                 <div class="col-md-2">
-                  <label for="installation_description"
-                    >Installation Discription:</label
-                  >
+                  <label for="installation_description">Discription:</label>
                 </div>
                 <div class="col-md-6">
                   <textarea
@@ -149,7 +145,7 @@
                   <label for="installation_content">Storage Range:</label>
                 </div>
                 <div class="col-md-8">
-                  <div class="row">
+                  <div class="row MinMaxDiv">
                     <div class="col-1">
                       <label for="storage_range_min">Min</label>
                     </div>
@@ -210,7 +206,9 @@
             </div>
           </form>
 
-          <h5 class="card-title" style="font-size: 30px;">Sensor</h5>
+          <h5 class="card-title" style="font-size: 20px;">
+            {{ PageTitle }} Sensor
+          </h5>
           <form [formGroup]="myForm" class="b-0">
             <div formArrayName="sensor_data">
               <table
@@ -223,14 +221,14 @@
               >
                 <thead>
                   <tr>
-                    <td style="font-size: 15px; font-weight: bold;">
+                    <td style="font-size: 15px;">
                       Serial Number
                     </td>
-                    <td style="font-size: 15px; font-weight: bold;">
-                      Install At
+                    <td style="font-size: 15px;">
+                      Installed
                     </td>
-                    <td style="font-size: 15px; font-weight: bold;">
-                      Remove At
+                    <td style="font-size: 15px;">
+                      Removed
                     </td>
                     <td style="font-size: 15px; font-weight: bold;"></td>
                   </tr>
@@ -386,7 +384,7 @@
                         class="btn btn-sm btn-danger"
                         (click)="remove_sensor(i)"
                       >
-                        X Remove Sensor
+                        X Remove
                       </button>
                     </td>
                   </tr>
@@ -399,11 +397,11 @@
               class="btn btn-success mb-4"
               (click)="addItem()"
             >
-              + Add New Sensor
+              + Add
             </button>
             <!-- </div> -->
           </form>
-          <div class="row ml-1">
+          <div class="row ml-1 ActionButton">
             <button
               type="button"
               class="btn btn-primary mr-5"
@@ -417,7 +415,7 @@
               (click)="deleteInstallation()"
               *ngIf="this.editMode"
             >
-              Delete this installation
+              Delete
             </button>
             <button
               type="button"

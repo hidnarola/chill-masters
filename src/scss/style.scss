@@ -113,9 +113,78 @@ body
     margin-top: 0;
   }
   main.main {
-    margin-top: 35px !important;
+    margin-top: 15px !important;
   }
   .card {
     margin-bottom: 35px;
+  }
+  .main .container-fluid {
+    padding: 0 15px;
+  }
+  body .card-body {
+    padding: 1rem;
+  }
+  body .row.row-graph-head > div {
+    padding: 0;
+  }
+  body .ui-widget {
+    font-size: 12px;
+  }
+  body .card .card-header {
+    height: auto;
+  }
+  body .card .card-header strong,
+  body .card .card-header b {
+    font-weight: bolder;
+    line-height: 33px;
+  }
+  .table .SensorDIV td,
+  .table .SensorDIV th {
+    padding: 0.7rem 0.3rem;
+  }
+  .ml-1.ActionButton {
+    margin: 0 !important;
+  }
+  .ActionButton button {
+    margin: 0 0.5rem 0.5rem 0 !important;
+  }
+  .SensorDIV button.btn {
+    font-size: 0;
+  }
+  .SensorDIV button.btn.btn-sm.btn-danger:first-letter {
+    font-size: 0.8rem;
+  }
+  .MinMaxDiv .col-1 {
+    flex: 0 0 15%;
+    align-items: center;
+    line-height: 38px;
+    max-width: 15%;
+  }
+  .MinMaxDiv .col-3 {
+    flex: 0 0 30%;
+    align-items: center;
+    max-width: 30%;
+  }
+  body p-dialog .ui-dialog-wrapper .ui-widget {
+    width: 80% !important;
+  }
+  body .ui-dialog .ui-dialog-footer button {
+    margin: 0.3rem;
+    float: none;
+    display: inline-block;
+    text-align: center;
+  }
+  body .ui-dialog .ui-dialog-footer p-footer {
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  .ActinButtonDiv .mb-2,
+  .ActinButtonDiv .mr-5 {
+    margin: 0.5rem !important;
+  }
+  body .mr-auto.profile-view {
+    margin: 0 auto !important;
   }
 }
