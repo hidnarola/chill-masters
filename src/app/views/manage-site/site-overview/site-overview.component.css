@@ -3,7 +3,6 @@
   padding: 50px;
   margin-bottom: 2rem;
 }
-
 .NoData p {
   margin: 0;
 }
@@ -114,4 +113,109 @@
 }
 .TemperatureDiv span:last-child {
   margin-left: auto;
+}
+.graphbody {
+  width: 493% !important;
+}
+.displayGraph {
+  width: 493% !important;
+  margin-left: 0;
+  left: 0;
+
+  /* position: absolute; */
+  height: auto;
+}
+.displayGraph2 {
+  width: 493% !important;
+  margin-left: -240px;
+}
+.displayGraph3 {
+  width: 493% !important;
+  margin-left: -479px;
+}
+.displayGraph4 {
+  width: 493% !important;
+  margin-left: -719px;
+}
+.displayGraph5 {
+  width: 493% !important;
+  margin-left: -959px;
+}
+
+/* graph */
+.GraphWrapBox {
+  margin: 0 auto;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+.TemperatureBettery {
+  max-width: 1070px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.dateToFrom h5 {
+  color: #666;
+  font-size: 14px;
+  margin: 0 10px 0 0;
+  line-height: 35px;
+}
+
+.dateToFrom .btn-sm {
+  padding: 0.38rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+}
+.dateToFrom {
+  background: #eee;
+  padding: 20px;
+  justify-content: center;
+}
+.dateToFrom .d-flex {
+  flex-wrap: wrap;
+  position: relative;
+}
+.dateToFrom .error {
+  bottom: -15px;
+  top: auto;
+  left: 59px;
+  position: absolute;
+}
+
+@media (max-width: 1024px) {
+  .GraphWrapBox {
+    padding: 10px;
+    overflow: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .date-form .dateToFrom {
+    flex-direction: column;
+  }
+  .date-form .dateToFrom > div h5 {
+    width: 100%;
+    margin: 0 !important;
+  }
+  .date-form .dateToFrom > div {
+    margin: 0 !important;
+  }
+  .dateToFrom > div button.btn {
+    margin-top: 12px;
+  }
+  .row.row-graph-head > div {
+    margin-bottom: 15px !important;
+  }
+  .row.row-graph-head {
+    margin: 0;
+  }
+  .row.row-graph-head h1 {
+    font-size: 22px;
+  }
+}
+
+.chartshow-content {
+  width: calc(100% - 40px);
+  flex: 0 0 calc(100% - 40px);
 }

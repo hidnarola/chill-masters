@@ -8,7 +8,7 @@ import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import { PERFECT_SCROLLBAR_CONFIG } from "ngx-perfect-scrollbar";
 import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true
+  suppressScrollX: true,
 };
 
 import { AppComponent } from "./app.component";
@@ -20,7 +20,7 @@ import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
 import {
   NgcCookieConsentModule,
-  NgcCookieConsentConfig
+  NgcCookieConsentConfig,
 } from "ngx-cookieconsent";
 
 const APP_CONTAINERS = [DefaultLayoutComponent];
@@ -30,7 +30,7 @@ import {
   AppBreadcrumbModule,
   AppHeaderModule,
   AppFooterModule,
-  AppSidebarModule
+  AppSidebarModule,
 } from "@coreui/angular";
 
 // Import routing module
@@ -54,24 +54,24 @@ import { AuthGuardService } from "./services/auth/auth-guard.service";
 import { ResetpasswordComponent } from "./views/reset/resetpassword/resetpassword.component";
 import { DialogModule } from "primeng/dialog";
 import { ButtonModule } from "primeng/button";
-import { EmailverificationComponent } from './emailverification/emailverification.component';
+import { EmailverificationComponent } from "./emailverification/emailverification.component";
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
     // domain: 'localhost'
     // domain: 'ec2-3-130-87-74.us-east-2.compute.amazonaws.com'
-    domain: "alphonsora.com"
+    domain: "alphonsora.com",
     // it is mandatory to set a domain, for cookies to work properly (see https://goo.gl/S2Hy2A)
   },
   palette: {
     popup: {
-      background: "#2b9d75"
+      background: "#2b9d75",
     },
     button: {
-      background: "#fca62b"
-    }
+      background: "#fca62b",
+    },
   },
   theme: "edgeless",
-  type: "info"
+  type: "info",
 };
 @NgModule({
   imports: [
@@ -96,7 +96,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     HttpClientModule,
     CheckboxModule,
     DialogModule,
-    ButtonModule
+    ButtonModule,
   ],
   declarations: [
     AppComponent,
@@ -108,16 +108,16 @@ const cookieConfig: NgcCookieConsentConfig = {
     ListComponent,
     ProfileComponent,
     ResetpasswordComponent,
-    EmailverificationComponent
+    EmailverificationComponent,
   ],
   providers: [
     AuthService,
     AuthGuardService,
     {
       provide: LocationStrategy,
-      useClass: HashLocationStrategy
-    }
+      useClass: HashLocationStrategy,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

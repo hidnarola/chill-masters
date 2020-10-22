@@ -607,12 +607,13 @@ export class AddInstallationComponent implements OnInit {
               );
               this.form.reset();
               this.myForm.reset();
-              this.router.navigate(["site/installation_detail"], {
-                queryParams: {
-                  site_id: this.site_id,
-                  installation_id: this.installation_id,
-                },
-              });
+              this.router.navigate(["site/overview/" + this.site_id]);
+              // this.router.navigate(["site/installation_detail"], {
+              //   queryParams: {
+              //     site_id: this.site_id,
+              //     installation_id: this.installation_id,
+              //   },
+              // });
               this.spinner.hide();
             }
           },
@@ -879,12 +880,13 @@ export class AddInstallationComponent implements OnInit {
     if (this.editMode === false) {
       this.router.navigate(["site/overview/" + this.site_id]);
     } else {
-      this.router.navigate(["site/installation_detail"], {
-        queryParams: {
-          site_id: this.site_id,
-          installation_id: this.installation_id,
-        },
-      });
+      this.router.navigate(["site/overview/" + this.site_id]);
+      // this.router.navigate(["site/installation_detail"], {
+      //   queryParams: {
+      //     site_id: this.site_id,
+      //     installation_id: this.installation_id,
+      //   },
+      // });
     }
   }
 }
